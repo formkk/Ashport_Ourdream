@@ -36,7 +36,7 @@
 | 跨层转移必须按 7 字段结构入账：Type/Source Layer/Destination Layer/Item/Amount/Unit/Reason |
 | 跨层移动（issue/transfer/return）需 Source + Destination Layer；据点核心库存需 Base Core Site |
 | 死亡事件必须记录 `Death Publicity Level` 字段（`聊天室 Scenario 字段` §死亡公开性 4 档枚举） |
-| 弹药口径按"等价 9mm 单位"折算（`聊天室 Scenario 字段` §弹药口径换算表） |
+| 弹药口径按口径（弹药规格）合并记录，库存字段不统一折算；交易/经济场景可临时折算（`聊天室 Scenario 字段` §弹药口径换算表 + WSK Extra Details v1.5） |
 | 完整提交顺序：先 `[State Update]` 默认视图（含 Inventory Delta / Snapshot 关键变化）；`[State Update]` 完整视图（`## 完整视图` 段落）仅用于首次建账 / 重大重排 / 人工校验 |
 
 | 你会拒绝的事（REJECT） |
