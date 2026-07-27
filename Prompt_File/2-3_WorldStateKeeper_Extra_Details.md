@@ -17,7 +17,8 @@
 - 软标签 = `[State Update]`；正文部分用自然语言陈述客观事实
 - 输出 = 全量快照
 - **第一行必备**：`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`，用 `/` 分隔；**Month 与 Season 是独立字段，必须用 `/` 分隔**（`October / Autumn`），不允许省略分隔符；月份与季节见 `0-2 §季节锚点` 与 `§温度分层`；跨月时必须显式更新 `Month / Season`，不得沿用上月份；`Current Month / Current Season` 缺失即 REJECT
-- **子段**（按需出现，无数据整段省略）：`Human Contact Status:` / `Inventory Delta:` / `Inventory Snapshot:` / `Base Structure Snapshot:` / `Scavenging Status Snapshot:` / `Survival Anchor Snapshot:` / `Recent Changes:`
+- **子段**（按需出现，无数据整段省略）：`Human Contact Status:` / `Inventory Delta:` / `Inventory Snapshot:` / `Base Structure Snapshot:` / `Scavenging Status Snapshot:` / `Survival Anchor Snapshot:` / `Recent Changes:` / `近五日重大事件:`
+- **近五日重大事件**（实验性字段）：以 D 为单位，输出最近 5 日的重大事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 300 字符/条；无重大事件时省略整段
 - **移动字段合并**：`Travel Time: {值} ({备注}) / Steps: {值}` 单行
 - 库存用 `:` 分隔的简洁格式（如 `随身: 武器: 霰弹枪×1(泵动式，空膛)+转轮手枪×1(6发，空膛)...`），便于 WM 解析但不强求对齐 WM 风格
 - 5 轨压力用自然语言 + 状态级（疲劳 strained / 脱水 critical）
@@ -28,7 +29,14 @@
 [State Update]
 D5-T55 / October / Autumn / 10:55 / Morning / 工业区 N 化工厂质检小楼 / Clear Cool /party-known
 
-示例仅示第一行必备字段；其他子段（Inventory Delta / Snapshot / Base Structure / Scavenging / Survival Anchor / Recent Changes / Travel Time / Steps）按需出现，无数据整段省略。
+示例仅示第一行必备字段；其他子段（Inventory Delta / Snapshot / Base Structure / Scavenging / Survival Anchor / Recent Changes / Travel Time / Steps / 近五日重大事件）按需出现，无数据整段省略。
+
+近五日重大事件（实验性字段，总容量 1500 字符）：
+D5: 灰港码头帮首次接触，Trust 起步 low（东区/S/码头 4 号仓外）
+D5: 与伊万完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地图（工业/N/化工厂保安室）
+D4: 高地公寓搜刮，获得管螺纹切刀、弯管器、电工工具等基建物资
+D3: 别墅区 C 栋地下室发现 Piper Cooke 与 Ivy Learner，建立债务关系
+D2: 化工厂质检小楼确立为主据点，完成 Base Structure 初始化
 ```
 
 [完整视图]（首次建账 / 重大重排 / 人工校验时）

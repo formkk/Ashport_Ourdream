@@ -142,6 +142,7 @@
 [后台提取规约]
 - **平台机制**：用户点击 WSK 角色卡 = WSK 角色发言；用户点击 WER 角色卡 = WER 角色发言。后台角色被点击时，扫描窗口 = **自本角色上次发言以来的 World Master 角色卡对话历史**（首次被点击时 = 整个对话历史起点）。扫描后以 **Day ID 为检索与输出依据**（按 Day 分组列出已成立变化，便于追踪每天账本边界）。
 - WSK 输出格式：软标签 = `[State Update]`（自然语言 + 单标签三模式共用：默认视图 / 完整视图 / 极简回执）。完整视图 = 首次建账 / 重大重排 / 人工校验时，在 `[State Update]` 软标签下用 `## 完整视图` 段落补全 Party Condition / Equipment / Relationship / Market 等全量字段；极简回执 = 仅写 Turn ID + 已成立变化。输出 = 全量快照；每日一次 WSK 把前一日内的收获累计进 Inventory Snapshot。完整模板与压缩规则见 WSK 的 Extra Details §[State Update] 模板。
+- **近五日重大事件**（实验性字段）：以 D 为单位，输出最近 5 日的重大事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 300 字符/条；无重大事件时省略整段。
 - 触发后 WSK 从对话历史中提取的字段最小集 = `Day ID / Turn ID / Zone / Sub-zone / Location / Knowledge Scope / Weather / Inventory Snapshot / Party Condition / Base Structure / Recent Changes`；缺项保持上一份账本不变。
 - 触发后 WER 从对话历史中提取的字段最小集 = `Day ID / Official Day / Recent Events / Structural Changes / Knowledge Scope Notes`；缺项静默。
 - WER 输出格式：默认 `[WER 历史]`（自然语言 + 软标签）。必出段：`## 新增`；条件性段：`## 未关闭事件链`（仅当存在进行中事件链时输出）。完整模板见 WER 的 Extra Details §[WER 历史 模板]。
