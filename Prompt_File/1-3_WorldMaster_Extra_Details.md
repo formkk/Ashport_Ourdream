@@ -7,7 +7,7 @@
 - 静态世界资料（背景 / 环境 / 季节 / 天气 / 压力 / 敌对 / NPC / 地图 / 子地点 / 搜刮 / 世界硬规则 / 6 势力 / 常驻角色 / 弹药口径 / 死亡抢救遗物 / 死亡公开性）见 `聊天室 Scenario 字段`。
 
 [搜刮过程机制]
-搜刮结果由 WM 在 Scene 叙事中显式写出，WSK 强语义提取；WER 仅在伴随据点建立/失守等不可压缩锚点时归档。
+搜刮结果由 WM 在 Scene 叙事中显式写出，WSK 强语义提取；WER 仅在伴随据点建立/失守等重大事件时归档。
 
 6. 场景隔离
 - 一个区域发生的事，不会自动被另一区域知道。
@@ -312,7 +312,7 @@
 - 任何结构节点的可通行性、完好度、用途、暴露或安全角色变化 → WM 必发 Base Structure Delta
 - 6 类必填场景见 `聊天室 Private Details 字段` §Base Structure Delta 必填场景
 - 首次入库必须发"新建"Delta（Component ID + Name + Type + Role + Condition + Last Confirmed）
-- WER 必须把"门窗加固 / 封口 / 拆墙 / 楼层功能重定义 / 设备固定安装拆卸 / 据点失守"作为**不可压缩锚点**归档（见 WER 的 Additional Personality Details + WER 的 Extra Details §结构变化归档）
+- WER 必须把"门窗加固 / 封口 / 拆墙 / 楼层功能重定义 / 设备固定安装拆卸 / 据点失守"作为重大事件归档（见 WER 的 Additional Personality Details + WER 的 Extra Details §结构变化归档）
 - 未提交 Delta 时 WSK 视为该结构节点未变化
 - 结构节点本体 ≠ 节点内物资：柜体/房间/井道记结构层，物资仍记 Inventory 层
 

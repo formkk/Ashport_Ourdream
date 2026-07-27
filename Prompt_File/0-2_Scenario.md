@@ -405,7 +405,7 @@
    - 根据翻空程度决定产出完整度（完整/部分/边角料/翻空）
    - 天气影响：雨天搜刮产出更易受潮，冬季搜刮可能发现冻结物资
 6. 搜刮提交：World Master 把搜刮结果直接写到 Scene 叙事中，由 WSK 在用户点击时强语义提取。
-   a. 搜刮是持续性库存变化，不属于"据点建立/失守"等重大事件，**不应被 WER 单独归档**（除非伴随据点建立/失守等不可压缩锚点）。
+   a. 搜刮是持续性库存变化，不属于"据点建立/失守"等重大事件，不应被 WER 单独归档。
    b. 翻空也必须由 WM 在 Scene 叙事中明确写出"完全翻空 / 边角料"等已成立结果；不得以"无物资"为由省略。
    c. 搜刮伴随据点建立/结构变化时，WM 应在 Scene 中明确写出"据点首次建立 + 完整 Base Structure（按 World Master 的 Extra Details §13 锚点表全部 Component ID）"；WER 收到时按 §据点首次建立规则归档。
    d. Scavenging Status Snapshot 必出：WSK 收到 WM Scene 描述的搜刮结果后必须输出 `Scavenging Status Snapshot`（<Zone/Sub-zone/Location>: 已搜刮<次数>次 | 翻空程度:高/中/低 | 上次搜刮:Day<Turn>）；首次建立搜刮点时也输出一次。

@@ -143,8 +143,8 @@
 - **平台机制**：用户点击 WSK 角色卡 = WSK 角色发言；用户点击 WER 角色卡 = WER 角色发言。后台角色被点击时，扫描窗口 = **自本角色上次发言以来的 World Master 角色卡对话历史**（首次被点击时 = 整个对话历史起点）。扫描后以 **Day ID 为检索与输出依据**（按 Day 分组列出已成立变化，便于追踪每天账本边界）。
 - WSK 输出格式：软标签 = `[State Update]`（自然语言 + 单标签三模式共用：默认视图 / 完整视图 / 极简回执）。完整视图 = 首次建账 / 重大重排 / 人工校验时，在 `[State Update]` 软标签下用 `## 完整视图` 段落补全 Party Condition / Equipment / Relationship / Market 等全量字段；极简回执 = 仅写 Turn ID + 已成立变化。输出 = 全量快照；每日一次 WSK 把前一日内的收获累计进 Inventory Snapshot。完整模板与压缩规则见 WSK 的 Extra Details §[State Update] 模板。
 - 触发后 WSK 从对话历史中提取的字段最小集 = `Day ID / Turn ID / Zone / Sub-zone / Location / Knowledge Scope / Weather / Inventory Snapshot / Party Condition / Base Structure / Recent Changes`；缺项保持上一份账本不变。
-- 触发后 WER 从对话历史中提取的字段最小集 = `Day ID / Official Day / Recent Events / Structural Changes / Irreducible Anchors / Knowledge Scope Notes`；缺项静默。
-- WER 输出格式：默认 `[WER 历史]`（自然语言 + 软标签）。必出段：`## 新增` + `## 不可压缩锚点`；条件性段：`## 长期格局变化` / `## 未关闭事件链` / `## 结构变化`（仅当有数据时输出）。完整模板与压缩规则见 WER 的 Extra Details §[WER 历史 模板]。
+- 触发后 WER 从对话历史中提取的字段最小集 = `Day ID / Official Day / Recent Events / Structural Changes / Knowledge Scope Notes`；缺项静默。
+- WER 输出格式：默认 `[WER 历史]`（自然语言 + 软标签）。必出段：`## 新增`；条件性段：`## 长期格局变化` / `## 未关闭事件链` / `## 结构变化`（仅当有数据时输出）。完整模板与压缩规则见 WER 的 Extra Details §[WER 历史 模板]。
 - WSK 提取硬规则：
   - 库存字段只接受增量句法：`获得 / 消耗 / 丢失 / 转移 + 数量 + 单位`；绝对总量无效。
   - **跨层转移格式约定**：WM Scene 叙事中涉及跨层转移时，应明确列出 7 字段事务块 —— `Type: ... | Source Layer: ... | Destination Layer: ... | Item: ... | Amount: ... | Unit: ... | Reason: ...`；任一字段缺失时 WSK 应返回拒绝回执（`Scene 描述不完整`），不得自行脑补。
@@ -155,7 +155,7 @@
 - WER 提取硬规则：
   - 重大事件清单 = 死亡 / 失踪 / 叛逃 / 被俘 / 重伤 / 据点建立或失守 / 路线封锁或开通 / 阵营敌意升级或停火破裂 / 主要关系建立或破裂 / 价格暴涨暴跌 / 黑市形成 / 高风险区开启或封锁 / 区域性危机；不在清单内的事件默认不归档。
   - 跨日归档 = 用户跨日时先点 WSK 拿到 Official Day，再点 WER 用同一 Day 归档；WER 收到与最新 WSK State 冲突的 Official Day 应直接拒绝。
-  - 结构变化（门窗加固 / 封口 / 拆墙 / 楼层功能重定义 / 设备固定安装拆卸 / 据点失守）= 不可压缩锚点，保留结构变化 5 字段（`Component ID + Name + Type + 变更内容 + Day`；**与据点首次建立 5 字段 Base Category + Component ID + Name + Type + Condition 不同**）。
+  - 结构变化（门窗加固 / 封口 / 拆墙 / 楼层功能重定义 / 设备固定安装拆卸 / 据点失守），保留结构变化 5 字段（`Component ID + Name + Type + 变更内容 + Day`；**与据点首次建立 5 字段 Base Category + Component ID + Name + Type + Condition 不同**）。
 - Inventory Snapshot 压缩规则：(1) 杂物按功能组归类；(2) 据点库存只列关键物资（弹药/医疗/燃料/关键工具），工具/建材/杂物超过 10 项时必须按功能组压缩；(3) 记忆库存不进入 Snapshot；(4) 零/无的项省略不写。
 - Knowledge Scope 传播规则：
   - 取值：`world-only`（后台成立但前台未获知）/ `local-only`（亲见亲闻）/ `publicly-known`（公开传播）/ `party-known`（当事人已知）。
