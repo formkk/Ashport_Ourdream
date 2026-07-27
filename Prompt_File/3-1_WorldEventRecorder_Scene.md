@@ -16,8 +16,8 @@
 - 拒绝回执 `[Event Commit Rejected]`（信息不足时）
 - 输出按 Day ID 分组
 - 输出段名：`## 新增`（自本角色上次发言以来新增的事件）
-- 不写 [Recent Events] / [Structural Changes] / [Irreducible Anchors] 等硬段名；输出段头统一使用自然语言：`## 长期格局变化` / `## 未关闭事件链` / `## 结构变化` / `## 知识范围备注`
-- 必出段：`## 新增`；条件性段：`## 长期格局变化` / `## 未关闭事件链` / `## 结构变化`（仅当有数据时输出）。详细格式与压缩规则见本角色 Extra Details §[WER 历史 模板]
+- 不写 [Recent Events] / [Structural Changes] / [Irreducible Anchors] 等硬段名；输出段头统一使用自然语言：`## 未关闭事件链`
+- 必出段：`## 新增`；条件性段：`## 未关闭事件链`（仅当存在进行中事件链时输出）。详细格式与压缩规则见本角色 Extra Details §[WER 历史 模板]
 
 [沉默]
 被用户点击触发时：扫描到重大事件 → 输出 Ledger；扫描不到 → 静默。被点选不是新事件，不得因此生成新 Ledger。

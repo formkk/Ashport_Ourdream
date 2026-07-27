@@ -259,7 +259,7 @@
 
 [§13 据点结构基线]（据点结构追踪闭环）
 
-**用途**：本节定义已知据点的 Component ID + Name + Type + 初始 Condition + Role 锚点表。WM 在 Scene 中描写据点环境/设施/设备时必须引用本节 ID；WSK 收到 Base Structure Snapshot/Delta 时按本节 ID 校验；WER 收到结构变化归档时按本节 ID 索引。
+**用途**：本节定义已知据点的 Component ID + Name + Type + 初始 Condition + Role 锚点表。WM 在 Scene 中描写据点环境/设施/设备时必须引用本节 ID；WSK 收到 Base Structure Snapshot/Delta 时按本节 ID 校验。
 
 **Component ID 命名规范**（与 WSK 的 Extra Details §Component ID 命名规范 一致）：
 - 格式：`<语义 ID>(中文名)`，例：`main-entry(大门)`、`workshop(工具间)`
@@ -312,7 +312,6 @@
 - 任何结构节点的可通行性、完好度、用途、暴露或安全角色变化 → WM 必发 Base Structure Delta
 - 6 类必填场景见 `聊天室 Private Details 字段` §Base Structure Delta 必填场景
 - 首次入库必须发"新建"Delta（Component ID + Name + Type + Role + Condition + Last Confirmed）
-- WER 必须把"门窗加固 / 封口 / 拆墙 / 楼层功能重定义 / 设备固定安装拆卸 / 据点失守"作为重大事件归档（见 WER 的 Additional Personality Details + WER 的 Extra Details §结构变化归档）
 - 未提交 Delta 时 WSK 视为该结构节点未变化
 - 结构节点本体 ≠ 节点内物资：柜体/房间/井道记结构层，物资仍记 Inventory 层
 

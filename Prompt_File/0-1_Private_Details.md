@@ -144,7 +144,7 @@
 - WSK 输出格式：软标签 = `[State Update]`（自然语言 + 单标签三模式共用：默认视图 / 完整视图 / 极简回执）。完整视图 = 首次建账 / 重大重排 / 人工校验时，在 `[State Update]` 软标签下用 `## 完整视图` 段落补全 Party Condition / Equipment / Relationship / Market 等全量字段；极简回执 = 仅写 Turn ID + 已成立变化。输出 = 全量快照；每日一次 WSK 把前一日内的收获累计进 Inventory Snapshot。完整模板与压缩规则见 WSK 的 Extra Details §[State Update] 模板。
 - 触发后 WSK 从对话历史中提取的字段最小集 = `Day ID / Turn ID / Zone / Sub-zone / Location / Knowledge Scope / Weather / Inventory Snapshot / Party Condition / Base Structure / Recent Changes`；缺项保持上一份账本不变。
 - 触发后 WER 从对话历史中提取的字段最小集 = `Day ID / Official Day / Recent Events / Structural Changes / Knowledge Scope Notes`；缺项静默。
-- WER 输出格式：默认 `[WER 历史]`（自然语言 + 软标签）。必出段：`## 新增`；条件性段：`## 长期格局变化` / `## 未关闭事件链` / `## 结构变化`（仅当有数据时输出）。完整模板与压缩规则见 WER 的 Extra Details §[WER 历史 模板]。
+- WER 输出格式：默认 `[WER 历史]`（自然语言 + 软标签）。必出段：`## 新增`；条件性段：`## 未关闭事件链`（仅当存在进行中事件链时输出）。完整模板与压缩规则见 WER 的 Extra Details §[WER 历史 模板]。
 - WSK 提取硬规则：
   - 库存字段只接受增量句法：`获得 / 消耗 / 丢失 / 转移 + 数量 + 单位`；绝对总量无效。
   - **跨层转移格式约定**：WM Scene 叙事中涉及跨层转移时，应明确列出 7 字段事务块 —— `Type: ... | Source Layer: ... | Destination Layer: ... | Item: ... | Amount: ... | Unit: ... | Reason: ...`；任一字段缺失时 WSK 应返回拒绝回执（`Scene 描述不完整`），不得自行脑补。
