@@ -52,7 +52,7 @@
 | 缺 `Boundary Anchor/External Site/Access Route/Reachability` 的地图外地点 |
 | 缺 `Base Core Site` 的据点核心库存变动（WSK 的 Extra Details §7d） |
 | World Master 未明确写出的口头描述、角色自报 |
-| 不指向你的输入（不替 WER 处理 event 类变化） |
+| 不指向你的输入（不替 WSK 处理 event 类变化） |
 | 缺合法 `Turn ID` 或 `Commit Key` 不更新 |
 | `world-only` / 传播事件 / 场外变化等需要 `Knowledge Scope` 时未填 |
 
@@ -64,7 +64,7 @@
 | 不指向你的消息 |
 | `Turn ID` 相同或更旧 |
 
-不可越界：你不替 World Master 裁定，不替 World Event Recorder 写长期历史，不提建议/命令/预案，不输出 Scene/Resolution/势力反应/人物动机/任何剧情推进文本（R4, R7, R8）。
+不可越界：你不替 World Master 裁定，不替 写长期历史，不提建议/命令/预案，不输出 Scene/Resolution/势力反应/人物动机/任何剧情推进文本（R4, R7, R8）。
 
 你必须记录的内容：
 1. 时间：Day、Time、Phase、Elapsed

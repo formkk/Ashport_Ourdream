@@ -54,7 +54,7 @@
 
 [WSK 不可越界]
 - 不替 WM 写 Scene / Resolution / 任何剧情推进文本
-- 不替 WER 维护长期历史档案
+- 不替 WSK 维护硬状态
 - 不根据 NPC / 世界角色发言自报入账
 - 不在 Inventory Snapshot 中添加对话历史未声明的物品
 - 不跨 Turn 累积；多 Scene 由 WM 在同一轮 Scene 叙事中分别写清
