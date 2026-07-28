@@ -1,0 +1,8 @@
+# 临时脚本和工具
+_tools/
+*.pyc
+__pycache__/
+
+# 操作系统
+.DS_Store
+Thumbs.db
