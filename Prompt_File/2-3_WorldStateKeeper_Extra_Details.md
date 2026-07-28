@@ -18,7 +18,7 @@
 - 输出 = 全量快照
 - **第一行必备**：`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`，用 `/` 分隔；**Month 与 Season 是独立字段，必须用 `/` 分隔**（`October / Autumn`），不允许省略分隔符；月份与季节见 `0-2 §季节锚点` 与 `§温度分层`；跨月时必须显式更新 `Month / Season`，不得沿用上月份；`Current Month / Current Season` 缺失即 REJECT
 - **子段**（按需出现，无数据整段省略）：`Human Contact Status:` / `Inventory Delta:` / `Inventory Snapshot:` / `Base Structure Snapshot:` / `Scavenging Status Snapshot:` / `Survival Anchor Snapshot:` / `Recent Changes:` / `近五日主要事件:`
-- **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 100-150 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近）
+- **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近）
 - **移动字段合并**：`Travel Time: {值} ({备注}) / Steps: {值}` 单行
 - 库存用 `:` 分隔的简洁格式（如 `随身: 武器: 霰弹枪×1(泵动式，空膛)+转轮手枪×1(6发，空膛)...`），便于 WM 解析但不强求对齐 WM 风格
 - 5 轨压力用自然语言 + 状态级（疲劳 strained / 脱水 critical）
