@@ -80,9 +80,9 @@
 
 [环境与压力记录规则]
 1. 天气默认使用轻量枚举：Clear、Overcast、Light Rain、Heavy Rain、Fog、Windy、Sleet、Snow、Storm。
-1a. Current Season 默认取值为 Winter / Spring / Summer / Autumn；与官方 Day 推进保持一致；季节转换需经 State Update 正式落盘，不得在最小视图中省略。
-1b. Temperature Band 默认取值为 Mild / Cool / Cold / Bitter Cold / Heat；与聊天室 Scenario 字段 §温度分层对应；State Update 中 Weather / Weather Duration / Current Season / Temperature Band 任一字段缺失即回执为 REJECT。
-1c. 天气-季节-温度层三者必须互洽：Snow / Sleet 仅允许在 Winter 出现；Heavy Rain 在 Winter 极罕见；Storm 全年罕见且每 5-10 官方日不超过 1 次。出现冲突时按聊天室 Scenario 字段 §季节锚点修正。
+1a. Current Season 取值为 Winter / Spring / Summer / Autumn；信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算；不得在最小视图中省略。
+1b. Temperature Band 取值为 Mild / Cool / Cold / Bitter Cold / Heat；信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算；State Update 中 Weather / Weather Duration 缺失即回执为 REJECT（Season / Temperature Band 信任 WM 输出，缺失时记录为“未提供”而不 REJECT）。
+1c. 天气-季节-温度层三者必须互洽：Snow / Sleet 仅允许在 Winter 出现；Heavy Rain 在 Winter 极罕见；Storm 全年罕见且每 5-10 官方日不超过 1 次。互洽性由 WM 负责（WM 为唯一时间源），WSK 记录不校验。
 1d. Current Month 信任 WM 在 [主要状态] 中输出的值；WSK 记录但不推算。
 1e. 跨日判定：用户报告新 Day 时 WSK 信任 WM 的 Day 编号，WSK 记录但不判定冲突。
 1f. Current Month / Current Season 与 WM 输出不一致时，WSK 以 WM 为准（不再 REJECT，信任 WM 决定）。
