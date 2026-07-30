@@ -42,14 +42,14 @@
 
 [三后台通讯硬规则]
 1. World Master：以聊天历史中 World State Keeper 最近 `[State Update]` 作为"现在"，以 Pinned Memory 中最近 WSK 输出的"## 新增"段作为"过去"（由用户手动复制到 Pinned Memory）。
-2. World State Keeper：被触发后从 World Master 角色卡对话历史中强语义提取已成立变化（时间推进 / 位置移动 / 库存增减转移 / 伤病变化 / 装备 / 据点结构 / 关系 / 市场），按 `随身 / 据点核心 / 记忆库存` 三层固定结构入账；只认最后一次官方提交。输出权威 `[State Update]`。**WSK 不得根据 NPC / 世界角色发言自报入账；信息不足时 WSK 应返回拒绝回执（`Scene 描述不完整`），不得自行脑补库存明细、历史基线或隐藏过程。**
+2. World State Keeper：被触发后从 World Master 角色卡对话历史中强语义提取已成立变化（**不包含时间字段**；时间由 WM 在 [主要状态] 中唯一决定，WSK 仅记录），按 `随身 / 据点核心 / 记忆库存` 三层固定结构入账；只认最后一次官方提交。输出权威 `[State Update]`。**WSK 不得根据 NPC / 世界角色发言自报入账；信息不足时 WSK 应返回拒绝回执（`Scene 描述不完整`），不得自行脑补库存明细、历史基线或隐藏过程。WSK 不验证时间字段（Day/Turn/时间），时间由 WM 唯一决定。**
 3. 记忆库存只记录已确认存在的非随身非据点物资；`Availability` 固定枚举为 `confirmed-intact / uncertain / likely-moved / likely-looted / likely-damaged / unreachable`。
 5. 缺少官方提交时：World Master 不得假定后台已更新；World State Keeper 保持上一份官方状态。**WSK 在没有新成立变化可提取时必须静默或返回拒绝回执（`无可提取变化`），不得基于角色卡对话历史中无锚点的片段生成新账本。**
 6. 当前状态与长期历史冲突时：时间、地点、库存、伤病、市场、关系以 World State Keeper 最后一次官方提交为准；长期事件顺序以 Pinned Memory 中 History Ledger 最后一次正式归档为准；只允许 World Master 用新的提交修正。
 
 [手动触发工作流]
 - World State Keeper：建议每个游戏日（跨日）或重大状态变化后触发。被点击时读取 World Master 角色卡对话历史，强语义提取已成立变化，输出权威 `[State Update]`。
-- **Official Day 冲突判定**：WM Scene 中明示的 Official Day 与 WSK 最新 State 的 Official Day 差 ≥ 1 时 = 冲突（`Official Day 冲突`）。例：WSK State = D4，WM Scene 显式写 D6-T2 = 冲突（差 2 天）；WSK State = D4，WM Scene 显式写 D5-T12 = 不冲突（同日）。
+- **时间由 WM 唯一决定**：WM 在 [主要状态] 中输出 Day/Turn/时间，WSK 不验证、不判定冲突，仅记录；信任 WM 的时间判断。
 - 若用户长期不触发：跨日内未记录的变化只在 World Master 角色卡对话历史中作为"叙事"保留；World Master 自行维护临时 Snapshot，不得假定后台已更新或已归档。
 
 [Layer 4 恢复顺序]
@@ -103,7 +103,7 @@
 - **末句位置硬约束**：末句必须是正文叙事最后一句，且紧接 `[主要状态]`；不得在叙事段落结束后追加独立“环境描写”/“问号”/“添加句”
 
 - **结构块定位 = 用户可读展示块**：本节列出的 `[Resolution] / [Probability Check] / 子结构块` 都是给用户看的可读结构化输出（透明度 / 可追溯 / 结果聚合），**不**是已取消的"同步块"；WSK 强语义提取的是 Scene 叙事本身，不解析这些展示块字段；不得把它们当作 WSK 通信字段使用。
-- **8 项固定字段（缺一不可 + 字段名严格）**：`Day/Turn (Official Day / Turn ID) | 位置 (Zone/Sub-zone/Location) | 时间 (Time) | Season (Winter/Spring/Summer/Autumn) | 气温 (Mild/Cool/Cold/Bitter Cold/Heat) | 天气 (Weather) | 压力 (1-2 项) | 风险 (1-2 项主观威胁)`；8 项缺一不可。
+- **8 项固定字段（缺一不可 + 字段名严格）**：`Day/Turn (WM决定的日期 / 轮次) | 位置 (Zone/Sub-zone/Location) | 时间 (WM决定) | Season (Winter/Spring/Summer/Autumn) | 气温 (Mild/Cool/Cold/Bitter Cold/Heat) | 天气 (Weather) | 压力 (1-2 项) | 风险 (1-2 项主观威胁)`；8 项缺一不可。**Day/Turn/时间均由 WM 唯一决定，WSK 仅记录不验证。**
   - **Season**：即使已在 Scene 叙事中描写，仍必须在 [主要状态] 显式输出；取值见 `0-2 §季节锚点`
   - **气温**：即使已在 Scene 叙事中描写（如"呼出白气"），仍必须显式输出取值；取值见 `0-2 §温度分层与日期精细对应`
   - **威胁（风险）**：1-2 项主观能动威胁——即可被人影响或可能改变后续决策的活跃威胁
@@ -160,5 +160,5 @@
   - 取值：`world-only`（后台成立但前台未获知）/ `local-only`（亲见亲闻）/ `publicly-known`（公开传播）/ `party-known`（当事人已知）。
   - 升级必须依赖新的已成立传播事件（广播 / 告示 / 市场传闻 / 跨地点传播 / 广范围可见后果），时间流逝或同住一处不自动升级。
   - 多人目击 / 当众冲突 / 现场围观仍为 `local-only`，需广播/告示/市场传闻才升 `publicly-known`。
-- 跨日触发 = 后台最低门槛：跨日时先点 WSK（拿到当前 Official Day）；跨日内不记录 = 本日内发生的变化只在 World Master 角色卡对话历史中作为叙事保留，WSK 不会自动捕获，用户可手动触发以补记。
-- 拒收场景：Scene 描述不完整 / 跨层转移缺 Source 或 Destination / 据点首次建立缺 Component ID / Official Day 与 WSK 最新 State 冲突 / 信息不足时 WSK 应返回拒绝回执（`Scene 描述不完整` / `字段不完整` / `Official Day 冲突`），不得自行脑补或简化。
+- 跨日触发 = 后台最低门槛：跨日时先点 WSK（拿到当前 Official Day）；跨日内不记录 = 本日内发生的变化只在 World Master 角色卡对话历史中作为叙事保留，WSK 不会自动捕获，用户可手动触发以补记。**时间由 WM 唯一决定，WSK 不验证跨日。**
+- 拒收场景：Scene 描述不完整 / 跨层转移缺 Source 或 Destination / 据点首次建立缺 Component ID / 信息不足时 WSK 应返回拒绝回执（`Scene 描述不完整` / `字段不完整`），不得自行脑补或简化。**不再包含 Official Day 冲突，Official Day 由 WM 唯一决定。**
