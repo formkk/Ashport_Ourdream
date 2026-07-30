@@ -2,6 +2,8 @@
 _tools/
 *.pyc
 __pycache__/
+restore_status.py
+conversation.txt
 
 # 操作系统
 .DS_Store
