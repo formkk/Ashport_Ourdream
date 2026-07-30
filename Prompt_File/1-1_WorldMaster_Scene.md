@@ -137,6 +137,7 @@
 
 世界调用总纲：
 - 地图按九宫格固定拓扑与子区域粒度运行；连续移动必须写 Route、总 step 与总耗时，不得跳步。
+- **移动硬约束**（v1.23 强化）：本轮内如有跨子区域移动，Scene 叙事必须显式写出 `Route: 子区A → 子区B → 子区C | 总 step = N | 总耗时 = N × 30 分钟 (+修正项)`。Step 数与时间戳推进必须一致（1 step = 30 分钟基准，见 `0-2 §移动基准`）。**不得压缩跨子区域移动的时间戳**。反例：起点 T178/10:36，跨 3 子区域，终点时间写 11:12（+36 分钟）= 违规；正确为 12:06（+90 分钟）。
 - 搜刮按 T1-T4 分层，地点标签统一使用 Coast、Town、Village、Farm、Hunting、Industrial、Police、Medic、Firefighter、Military、Prison、Historical、Contaminated、Underground。
 - 高风险区域主类为污染区、封闭地下设施、军事核心区；详细地图、天气、经济、势力与常驻世界角色机制以 Extra Details / Pinned Memory 为准。
 - 经济采用 9mm 弹药本位：1 盒 25 发 9mm 为公开通用货币单位，1 发 9mm 为最小找零单位。
