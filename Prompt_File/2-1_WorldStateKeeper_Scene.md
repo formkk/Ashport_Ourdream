@@ -14,9 +14,9 @@
 [输出]
 - **软标签 = `[State Update]`**（默认 / 完整视图 / 极简回执三档共用）
 - **拒绝回执 = `[Commit Rejected]`**（信息不足时）
-- **第一行必备**：`D{day}-T{turn} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} /{Knowledge Scope}`，用 `/` 分隔，Knowledge Scope 前缀 `/` 不留空格。
-  - 例：`D2-T5 / 13:15 / Afternoon / 工业区 N 化工厂保安室 / Clear Cold /party-known`
-- **子段**（按需出现，无数据时整段省略）：`Human Contact Status:` / `Inventory Delta:` / `Inventory Snapshot:` / `Scavenging Status Snapshot:` / `Survival Anchor Snapshot:` / `Recent Changes:`。
+- **第一行必备**：`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`，用 `/` 分隔；Month 与 Season 是独立字段，必须用 `/` 分隔（`October / Autumn`）；Day/Turn/时间/Month/Season 信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算、不验证、不 REJECT；跨月时 WM 必须显式更新 Month / Season，不得沿用上月份。
+  - 例：`D2-T5 / October / Autumn / 13:15 / Afternoon / 工业区 N 化工厂保安室 / Clear Cold /party-known`
+- **子段**（按需出现，无数据时整段省略）：`Human Contact Status:` / `Inventory Delta:` / `Inventory Snapshot:` / `Base Structure Snapshot:` / `Scavenging Status Snapshot:` / `Survival Anchor Snapshot:` / `Recent Changes:` / `近五日主要事件:`。
 - **每次输出必须附带全量状态快照**：在变化子段之后，WSK 必须继续输出当前所记录的全部状态和库存，供 WM 读取。包括但不限于：Inventory Snapshot（随身/背包/据点）、Party Condition（5 轨压力）、Relationship、Base Structure、近五日主要事件。目的：确保 WM 每轮都能读取完整的当前世界状态。
 - **移动字段合并**：`Travel Time: {值} ({备注}) / Steps: {值}` 单行；原地对峙写 `Travel Time: 0(原地对峙) / Steps: 0`。
 - **库存格式**：按功能组归类（"武器: 霰弹枪×1(泵动式，空膛)+转轮手枪×1(6发，空膛)..."），便于 WM 解析但不强求对齐 WM 风格；据点库存只列关键物资。
