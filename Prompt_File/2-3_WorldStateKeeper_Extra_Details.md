@@ -16,7 +16,7 @@
 使用原则：
 - 软标签 = `[State Update]`；正文部分用自然语言陈述客观事实
 - 输出 = 全量快照
-- **每次输出必须附带全量状态快照**：在变化子段（Inventory Delta / Recent Changes 等）之后，WSK 必须继续输出当前所记录的全部状态和库存，供 WM 读取。包括：Inventory Snapshot（随身/背包/据点）、Party Condition（5 轨压力）、Relationship、Base Structure、Market State、近五日主要事件。目的：确保 WM 每轮都能读取完整的当前世界状态。
+- **每次输出必须附带全量状态快照**：在变化子段（Inventory Delta / Recent Changes 等）之后，WSK 必须继续输出当前所记录的全部状态和库存，供 WM 读取。包括：Inventory Snapshot（随身/背包/据点）、Party Condition（5 轨压力）、Relationship、Base Structure、近五日主要事件。目的：确保 WM 每轮都能读取完整的当前世界状态。
 - **第一行必备**：`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`，用 `/` 分隔；**Month 与 Season 是独立字段，必须用 `/` 分隔**（`October / Autumn`），不允许省略分隔符；**Day/Turn/时间/Month/Season 均信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算、不验证、不 REJECT**；跨月时 WM 必须显式更新 `Month / Season`，不得沿用上月份。
 - **子段**（按需出现，无数据整段省略）：`Human Contact Status:` / `Inventory Delta:` / `Inventory Snapshot:` / `Base Structure Snapshot:` / `Scavenging Status Snapshot:` / `Survival Anchor Snapshot:` / `Recent Changes:` / `近五日主要事件:`
 - **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近）
@@ -44,7 +44,7 @@ D5: 与伊万完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地图�
 在 `[State Update]` 基础上补全：
 - Party Condition 全量（5 轨压力 / 伤病细节 / 装备 Condition / Wetness / Insulation）
 - Equipment 全量
-- Relationship / Hostility / Market State 全量
+- Relationship / Hostility 全量
 - Faction Activity Calendar + Faction Exposure Tracker
 - Human Threat Stage 详细
 - Contamination Pressure + Filter Remaining
@@ -83,7 +83,7 @@ D5: 与伊万完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地图�
 1. 以上模板仅用于输出格式约束,不代表当前已成立事实。
 2. 留空字段不是默认事实;WM Scene 叙事中无已成立变化时,不得依据模板自行补全字段值。
 3. WM Scene 叙事中无已成立变化时,不生成正式状态,不补全模板字段。
-4. 默认优先使用 `[State Update]` 默认视图（按变化顺序写 Turn ID、Knowledge Scope、时间地点、变化项与 Recent Changes）；只有在首次建立官方账本、需要人工校验、重大状态重排或管理员明确要求完整快照时,才在 `[State Update]` 软标签下用 `## 完整视图` 段落补全 Party Condition / Equipment / Relationship / Market 等全量字段。
+4. 默认优先使用 `[State Update]` 默认视图（按变化顺序写 Turn ID、Knowledge Scope、时间地点、变化项与 Recent Changes）；只有在首次建立官方账本、需要人工校验、重大状态重排或管理员明确要求完整快照时,才在 `[State Update]` 软标签下用 `## 完整视图` 段落补全 Party Condition / Equipment / Relationship 等全量字段。
 5. 若你拒绝正式提交,应返回最短拒绝回执，避免上游误判为已成功入账。拒绝回执只适用于 WM Scene 叙事中已成立变化但字段不完整;普通文本保持静默。
 
 固定取值:
@@ -104,13 +104,13 @@ D5: 与伊万完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地图�
 
 正式提交顺序:
 1. 默认提交优先使用 `[State Update]` 默认视图,仅按变化顺序写 Turn ID、Knowledge Scope、时间地点、变化项与 Recent Changes。
-2. 需要完整快照时才在 `[State Update]` 软标签下用 `## 完整视图` 段落补全,顺序为 Turn ID、Knowledge Scope、时间地点路径、Party Condition、Inventory、Equipment、Relationship / Hostility / Market State、Recent Changes；若本轮已正式移动,时间地点路径中应能追到 `Origin / Destination / Route / Steps / Travel Time`。
+2. 需要完整快照时才在 `[State Update]` 软标签下用 `## 完整视图` 段落补全,顺序为 Turn ID、Knowledge Scope、时间地点路径、Party Condition、Inventory、Equipment、Relationship / Hostility、Recent Changes；若本轮已正式移动,时间地点路径中应能追到 `Origin / Destination / Route / Steps / Travel Time`。
 3. 完整视图中的库存按:随身 -> 据点核心 -> 记忆库存;仅在必要时展开单件关键物资。
 3a. 若当前位置属于地图外地点,完整视图中除当前 `Zone / Sub-zone / Location` 外,还应保留 `External Location State`;其中 `Boundary Anchor` 说明其挂靠的城内边界锚点,不要把地图外地点直接写成新的九宫格分区。
 
 场外演化提交补充:
 1. 若场外演化已成立且 WM 已在 Scene 叙事中显式写出（按 World Master 的 Extra Details §[势力活动 Scene 显式叙事规约]）,可在 Recent Changes 中标注"场外演化窗口"来源。
-2. 若场外变化影响市场、路口安全、护卫密度、通行条件、公开担保、仓点安全或某常驻世界角色的已知位置与活动状态,应进入正式账本。
+2. 若场外变化影响路口安全、护卫密度、通行条件、公开担保、仓点安全或某常驻世界角色的已知位置与活动状态,应进入正式账本。
 3. 若场外变化只属于 world-only,不代表前台角色已知;应通过 Knowledge Scope 保留隔离。
 3a. 多人目击、当众冲突、现场围观或局部骚动,默认不自动等于 `publicly-known`;若没有广播、告示、市场传闻扩散、跨地点传播或广范围可见后果,优先保持 `local-only`。
 
