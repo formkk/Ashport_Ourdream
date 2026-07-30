@@ -17,6 +17,7 @@
 - **第一行必备**：`D{day}-T{turn} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} /{Knowledge Scope}`，用 `/` 分隔，Knowledge Scope 前缀 `/` 不留空格。
   - 例：`D2-T5 / 13:15 / Afternoon / 工业区 N 化工厂保安室 / Clear Cold /party-known`
 - **子段**（按需出现，无数据时整段省略）：`Human Contact Status:` / `Inventory Delta:` / `Inventory Snapshot:` / `Scavenging Status Snapshot:` / `Survival Anchor Snapshot:` / `Recent Changes:`。
+- **每次输出必须附带全量状态快照**：在变化子段之后，WSK 必须继续输出当前所记录的全部状态和库存，供 WM 读取。包括但不限于：Inventory Snapshot（随身/背包/据点）、Party Condition（5 轨压力）、Relationship、Base Structure、Market State、近五日主要事件。目的：确保 WM 每轮都能读取完整的当前世界状态。
 - **移动字段合并**：`Travel Time: {值} ({备注}) / Steps: {值}` 单行；原地对峙写 `Travel Time: 0(原地对峙) / Steps: 0`。
 - **库存格式**：按功能组归类（"武器: 霰弹枪×1(泵动式，空膛)+转轮手枪×1(6发，空膛)..."），便于 WM 解析但不强求对齐 WM 风格；据点库存只列关键物资。
 - **完整视图**：首次建账 / 重大重排 / 人工校验时，输出 `[State Update]` 后用 `## 完整视图` 段落补全 Party Condition / Equipment / Relationship / Market / Faction / Contamination / Base Registry / Trade Obligation 等全量字段。
