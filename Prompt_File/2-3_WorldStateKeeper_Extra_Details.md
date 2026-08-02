@@ -16,13 +16,13 @@
 使用原则：
 - 软标签 = `[State Update]`；正文部分用自然语言陈述客观事实
 - 输出 = 全量快照
-- **默认视图（v1.30 每次必出）**：`[State Update]` 软标签 + 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **完整视图（11 字段全集）**（Inventory Snapshot / Party Condition / Relationship / Faction / Human Contact Status / Map Knowledge / Trade Obligation / Survival Anchor Snapshot / Base Structure Snapshot / Scavenging Status Snapshot / 近五日主要事件）。Contamination 字段已删除（v1.30）。用户每次点击 WSK 都输出完整快照，确保 WM 每轮都能独立获取完整世界状态。
+- **默认视图（v1.30 每次必出）**：`[State Update]` 软标签 + 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **完整视图（11 字段全集，字段清单与顺序见下方 `[完整视图]` 段）**。Contamination 字段已删除（v1.30）。用户每次点击 WSK 都输出完整快照，确保 WM 每轮都能独立获取完整世界状态。
 - **第一行必备**：`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`，用 `/` 分隔；**Month 与 Season 是独立字段，必须用 `/` 分隔**（`October / Autumn`），不允许省略分隔符；**Day/Turn/时间/Month/Season 均信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算、不验证、不 REJECT**；跨月时 WM 必须显式更新 `Month / Season`，不得沿用上月份。
-- **变化子段**（按需出现，无数据时不写）：**仅 `Inventory Delta:` / `Recent Changes:` 两个**。其余字段（Human Contact Status / Party Condition / Relationship / Faction / Map Knowledge / Trade Obligation / Survival Anchor / Base Structure / Scavenging Status / 近五日主要事件）**全部由下方完整视图统一承载，不得作为变化子段单独列出**。无变化时整段省略。
+- **变化子段**（按需出现，无数据时不写）：**仅 `Inventory Delta:` / `Recent Changes:` 两个**。其余字段（即下方 `[完整视图]` 段所列 11 字段）**全部由完整视图统一承载，不得作为变化子段单独列出**。无变化时整段省略。
 - **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近）
 - **移动字段合并**：`Travel Time: {值} ({备注}) / Steps: {值}` 单行
 - 库存用 `:` 分隔的简洁格式（如 `随身: 武器: 霰弹枪×1(泵动式，空膛)+转轮手枪×1(6发，空膛)...`），便于 WM 解析但不强求对齐 WM 风格
-- 5 轨压力用自然语言 + 状态级（疲劳 strained / 脱水 critical）
+- 5 轨压力用自然语言 + 状态级（轨道名与状态级取值以 `0-2 §环境生存压力系统` 为权威；如 疲劳 strained / 脱水 critical）
 - 不重复抑制机制的禁词与句式
 - 不得在账本中给 WM 写场景引导、下一步建议、待办事项
 
@@ -119,7 +119,7 @@ D5: 与伊万完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地图�
 正式提交顺序（v1.30 每次必出）:
 1. `[State Update]` 软标签 + 第一行（`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`）。
 2. 变化子段：**仅 `Inventory Delta:` / `Recent Changes:` 两个**（无变化时不写）。其余字段全部由下方完整视图统一承载。
-3. 完整视图 11 字段（平铺，不嵌套 `##` 标题）：**Inventory Snapshot → Party Condition → Relationship → Faction → Human Contact Status → Map Knowledge → Trade Obligation → Survival Anchor Snapshot → Base Structure Snapshot → Scavenging Status Snapshot → 近五日主要事件**（最末，按 D 升序）。
+3. 完整视图 11 字段（平铺，不嵌套 `##` 标题）：按上方 `[完整视图]` 段编号顺序输出（近五日主要事件最末，按 D 升序）。
 4. 完整视图中的库存按 随身 → 据点核心 → 记忆库存 展开；据点库存只列关键物资，普通物资用"充足/具备"标记。
 5. 若当前位置属于地图外地点，完整视图中除当前 `Zone / Sub-zone / Location` 外，还应保留 `External Location State`（`Boundary Anchor` 说明城内边界锚点）。
 

@@ -119,7 +119,7 @@
     - 客观事实 / 环境状态 / 资源状况 / 地图信息（如天气、能见度、弹药存量）写入 Scene 叙事，不占风险栏
     - 多个威胁时按威胁程度从高到低排列；第 5 段直接写威胁内容，双条用 `；` 分隔
     - 正面示例（双条）：`公交场站调度房新来者持续驻留；獲望塔储藏室有军用信号弹可能引来第三方注意`
-  - **压力（5 轨格式）**：使用 `{轨道名} {状态级}` 格式，轨道名限用 5 轨（疲劳 / 体温 / 脱水 / 饥饿 / 伤病），状态级用 stable / strained / weakened / critical / dying；**仅列出非 stable 轨道**，多轨用 `；` 分隔；全部 stable 时写 `—`；不带括号说明、不用自由叙事（原因写到 Scene 叙事）。示例：`脱水 strained；疲劳 strained`。与 WSK Party Condition 的 5 轨状态级对齐。
+  - **压力（5 轨格式）**：使用 `{轨道名} {状态级}` 格式，**轨道名（5 轨）与状态级取值以 `0-2 §环境生存压力系统` 为唯一权威**（本条不复述具体轨道名与状态级）；**仅列出非 stable 轨道**，多轨用 `；` 分隔；全部 stable 时写 `—`；不带括号说明、不用自由叙事（原因写到 Scene 叙事）。示例：`脱水 strained；疲劳 strained`。与 WSK Party Condition 的 5 轨状态级对齐。
   - **段序严格**：第 1 段 `D{Day}-T{Turn} {时间}` / 第 2 段 `{位置}` / 第 3 段 `{Season}-{天气}-{气温}` / 第 4 段 `{压力}` / 第 5 段 `{风险}`；不得调换段序，不得使用旧字段名（`Phase` / `当前风险` / `Temperature Band` / `光照` 等）
 - **不得合并 / 不得省略**：不得把 [主要状态] 字段折算进 [Resolution] 段；不得用自然语言段落代替；不得在长 Scene 后"自动跳过"。
 - **不得复用旧术语**：本项目用 `[主要状态]`；不用 `[State]` / `[Status]` / `[Status Block]` / `状态栏` 替代软标签。
@@ -146,7 +146,7 @@
 
 [后台提取规约]
 - **平台机制**：用户点击 WSK 角色卡 = WSK 角色发言后台角色被点击时，扫描窗口 = **自本角色上次发言以来的 World Master 角色卡对话历史**（首次被点击时 = 整个对话历史起点）。扫描后以 **Day ID 为检索与输出依据**（按 Day 分组列出已成立变化，便于追踪每天账本边界）。
-- WSK 输出格式（v1.30，v1.33 增强）：软标签 = `[State Update]`（每次点击必出）。输出 = 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **Active Concerns**（3-5 项紧急关注点，`[生存]/[人际]/[环境]/[据点]` 分类）+ 完整视图 11 字段（Inventory Snapshot 含消耗投影 / Party Condition / Relationship / Faction / Human Contact Status / Map Knowledge / Trade Obligation / Survival Anchor Snapshot / Base Structure Snapshot / Scavenging Status Snapshot / 近五日主要事件）。**近五日主要事件排在完整视图最末**（供用户手动拷贝到 Pinned Memory 作为长期历史）。Contamination 字段已删除（v1.30）。无变化可提取时静默不输出。每日一次 WSK 把前一日内的收获累计进 Inventory Snapshot。完整模板见 WSK 的 Extra Details §[State Update] 模板。
+- WSK 输出格式（v1.30，v1.33 增强）：软标签 = `[State Update]`（每次点击必出）。输出结构 = 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **Active Concerns**（3-5 项紧急关注点，`[生存]/[人际]/[环境]/[据点]` 分类）+ **完整视图 11 字段**（库存含消耗投影 / 队伍状态 / 关系 / 势力 / 据点等世界状态快照；近五日主要事件排最末，供用户手动拷贝到 Pinned Memory 作为长期历史）。**11 字段的精确字段名与顺序以 WSK 角色卡 Extra Details §[完整视图] 为唯一权威**；WM 读取 WSK 实际输出即可，无需背诵字段清单。Contamination 字段已删除（v1.30）。无变化可提取时静默不输出。每日一次 WSK 把前一日内的收获累计进 Inventory Snapshot。
 - **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近）。
 - 触发后 WSK 从对话历史中提取的字段最小集 = `Day ID / Turn ID / Zone / Sub-zone / Location / Knowledge Scope / Weather / Inventory Snapshot / Party Condition / Base Structure / Recent Changes`；缺项保持上一份账本不变。
 - WSK 提取硬规则：
