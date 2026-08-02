@@ -508,10 +508,10 @@
   - 单轮只 +1 Turn（无论本轮内容多复杂）
 - 涉及文件：0-1 / ROADMAP
 
-**v1.27 实验性分支**：WSK 输出视图重组（SNAPSHOT 并入完整视图）
-- 问题：v1.22 "每次输出必须附带全量快照" 与 "完整视图（特殊场景）" 字段重复（4 个字段重叠）
-- 方案 C：默认视图（每次必出）= 仅变化子段，不下发完整快照；完整视图（仅首次建账/重大重排/人工校验）= 全部字段
-- 完整视图字段集：Inventory Snapshot / Party Condition / Relationship / Base Structure / 近五日主要事件 / Equipment / Faction / Contamination / Base Registry / Trade Obligation
+**v1.27 实验性分支**：WSK 输出设计（变化子段 + 完整视图）
+- 设计：用户每次点击 WSK，输出 = 第一行 + 变化子段（Inventory Delta / Recent Changes / 近五日主要事件等）+ 完整视图（Inventory Snapshot / Party Condition / Relationship / Base Structure / 近五日主要事件 / Equipment / Faction / Contamination / Base Registry / Trade Obligation）
+- 无需区分默认视图/完整视图模式，简化心智
+- 完整视图字段集：10 个（覆盖全部世界状态）
 - 涉及文件：0-1 / 2-1 / 2-3 / ROADMAP
 
 ---

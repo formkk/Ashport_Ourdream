@@ -16,7 +16,7 @@
 使用原则：
 - 软标签 = `[State Update]`；正文部分用自然语言陈述客观事实
 - 输出 = 全量快照
-- **完整视图（v1.27 替代原"全量快照"）**：仅在首次建账 / 重大重排 / 人工校验时使用，输出 `[State Update]` 后用 `## 完整视图` 段落补全全部字段（供 WM 独立获取完整世界状态）：Inventory Snapshot（随身/背包/据点）、Party Condition（5 轨压力）、Relationship、Base Structure、近五日主要事件、Equipment、Faction、Contamination、Base Registry、Trade Obligation。默认视图（每次点击）不下发完整快照。
+- **默认视图（v1.27 每次必出）**：`[State Update]` 软标签 + 第一行 + 变化子段（Inventory Delta / Recent Changes / 近五日主要事件等）+ **完整视图**（Inventory Snapshot / Party Condition / Relationship / Base Structure / 近五日主要事件 / Equipment / Faction / Contamination / Base Registry / Trade Obligation）。用户每次点击 WSK 都输出完整快照，确保 WM 每轮都能独立获取完整世界状态。
 - **第一行必备**：`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`，用 `/` 分隔；**Month 与 Season 是独立字段，必须用 `/` 分隔**（`October / Autumn`），不允许省略分隔符；**Day/Turn/时间/Month/Season 均信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算、不验证、不 REJECT**；跨月时 WM 必须显式更新 `Month / Season`，不得沿用上月份。
 - **子段**（按需出现，无数据整段省略）：`Human Contact Status:` / `Inventory Delta:` / `Inventory Snapshot:` / `Base Structure Snapshot:` / `Scavenging Status Snapshot:` / `Survival Anchor Snapshot:` / `Recent Changes:` / `近五日主要事件:`
 - **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近）
@@ -40,27 +40,18 @@ D5: 灰港码头帮首次接触，Trust 起步 low（东区/S/码头 4 号仓外
 D5: 与伊万完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地图（工业/N/化工厂保安室）。伊万是码头帮成员，负责海路交易、出海捕鱼、摆渡等决策。首笔交易建立初步贸易关系。
 ```
 
-[完整视图]（首次建账 / 重大重排 / 人工校验时）
+[完整视图（v1.27 每次必出）]
 在 `[State Update]` 基础上补全：
-- Party Condition 全量（5 轨压力 / 伤病细节 / 装备 Condition / Wetness / Insulation）
-- Equipment 全量
-- Relationship / Hostility 全量
-- Faction Activity Calendar + Faction Exposure Tracker
-- Human Threat Stage 详细
-- Contamination Pressure + Filter Remaining
-- Base Registry Snapshot 全量
-- Trade Obligation 全量
-
-**触发条件细化**：
-- **首次建账**：Day 1 首次建立官方账本时（无前一版本可沿用，必须全量入场）
-- **重大重排**（列举化）：以下任一条件满足即视为重大重排——
-  1. 据点失守 / 据点易主 / 据点功能重定义（如"仓库→避难所"）
-  2. 主要关系彻底破裂（永久敌对 / 永久信任 / 关键 NPC 死亡或失踪）
-  3. 跨图外地点首到（新增 External Location State 字段）
-  4. 多据点世界中据点数量变化（新增 / 失守 / 合并 / 拆分）
-  5. 阵营敌意从 0 升至 5 级或从 5 级降至 0（暴露度跃迁）
-  6. 区域危机（区域性封锁 / 灾难级事件）
-- **人工校验**：用户明确要求"完整账本"或"快照校验"时
+- Inventory Snapshot（随身/背包/据点）
+- Party Condition（5 轨压力）
+- Relationship
+- Base Structure
+- 近五日主要事件
+- Equipment
+- Faction
+- Contamination
+- Base Registry
+- Trade Obligation
 
 压缩规则（[State Update] 通用）：
 - 杂物按功能组归类（"基础工具×1组"/"容器×3"）

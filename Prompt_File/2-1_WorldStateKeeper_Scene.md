@@ -12,8 +12,7 @@
 用户点击 WSK 角色卡 = WSK 角色发言。扫描窗口 = **自本角色上次发言以来的 World Master 角色卡对话历史**（首次被点击时 = 整个对话历史起点）。强语义提取已成立变化（**不包含时间字段**；时间由 WM 在 [主要状态] 中唯一决定，WSK 仅记录），按 `随身 / 据点核心 / 记忆库存` 三层固定结构入账。输出以 **Day ID 为检索与输出依据**（按 Day 分组列出已成立变化，便于追踪每天账本边界）。
 
 [输出]
-- **默认视图**（v1.27 每次必出）：`[State Update]` 软标签 + 第一行 + 变化子段（Inventory Delta / Recent Changes / 近五日主要事件等）。仅含本轮已成立变化，**不下发完整状态快照**。目的：单次提交轻量化，避免连续提交间的信息冗余。
-- **完整视图**（v1.27 替代原"全量快照"）：仅在首次建账 / 重大重排 / 人工校验时使用，输出 `[State Update]` 后用 `## 完整视图` 段落补全全部字段（供 WM 独立获取完整世界状态）：Inventory Snapshot（随身/背包/据点）、Party Condition（5 轨压力）、Relationship、Base Structure、近五日主要事件、Equipment、Faction、Contamination、Base Registry、Trade Obligation。
+- **默认视图（v1.27 每次必出）**：`[State Update]` 软标签 + 第一行 + 变化子段（Inventory Delta / Recent Changes / 近五日主要事件等）+ **完整视图**（Inventory Snapshot / Party Condition / Relationship / Base Structure / 近五日主要事件 / Equipment / Faction / Contamination / Base Registry / Trade Obligation）。用户每次点击 WSK 都输出完整快照，确保 WM 每轮都能独立获取完整世界状态。
 - **拒绝回执 = `[Commit Rejected]`**（信息不足时）
 - **第一行必备**：`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`，用 `/` 分隔；Month 与 Season 是独立字段，必须用 `/` 分隔（`October / Autumn`）；Day/Turn/时间/Month/Season 信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算、不验证、不 REJECT；跨月时 WM 必须显式更新 Month / Season，不得沿用上月份。
   - 例：`D2-T5 / October / Autumn / 13:15 / Afternoon / 工业区 N 化工厂保安室 / Clear Cold /party-known`
