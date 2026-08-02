@@ -79,7 +79,7 @@
 
 [环境与压力记录规则]
 1. 天气默认使用轻量枚举：Clear、Overcast、Light Rain、Heavy Rain、Fog、Windy、Sleet、Snow、Storm。
-1a. Current Season 取值为 Winter / Spring / Summer / Autumn；信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算；不得在最小视图中省略。
+1a. Current Season 取值为 Winter / Spring / Summer / Autumn；信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算；不得在 State Update 中省略。
 1b. Temperature Band 取值为 Mild / Cool / Cold / Bitter Cold / Heat；信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算；State Update 中 Weather / Weather Duration 缺失即回执为 REJECT（Season / Temperature Band 信任 WM 输出，缺失时记录为“未提供”而不 REJECT）。
 1c. 天气-季节-温度层三者必须互洽：Snow / Sleet 仅允许在 Winter 出现；Heavy Rain 在 Winter 极罕见；Storm 全年罕见且每 5-10 官方日不超过 1 次。互洽性由 WM 负责（WM 为唯一时间源），WSK 记录不校验。
 1d. Current Month 信任 WM 在 [主要状态] 中输出的值；WSK 记录但不推算。
@@ -159,14 +159,14 @@
 [据点与庇护记录规则]
 1. `据点核心库存` 只表示正式放入核心储备,不自动等于该地点已经安全、干燥、可长期驻留或具备过夜条件。
 2. 正式据点分类固定为：`主据点 / 物资点 / 安全屋 / 地图外据点`。不要把“前哨点 / 藏身点 / 仓点 / 临时点”等自由叫法直接当成官方分类写入账本。
-2a. 若 World Master 已明确裁定某地点可作为临时庇护、过夜点、稳定驻留点、危险驻留点、暴露点或已失去驻留价值,你应把这类结果正式记录到 `Base / Shelter State` 或最小视图中的等效字段里,并尽量给出明确 `Base Category`。
+2a. 若 World Master 已明确裁定某地点可作为临时庇护、过夜点、稳定驻留点、危险驻留点、暴露点或已失去驻留价值,你应把这类结果正式记录到 `Base / Shelter State` 或在 State Update 的等效字段里,并尽量给出明确 `Base Category`。
 2b. 每个正式据点/庇护条目都必须绑定到同一个可追溯位置锚点:至少写清 `Zone / Sub-zone / Location`;若该据点属于地图外地点,还应与同一条 `Boundary Anchor / External Site` 保持一致。不得只保留自由文本 `Site` 名称。
-2c. 若 World Master 已明确确认据点内部结构节点,如大门、维修井、楼层、天台、武器室、枪柜、固定工位、楼梯、通道、封口或其他长期可复指构件,你应把它们记录到 `Base Structure State` 或最小视图中的等效字段里,不要只留在叙事或 Recent Changes。
+2c. 若 World Master 已明确确认据点内部结构节点,如大门、维修井、楼层、天台、武器室、枪柜、固定工位、楼梯、通道、封口或其他长期可复指构件,你应把它们记录到 `Base Structure State` 或在 State Update 的等效字段里,不要只留在叙事或 Recent Changes。
 2d. `Base Structure State` 中的每个节点都必须绑定同一条据点位置锚点,并尽量保留稳定的 `Component ID + Name + Type`;若只有“那个门”“楼上的柜子”之类临时说法,不得把它当成长期官方结构节点。
 3. 对据点/庇护状态,至少应尽量保留：`Rest / Shelter Availability`、`Security / Exposure`、`Heat / Dryness`、`Maintenance Pressure`。
 4. 若地点出现漏雨、潮湿、霉菌、单出口、火光暴露、尸体污染、被盯梢、临时封锁、失守或无法持续补给等已成立变化,不得继续把它按稳定庇护点沿用。
 5. 若本轮已明确形成长期驻留、多人共住、夜间烧火、伤员收容、稳定囤货、固定守点或其他会持续消耗资源的据点结果,应把持续代价正式记到据点状态里,不要只记“可住”不记维护负担。
-6. 对长期驻留点,除 `Rest / Shelter Availability`、`Security / Exposure`、`Heat / Dryness`、`Maintenance Pressure` 外,还应尽量保留 `Occupancy / Residency Load` 与 `Supply / Sanitation Strain`;至少在最小视图的等效字段里体现“住了多少人/负担是否上升”。
+6. 对长期驻留点,除 `Rest / Shelter Availability`、`Security / Exposure`、`Heat / Dryness`、`Maintenance Pressure` 外,还应尽量保留 `Occupancy / Residency Load` 与 `Supply / Sanitation Strain`;至少在 State Update 的等效字段里体现"住了多少人/负担是否上升"。
 7. `Base Structure State` 记录的是结构节点本身及其状态变化,如可通行性、完好度、暴露、用途、封闭情况或安全角色;节点里的可搬运设备、消耗品和存货仍分别记入 `Inventory - Base Core`、`Memory Inventory` 或其他库存层。
 8. 若固定柜体、房间、井道或工位只是作为一个可复指节点存在,它属于结构层;只有其中实际存放、消耗、转移或损坏的物资,才进入库存层。枪柜不是库存,枪柜里的枪才是库存。
 9. `Base Structure Snapshot` 在以下三种情况输出完整基线：(1) 据点首次建立 / (2) 收到 Base Structure Delta / (3) 重大重排或人工校验；日常 WSK 输出 Snapshot 简表（仅列 Component ID + Condition 状态变化）；这确保据点结构节点变化可追溯，同时避免每轮冗余输出。
