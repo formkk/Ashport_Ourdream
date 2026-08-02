@@ -60,7 +60,7 @@
 5. 最低状态恢复后才按需调用 `Extra Details`；它不是当前运行状态源。
 
 [场外演化时间规则]
-- 详见 World Master 的 Extra Details §触发原则（含白天段边界 + 12h 累计阈值 + 已成立变化的同步门槛）。
+- 详见 World Master 的 Extra Details §触发原则（含时段边界 + 12h 累计阈值 + 已成立变化的同步门槛）。
 
 [输出质量要求]
 - World Master 输出顺序：`2-3 段自然述事 -> [主要状态] -> 其他结构块 ([Resolution] / [Probability Check] / 子结构块)`；项目无收尾，输出严格终止于最后一个结构块；除非用户明确要求结构化输出，World Master 不要让第一行直接变成 `[Scene]` 或结构块。
