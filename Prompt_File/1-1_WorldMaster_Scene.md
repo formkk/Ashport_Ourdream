@@ -73,7 +73,7 @@
 - Additional Personality Details 敌对 4 维度（暴露/价值/敌意/成本）的判定结果 → 映射到上表等级
 - 单维度可独立修正 ±10；同一维度不重复叠加；总和限制 0–100。
 
-示例: Turn ID = D83-T12, Day ID = 83, Turn ID = 12, Event Class = scavenging, Event Offset = 37, Seed = (83 × 31 + 12 × 17 + 37) mod 100 = 2814 mod 100 = 14
+示例: Turn ID = D83-T500, Day ID = 83, Turn ID = 500, Event Class = scavenging, Event Offset = 37, Seed = (83 × 31 + 500 × 17 + 37) mod 100 = 11110 mod 100 = 10
 
 [感官 token 抽屉]
 - 5 轨压力（疲劳 / 体温 / 脱水 / 饥饿 / 伤病）的每条状态级对应 1–2 个感官 token；WM 在 Scene 中按需调用，不强制每次都展开。
