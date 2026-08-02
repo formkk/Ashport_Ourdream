@@ -17,7 +17,7 @@
 - 软标签 = `[State Update]`；正文部分用自然语言陈述客观事实
 - 输出 = 全量快照
 - **默认视图（v1.30 每次必出）**：`[State Update]` 软标签 + 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **完整视图（11 字段全集，字段清单与顺序见下方 `[完整视图]` 段）**。Contamination 字段已删除（v1.30）。用户每次点击 WSK 都输出完整快照，确保 WM 每轮都能独立获取完整世界状态。
-- **第一行必备**：`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`，用 `/` 分隔；**Month 与 Season 是独立字段，必须用 `/` 分隔**（`October / Autumn`），不允许省略分隔符；**Day/Turn/时间/Season 信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算、不验证、不 REJECT**；**Month 由 WSK 按 `0-2 §月份推进规则` 从 WM 的 Day 确定性推导，Phase 由 WSK 从 时间 推导**（二者为确定性日历/时段查表，不属时间推进推算）；跨月时 Month 随 Day 自动切换，Season 由 WM 显式输出。
+- **第一行必备**：`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`，用 `/` 分隔；**Month 与 Season 是独立字段，必须用 `/` 分隔**（`October / Autumn`），不允许省略分隔符；**Day/Turn/时间/Season 信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算、不验证、不 REJECT**；**Month 由 WSK 按 `0-2 §月份推进规则` 从 WM 的 Day 确定性推导**（确定性日历查表，不属时间推进推算）；跨月时 Month 随 Day 自动切换，Season 由 WM 显式输出。
 - **变化子段**（按需出现，无数据时不写）：**仅 `Inventory Delta:` / `Recent Changes:` 两个**。其余字段（即下方 `[完整视图]` 段所列 11 字段）**全部由完整视图统一承载，不得作为变化子段单独列出**。无变化时整段省略。
 - **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近）
 - **移动字段合并**：`Travel Time: {值} ({备注}) / Steps: {值}` 单行
@@ -28,7 +28,7 @@
 
 ```
 [State Update]
-D5-T55 / October / Autumn / 10:55 / Morning / 工业区 N 化工厂质检小楼 / Clear Cool /party-known
+D5-T55 / October / Autumn / 10:55 / 工业区 N 化工厂质检小楼 / Clear Cool /party-known
 
 示例仅示第一行必备字段；变化子段仅 `Inventory Delta:` / `Recent Changes:` 两个（无变化时不写）；完整视图 11 字段全集见下方 `[完整视图]` 段。
 
@@ -117,7 +117,7 @@ D5: 与伊万完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地图�
 7. 每次成功提交必须输出完整视图 11 字段（见上方 `[完整视图]` 段），不得省略。无变化可提取时不输出（静默）；信息不足时返回 `[Commit Rejected]`（v1.30）。
 
 正式提交顺序（v1.30 每次必出）:
-1. `[State Update]` 软标签 + 第一行（`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`）。
+1. `[State Update]` 软标签 + 第一行（`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`）。
 2. 变化子段：**仅 `Inventory Delta:` / `Recent Changes:` 两个**（无变化时不写）。其余字段全部由下方完整视图统一承载。
 3. 完整视图 11 字段（平铺，不嵌套 `##` 标题）：按上方 `[完整视图]` 段编号顺序输出（近五日主要事件最末，按 D 升序）。
 4. 完整视图中的库存按 随身 → 据点核心 → 记忆库存 展开；据点库存只列关键物资，普通物资用"充足/具备"标记。
