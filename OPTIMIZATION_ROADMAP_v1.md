@@ -4,7 +4,7 @@
 
 | 项目 | 值 |
 |------|-----|
-| **版本** | v1.29 |
+| **版本** | v1.30 |
 | **创建日期** | 2026-07-24 |
 | **最后更新** | 2026-07-24 |
 | **范围** | 本会话累积评估的待优化项汇总 |
@@ -527,6 +527,11 @@
 - 完整视图字段：13 个（新增 Map Knowledge 后仍为 13 个，因为单一替换近五日主要事件位置）
 - 涉及文件：0-1 / 2-1 / 2-3 / ROADMAP
 
+**v1.30 实验性分支**：WSK 完整视图字段游戏性最终版
+- 删除 Contamination 字段（前期低频，玩家可用 Recent Changes 描述污染事件）
+- 保留 11 字段：Inventory Snapshot / Party Condition / Relationship / Faction / Human Contact Status / Map Knowledge / Trade Obligation / Survival Anchor Snapshot / Base Structure Snapshot / Scavenging Status Snapshot / 近五日主要事件
+- 涉及文件：0-1 / 2-1 / 2-2 / 2-3 / ROADMAP
+
 ---
 
 ## 九、关联文档
@@ -541,11 +546,11 @@
 
 ---
 
-## 关键决策（当前 v1.29）
+## 关键决策（当前 v1.30）
 
 - **WEK 一致性原则**：DO/REJECT/SILENT 三表 + 跨文件引用保持一致
 - **机制裁剪原则**：仅当机制实际无效时才删除（如不可压缩锚点、压缩机制）
 - **Pinned Memory 持久化**：由用户手动复制 `## 新增` 段
 - **历史版本**：完整变更历史见 Git 提交记录
 
-**完整决策记录**（v1.0 - v1.29）见 git log + commit message。如需追溯特定决策，可用 `git log --grep="<关键词>"`。
+**完整决策记录**（v1.0 - v1.30）见 git log + commit message。如需追溯特定决策，可用 `git log --grep="<关键词>"`。

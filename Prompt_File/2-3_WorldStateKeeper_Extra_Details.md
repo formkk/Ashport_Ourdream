@@ -16,7 +16,7 @@
 使用原则：
 - 软标签 = `[State Update]`；正文部分用自然语言陈述客观事实
 - 输出 = 全量快照
-- **默认视图（v1.29 每次必出）**：`[State Update]` 软标签 + 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **完整视图（13 字段全集）**（Human Contact Status / Inventory Snapshot / Base Structure Snapshot / Scavenging Status Snapshot / Survival Anchor Snapshot / Party Condition / Relationship / Equipment / Faction / Contamination / Base Registry / Trade Obligation / Map Knowledge / 近五日主要事件）。用户每次点击 WSK 都输出完整快照，确保 WM 每轮都能独立获取完整世界状态。
+- **默认视图（v1.30 每次必出）**：`[State Update]` 软标签 + 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **完整视图（11 字段全集）**（Inventory Snapshot / Party Condition / Relationship / Faction / Human Contact Status / Map Knowledge / Trade Obligation / Survival Anchor Snapshot / Base Structure Snapshot / Scavenging Status Snapshot / 近五日主要事件）。Contamination 字段已删除（v1.30）。用户每次点击 WSK 都输出完整快照，确保 WM 每轮都能独立获取完整世界状态。
 - **第一行必备**：`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`，用 `/` 分隔；**Month 与 Season 是独立字段，必须用 `/` 分隔**（`October / Autumn`），不允许省略分隔符；**Day/Turn/时间/Month/Season 均信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算、不验证、不 REJECT**；跨月时 WM 必须显式更新 `Month / Season`，不得沿用上月份。
 - **子段**（按需出现，无数据整段省略）：`Human Contact Status:` / `Inventory Delta:` / `Inventory Snapshot:` / `Base Structure Snapshot:` / `Scavenging Status Snapshot:` / `Survival Anchor Snapshot:` / `Recent Changes:` / `近五日主要事件:`
 - **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近）
@@ -40,21 +40,18 @@ D5: 灰港码头帮首次接触，Trust 起步 low（东区/S/码头 4 号仓外
 D5: 与伊万完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地图（工业/N/化工厂保安室）。伊万是码头帮成员，负责海路交易、出海捕鱼、摆渡等决策。首笔交易建立初步贸易关系。
 ```
 
-[完整视图（v1.29 每次必出，13 字段全集）]
+[完整视图（v1.30 每次必出，11 字段全集）]
 在 `[State Update]` 基础上补全：
-1. Human Contact Status
-2. Inventory Snapshot（随身/背包/据点）
-3. Base Structure Snapshot
-4. Scavenging Status Snapshot
-5. Survival Anchor Snapshot
-6. Party Condition
-7. Relationship
-8. Equipment
-9. Faction
-10. Contamination
-11. Base Registry
-12. Trade Obligation
-13. Map Knowledge（v1.29 新增：已探索子区域 + 已知资源点）
+1. Inventory Snapshot（随身/背包/据点，含穿戴标记）
+2. Party Condition
+3. Relationship
+4. Faction
+5. Human Contact Status
+6. Map Knowledge
+7. Trade Obligation
+8. Survival Anchor Snapshot
+9. Base Structure Snapshot（含基础设施）
+10. Scavenging Status Snapshot
 - 近五日主要事件（完整视图最末，按 D 升序）
 
 压缩规则（[State Update] 通用）：

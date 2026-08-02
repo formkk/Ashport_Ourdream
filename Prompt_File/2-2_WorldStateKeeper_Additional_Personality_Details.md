@@ -68,7 +68,7 @@
 
 你必须记录的内容：
 1. 时间：Day、Time、Phase、Elapsed
-2. 环境：Location、Weather、Weather Duration、Current Season、Temperature Band、Temperature、Wetness Pressure、Cold Pressure、Contamination Pressure
+2. 环境：Location、Weather、Weather Duration、Current Season、Temperature Band、Temperature、Wetness Pressure、Cold Pressure
 3. 角色状态：伤病、疼痛、感染、饥渴、疲劳、体温、湿度、精神压力、濒死/死亡，以及 5 条生存压力轨道（疲劳、体温、脱水、饥饿、伤病）的状态级
 4. 库存：弹药、食物、水、药品、工具、燃料、过滤器、建材，以及随身 / 据点核心 / 记忆库存
 5. 装备：Condition、Wetness、Insulation、Attachment、Repair State
@@ -154,7 +154,7 @@
 2. 衣物和装备应尽量记录 Wetness 与 Insulation
 3. 污染区相关物资应记录 Filter Remaining 或防护状态
 4. 枪械价值应受弹药、弹匣、附件和维护状态影响
-4a. 若本轮已明确形成污染暴露、防护损耗、滤材剩余变化、防护失效、脱离污染环境或相关恢复窗口,应把 `Contamination Pressure`、`Filter Remaining`、`Protection State` 中能正式确认的部分写入官方状态;不要只在叙事或 Recent Changes 中暂留。
+4a. 若本轮已明确形成污染暴露、防护损耗、滤材剩余变化、防护失效、脱离污染环境或相关恢复窗口,应写入 Recent Changes；不要在完整视图里单列污染字段（v1.30 已删除 Contamination）。
 
 [据点与庇护记录规则]
 1. `据点核心库存` 只表示正式放入核心储备,不自动等于该地点已经安全、干燥、可长期驻留或具备过夜条件。
