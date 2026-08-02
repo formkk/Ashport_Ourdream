@@ -16,7 +16,7 @@
 使用原则：
 - 软标签 = `[State Update]`；正文部分用自然语言陈述客观事实
 - 输出 = 全量快照
-- **默认视图（v1.27 每次必出）**：`[State Update]` 软标签 + 第一行 + 变化子段（Inventory Delta / Recent Changes / 近五日主要事件等）+ **完整视图**（Inventory Snapshot / Party Condition / Relationship / Base Structure / 近五日主要事件 / Equipment / Faction / Contamination / Base Registry / Trade Obligation）。用户每次点击 WSK 都输出完整快照，确保 WM 每轮都能独立获取完整世界状态。
+- **默认视图（v1.28 每次必出）**：`[State Update]` 软标签 + 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **完整视图（13 字段全集）**（Human Contact Status / Inventory Snapshot / Base Structure Snapshot / Scavenging Status Snapshot / Survival Anchor Snapshot / Party Condition / Relationship / 近五日主要事件 / Equipment / Faction / Contamination / Base Registry / Trade Obligation）。用户每次点击 WSK 都输出完整快照，确保 WM 每轮都能独立获取完整世界状态。
 - **第一行必备**：`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`，用 `/` 分隔；**Month 与 Season 是独立字段，必须用 `/` 分隔**（`October / Autumn`），不允许省略分隔符；**Day/Turn/时间/Month/Season 均信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算、不验证、不 REJECT**；跨月时 WM 必须显式更新 `Month / Season`，不得沿用上月份。
 - **子段**（按需出现，无数据整段省略）：`Human Contact Status:` / `Inventory Delta:` / `Inventory Snapshot:` / `Base Structure Snapshot:` / `Scavenging Status Snapshot:` / `Survival Anchor Snapshot:` / `Recent Changes:` / `近五日主要事件:`
 - **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近）
