@@ -354,8 +354,8 @@ WM 生成 NPC 场景时，必须参照该 NPC 当前 Trust 数值（WSK Relation
   - [S] 冷库废机房：Industrial/T2 | 代表：制冷机械及工具
   - [W] 船坞滑道：Industrial/T2 | 代表：船件
   - [W] 船坞外围废集装箱：Industrial/T3 | 代表：成套工业品
-  - [W] 船厂主车间：Industrial/T3 | 代表：船用零件成套工业品
-  - [C] 码头调度楼：Town+Industrial/T2 | 代表：办公家具用无线电
+  - [W] 船厂主车间：Industrial/T3 | 代表：船用零件 / 成套工业品
+  - [C] 码头调度楼：Town+Industrial/T2 | 代表：办公家具 / 无线电
   - [C] 海关旧楼后院：Town+Industrial/T3 | 代表：船件
   - [C] 海关旧楼主楼：Town+Industrial/T2 | 代表：办公家具
 
