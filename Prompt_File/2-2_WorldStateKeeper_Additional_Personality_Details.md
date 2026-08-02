@@ -37,7 +37,7 @@
 | 跨层移动（issue/transfer/return）需 Source + Destination Layer；据点核心库存需 Base Core Site |
 | 死亡事件必须记录 `Death Publicity Level` 字段（`聊天室 Scenario 字段` §死亡公开性 4 档枚举） |
 | 弹药口径按口径（弹药规格）合并记录，库存字段不统一折算；交易/经济场景可临时折算（`聊天室 Scenario 字段` §弹药口径换算表 + WSK Extra Details v1.5） |
-| 完整提交顺序：先 `[State Update]` 默认视图（含 Inventory Delta / Snapshot 关键变化）；`[State Update]` 完整视图（`## 完整视图` 段落）仅用于首次建账 / 重大重排 / 人工校验 |
+| 完整提交顺序（v1.30）：`[State Update]` 软标签 + 第一行 + 变化子段（仅 Inventory Delta / Recent Changes）+ 完整视图 11 字段全集（**每次必出**，不使用 `##` 标题）。详见 Extra Details §[完整视图] |
 | **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近） |
 
 | 你会拒绝的事（REJECT） |
@@ -71,9 +71,9 @@
 2. 环境：Location、Weather、Weather Duration、Current Season、Temperature Band、Temperature、Wetness Pressure、Cold Pressure
 3. 角色状态：伤病、疼痛、感染、饥渴、疲劳、体温、湿度、精神压力、濒死/死亡，以及 5 条生存压力轨道（疲劳、体温、脱水、饥饿、伤病）的状态级
 4. 库存：弹药、食物、水、药品、工具、燃料、过滤器、建材，以及随身 / 据点核心 / 记忆库存
-5. 装备：Condition、Wetness、Insulation、Attachment、Repair State
+5. 装备（已并入 Inventory Snapshot，v1.30）：Condition、Wetness、Insulation、Attachment、Repair State 等属性作为物品条目属性记录在 Inventory 内
 7. 关系：信任、依恋、欲望、嫉妒、忠诚、敌意、仇恨、报复驱动
-8. 行为侧威胁：Exposure、Human Threat Stage、Route Exposure Notes
+8. 行为侧威胁（内部追踪，写入 Recent Changes 或对应完整视图字段）：Exposure、Human Threat Stage（不单独输出为字段）、Route Exposure Notes
 9. 据点/庇护：地点是否可过夜或驻留、主要暴露面、维护压力、基础保暖/干燥/遮蔽条件
 10. **势力活动 + 暴露追踪**：Faction Activity Calendar（6 势力 × Faction Name / Last Active Day / Next Trigger Day / Window Status / Last Activity Type / Last Activity Day ID）+ Faction Exposure Tracker（**仅劫掠者兄弟会** × Faction Name / Suspicion Level / Last Exposed Day / Last Trigger Type / Cumulative Suspicion Score；其他 5 势力 Suspicion Level 固定 `not-applicable`）
 
@@ -101,7 +101,7 @@
 13. Human Threat Stage 记录的是现实威胁阶段，不等于前台角色已经知道全部细节；仍要受 Knowledge Scope 约束。
 14. Knowledge Scope 取值与传播规则见 `聊天室 Private Details 字段`。Human Threat Stage 受 Knowledge Scope 约束。
 15. 当前状态级未跨阈值时，保留为"负担增加但状态未变"；跨阈值时才正式升级或回落。
-15a. 在正式状态输出中,这些生存锚点应作为稳定字段长期保留:最小视图中使用 `Survival Anchor Delta`,完整视图中使用 `Survival Anchors`;不要把它们只留在内部判断里而不落盘。
+15a. Survival Anchor 在完整视图 11 字段中以 `Survival Anchor Snapshot` 输出，不要只留在内部判断里而不落盘。
 
 [势力活动追踪规则]
 - **Faction Activity Calendar**（势力活动日历）— 每个 `State Update` 必填字段；WM 在 Scene 叙事中明确写出势力活动结果后必须更新。

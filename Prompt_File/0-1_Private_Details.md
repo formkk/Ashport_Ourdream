@@ -146,7 +146,7 @@
 
 [后台提取规约]
 - **平台机制**：用户点击 WSK 角色卡 = WSK 角色发言后台角色被点击时，扫描窗口 = **自本角色上次发言以来的 World Master 角色卡对话历史**（首次被点击时 = 整个对话历史起点）。扫描后以 **Day ID 为检索与输出依据**（按 Day 分组列出已成立变化，便于追踪每天账本边界）。
-- WSK 输出格式（v1.30）：软标签 = `[State Update]`（每次点击必出）。输出 = 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ 完整视图 11 字段（Inventory Snapshot / Party Condition / Relationship / Faction / Human Contact Status / Map Knowledge / Trade Obligation / Survival Anchor Snapshot / Base Structure Snapshot / Scavenging Status Snapshot / 近五日主要事件）。**近五日主要事件排在完整视图最末**（便于 WM 优先读取状态后回看历史）。Contamination 字段已删除（v1.30）。极简回执 = 仅写 Turn ID + 已成立变化（仅在无变化时使用）。每日一次 WSK 把前一日内的收获累计进 Inventory Snapshot。完整模板见 WSK 的 Extra Details §[State Update] 模板。
+- WSK 输出格式（v1.30）：软标签 = `[State Update]`（每次点击必出）。输出 = 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ 完整视图 11 字段（Inventory Snapshot / Party Condition / Relationship / Faction / Human Contact Status / Map Knowledge / Trade Obligation / Survival Anchor Snapshot / Base Structure Snapshot / Scavenging Status Snapshot / 近五日主要事件）。**近五日主要事件排在完整视图最末**（便于 WM 优先读取状态后回看历史）。Contamination 字段已删除（v1.30）。无变化可提取时静默不输出。每日一次 WSK 把前一日内的收获累计进 Inventory Snapshot。完整模板见 WSK 的 Extra Details §[State Update] 模板。
 - **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近）。
 - 触发后 WSK 从对话历史中提取的字段最小集 = `Day ID / Turn ID / Zone / Sub-zone / Location / Knowledge Scope / Weather / Inventory Snapshot / Party Condition / Base Structure / Recent Changes`；缺项保持上一份账本不变。
 - WSK 提取硬规则：
@@ -164,7 +164,7 @@
       - 区域变动（高风险区开启 / 封锁 / 区域性危机）
   - 跨日归档 = 用户跨日时先点 WSK 拿到 Official Day，再点 WSK 同步；收到与最新 WSK State 冲突的 Official Day 应直接拒绝。
   - 结构变化（门窗加固 / 封口 / 拆墙 / 楼层功能重定义 / 设备固定安装拆卸 / 据点失守），保留结构变化 5 字段（`Component ID + Name + Type + 变更内容 + Day`；**与据点首次建立 5 字段 Base Category + Component ID + Name + Type + Condition 不同**）。
-- Inventory Snapshot 压缩规则：(1) 杂物按功能组归类；(2) 据点库存只列关键物资（弹药/医疗/燃料/关键工具），工具/建材/杂物超过 10 项时必须按功能组压缩；(3) 记忆库存不进入 Snapshot；(4) 零/无的项省略不写。
+- Inventory Snapshot 输出策略（v1.31，分类+明细）：按功能组归类（武器/弹药/医疗/工具/食物等），保留每件物品明细（口径/数量/状态）；不强制"具备×1组"压缩；超过 10 项时按功能组归类但同组内仍列具体物品。普通物资（绳索、容器等）可以"具备×1组"标记。详见 WSK Extra Details §压缩规则。
 - Knowledge Scope 传播规则：
   - 取值：`world-only`（后台成立但前台未获知）/ `local-only`（亲见亲闻）/ `publicly-known`（公开传播）/ `party-known`（当事人已知）。
   - 升级必须依赖新的已成立传播事件（广播 / 告示 / 市场传闻 / 跨地点传播 / 广范围可见后果），时间流逝或同住一处不自动升级。

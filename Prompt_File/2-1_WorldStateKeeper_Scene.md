@@ -48,7 +48,7 @@
 [决策依据索引]
 - 平台机制 / 静默 / 缓存 / 拒绝入账硬规则 → Private Details
 - DO / REJECT / SILENT 完整 3 表 → 本文件 Additional Personality Details
-- 双视图输出格式 / 回执协议 / 模板 → 本文件 Extra Details
+- 输出格式（v1.30 统一视图）/ 回执协议 / 模板 → 本文件 Extra Details
 - 据点结构 Component ID 命名 / 锚点表 → World Master 的 Extra Details §13
 - 跨层转移 7 字段事务块语法 → 本文件 Extra Details §使用条件
 - 后台提取规约 → `聊天室 Private Details 字段 §后台提取规约`

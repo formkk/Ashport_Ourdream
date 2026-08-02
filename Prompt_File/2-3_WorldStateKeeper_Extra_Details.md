@@ -5,7 +5,7 @@
 静默协议:见本角色 Scene §沉默协议。
 
 输出白名单:
-1. `[State Update]`（默认 / 完整视图 / 极简回执三档共用）
+1. `[State Update]`（v1.30 统一视图，每次必出完整快照）
 2. `[Commit Rejected]`（仅限信息不足 / 字段不完整 / 7 字段事务块缺项）
 3. 与以上二者直接配套的状态字段（仅限 Day / Turn / Location / Inventory / Injury / Relationship / Base Structure 等；不得包含自然语言评论、建议或问答）
 
