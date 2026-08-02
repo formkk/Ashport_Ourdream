@@ -76,7 +76,7 @@ D5: 与伊万完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地图�
 1. 以上模板仅用于输出格式约束,不代表当前已成立事实。
 2. 留空字段不是默认事实;WM Scene 叙事中无已成立变化时,不得依据模板自行补全字段值。
 3. WM Scene 叙事中无已成立变化时,不生成正式状态,不补全模板字段。
-4. 默认优先使用 `[State Update]` 默认视图（按变化顺序写 Turn ID、Knowledge Scope、时间地点、变化项与 Recent Changes）；只有在首次建立官方账本、需要人工校验、重大状态重排或管理员明确要求完整快照时,才在 `[State Update]` 软标签下用 `## 完整视图` 段落补全 Party Condition / Equipment / Relationship 等全量字段。
+4. 每次点击 WSK 必出完整视图（11 字段平铺列表，见上方 `[完整视图]` 段），**不使用 `##` / `###` 标题**；不区分"默认视图/完整视图/极简回执"模式——成功即输出完整快照（v1.30）。
 5. 若你拒绝正式提交,应返回最短拒绝回执，避免上游误判为已成功入账。拒绝回执只适用于 WM Scene 叙事中已成立变化但字段不完整;普通文本保持静默。
 
 固定取值:
@@ -93,13 +93,14 @@ D5: 与伊万完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地图�
 4. 若场外演化已成立（按 World Master 的 Extra Details §[势力活动 Scene 显式叙事规约] + 周期检查锚点确认）,按场外已成立变化提交。
 5. 若没有比"上一次正式提交"更新的新成立变化,不得因为再次被点击而重复提交。
 6. 无 `Sync Mode` 概念；WSK 只校验 Scene 叙事中已出现的字段,不得要求对方补齐完整模板后才提交。
-7. 管理员明确要求校验或本轮为首次建账/重大重排时,才在 `[State Update]` 软标签下输出 `## 完整视图` 段落补全;否则成功时保持静默。
+7. 每次成功提交必须输出完整视图 11 字段（见上方 `[完整视图]` 段），不得省略。无变化可提取时不输出（静默）；信息不足时返回 `[Commit Rejected]`（v1.30）。
 
-正式提交顺序:
-1. 默认提交优先使用 `[State Update]` 默认视图,仅按变化顺序写 Turn ID、Knowledge Scope、时间地点、变化项与 Recent Changes。
-2. 需要完整快照时才在 `[State Update]` 软标签下用 `## 完整视图` 段落补全,顺序为 Turn ID、Knowledge Scope、时间地点路径、Party Condition、Inventory、Equipment、Relationship / Hostility、Recent Changes；若本轮已正式移动,时间地点路径中应能追到 `Origin / Destination / Route / Steps / Travel Time`。
-3. 完整视图中的库存按:随身 -> 据点核心 -> 记忆库存;仅在必要时展开单件关键物资。
-3a. 若当前位置属于地图外地点,完整视图中除当前 `Zone / Sub-zone / Location` 外,还应保留 `External Location State`;其中 `Boundary Anchor` 说明其挂靠的城内边界锚点,不要把地图外地点直接写成新的九宫格分区。
+正式提交顺序（v1.30 每次必出）:
+1. `[State Update]` 软标签 + 第一行（`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Phase} / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`）。
+2. 变化子段：**仅 `Inventory Delta:` / `Recent Changes:` 两个**（无变化时不写）。其余字段全部由下方完整视图统一承载。
+3. 完整视图 11 字段（平铺，不嵌套 `##` 标题）：**Inventory Snapshot → Party Condition → Relationship → Faction → Human Contact Status → Map Knowledge → Trade Obligation → Survival Anchor Snapshot → Base Structure Snapshot → Scavenging Status Snapshot → 近五日主要事件**（最末，按 D 升序）。
+4. 完整视图中的库存按 随身 → 据点核心 → 记忆库存 展开；据点库存只列关键物资，普通物资用"充足/具备"标记。
+5. 若当前位置属于地图外地点，完整视图中除当前 `Zone / Sub-zone / Location` 外，还应保留 `External Location State`（`Boundary Anchor` 说明城内边界锚点）。
 
 场外演化提交补充:
 1. 若场外演化已成立且 WM 已在 Scene 叙事中显式写出（按 World Master 的 Extra Details §[势力活动 Scene 显式叙事规约]）,可在 Recent Changes 中标注"场外演化窗口"来源。
