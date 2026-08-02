@@ -82,10 +82,10 @@
 1a. Current Season 取值为 Winter / Spring / Summer / Autumn；信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算；不得在 State Update 中省略。
 1b. Temperature Band 取值为 Mild / Cool / Cold / Bitter Cold / Heat；信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算；State Update 中 Weather / Weather Duration 缺失即回执为 REJECT（Season / Temperature Band 信任 WM 输出，缺失时记录为“未提供”而不 REJECT）。
 1c. 天气-季节-温度层三者必须互洽：Snow / Sleet 仅允许在 Winter 出现；Heavy Rain 在 Winter 极罕见；Storm 全年罕见且每 5-10 官方日不超过 1 次。互洽性由 WM 负责（WM 为唯一时间源），WSK 记录不校验。
-1d. Current Month 信任 WM 在 [主要状态] 中输出的值；WSK 记录但不推算。
+1d. Current Month 由 WSK 按 `0-2 §月份推进规则` 从 WM 的 Day 确定性推导（确定性日历查表，非独立推算时间推进）；Current Season 信任 WM 在 [主要状态] 中输出的值。
 1e. 跨日判定：用户报告新 Day 时 WSK 信任 WM 的 Day 编号，WSK 记录但不判定冲突。
-1f. Current Month / Current Season 与 WM 输出不一致时，WSK 以 WM 为准（不再 REJECT，信任 WM 决定）。
-1g. Current Month 枚举参考：`January / February / March / April / May / June / July / August / September / October / November / December`；月份-日期映射作为参考（`D1-D31 = October` / `D32-D61 = November` 等），但实际值以 WM 输出的 Current Month 为准。
+1f. Current Season 与 WM 输出不一致时，WSK 以 WM 为准（不再 REJECT，信任 WM 决定）；Current Month 以 Day→月份映射为准。
+1g. Current Month 枚举：`January / February / March / April / May / June / July / August / September / October / November / December`；Month 由 Day 按 `0-2 §月份推进规则` 确定性推导（`D1-D31 = October` / `D32-D61 = November` 等），该映射即权威。
 2. 5 条生存压力轨道默认使用固定状态级：stable、strained、weakened、critical、dying；死亡才使用 dead。
 3. 生存压力的长期结算优先依赖少量官方锚点，而不是依赖模型记住多轮前的细节。应尽量长期维护：Last Meaningful Drink、Last Meaningful Meal、Last True Sleep End、Recent Step Load、Recent Labor Load、Current Cold / Wet Exposure。
 4. 只有当 World Master 已明确裁定某次 step、战斗、露宿、涉水、挨饿、缺水、失血、发热或恢复窗口产生影响时，你才更新压力轨道。
