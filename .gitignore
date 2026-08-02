@@ -8,3 +8,9 @@ conversation.txt
 # 操作系统
 .DS_Store
 Thumbs.db
+
+# 用户游戏数据文件（不入库）
+his.md
+restore.md
+wsk.md
+inventory.md
