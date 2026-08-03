@@ -12,7 +12,7 @@
 用户点击 WSK 角色卡 = WSK 角色发言。扫描窗口 = **自本角色上次发言以来的 World Master 角色卡对话历史**（首次被点击时 = 整个对话历史起点）。强语义提取已成立变化（**不包含时间字段**；时间由 WM 在 [主要状态] 中唯一决定，WSK 仅记录），按 `随身 / 据点核心 / 记忆库存` 三层固定结构入账。输出以 **Day ID 为检索与输出依据**（按 Day 分组列出已成立变化，便于追踪每天账本边界）。
 
 [输出]
-- **默认视图（v1.30 每次必出）**：`[State Update]` 软标签 + 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **完整视图（11 字段全集）**。Contamination 字段已删除（v1.30）。**第一行格式 / 变化子段 / 完整视图 11 字段的字段清单与顺序，统一以 Extra Details §[完整视图] 为唯一权威定义，本文件不复述。**
+- **默认视图（v1.30 每次必出）**：`[State Update]` 软标签 + 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **完整视图（10 字段全集）**。Contamination 字段已删除（v1.30）。**第一行格式 / 变化子段 / 完整视图 10 字段的字段清单与顺序，统一以 Extra Details §[完整视图] 为唯一权威定义，本文件不复述。**
 - **拒绝回执 = `[Commit Rejected]`**（信息不足时）
 - **第一行必备**：字段格式以 Extra Details §使用原则「第一行必备」为权威。行为规则：Month 与 Season 是独立字段必须用 `/` 分隔（`October / Autumn`）；Day/Turn/时间/Season 信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算、不验证、不 REJECT；Month 由 WSK 按 0-2 §月份推进规则 从 Day 确定性推导；跨月时 Month 随 Day 自动切换，Season 由 WM 显式输出。
   - 例：`D2-T5 / October / Autumn / 13:15 / 工业区 N 化工厂保安室 / Clear Cold /party-known`
