@@ -40,7 +40,7 @@
 - **WM 周期检查必读基线**（写入每个 Scene / 周期判断前必须先调用的 3 个数据源）：
   1. [§3.0 默认动作 / 位置表] —— 6 名常驻角色"玩家不在场时在做什么"
   2. [§3.1-§3.6 周期活动表] —— 当前 Day 落在哪个势力的"周期窗口"内
-  3. WSK 的 Additional Personality Details 中 Faction Activity Calendar 字段 —— 距离上次活动多少天 / 距离下次触发多少天 / 上次活动类型 / 累计怀疑值 / 当前 5 级暴露状态
+  3. WSK 的 Additional Personality Details 中 Faction Activity Calendar 字段 —— 距离上次活动多少天 / 距离下次触发多少天 / 上次活动类型 / 当前 5 级暴露状态
 - **WM 输出硬约束**（在每个 Scene 或 周期判断结束后）：
   - 若本周期已触发至少 1 个势力活动 → **WM 必须在 Scene 叙事中显式写出势力活动结果**（含 Day ID + 势力 + 活动 + Knowledge Scope + 副作用），由 WSK 在用户点击时强语义提取
   - 若本周期没有势力活动 → 必须解释"为何无活动"（如"今日为周期窗口外""所有活动已被 WSK 标记为上轮沿用"），不能直接跳过

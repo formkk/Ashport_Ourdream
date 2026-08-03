@@ -75,7 +75,7 @@
 7. 关系：信任、依恋、欲望、嫉妒、忠诚、敌意、仇恨、报复驱动
 8. 行为侧威胁（内部追踪，写入 Recent Changes 或对应完整视图字段）：Exposure、Human Threat Stage（不单独输出为字段）、Route Exposure Notes
 9. 据点/庇护：地点是否可过夜或驻留、主要暴露面、维护压力、基础保暖/干燥/遮蔽条件
-10. **势力活动 + 暴露追踪**：Faction Activity Calendar（6 势力 × Faction Name / Last Active Day / Next Trigger Day / Window Status / Last Activity Type / Last Activity Day ID）+ Faction Exposure Tracker（**仅劫掠者兄弟会** × Faction Name / Suspicion Level / Last Exposed Day / Last Trigger Type / Cumulative Suspicion Score；其他 5 势力 Suspicion Level 固定 `not-applicable`）
+10. **势力活动 + 暴露追踪**：Faction Activity Calendar（6 势力 × Faction Name / Last Active Day / Next Trigger Day / Window Status / Last Activity Type / Last Activity Day ID）+ Faction Exposure Tracker（**仅劫掠者兄弟会** × Faction Name / Suspicion Level / Last Exposed Day / Last Trigger Type；其他 5 势力 Suspicion Level 固定 `not-applicable`）
 
 [环境与压力记录规则]
 1. 天气默认使用轻量枚举：Clear、Overcast、Light Rain、Heavy Rain、Fog、Windy、Sleet、Snow、Storm。
@@ -116,12 +116,11 @@
 - **Faction Exposure Tracker**（势力暴露追踪）— 涉及伪装/识别的势力必填；当前主要针对劫掠者兄弟会。
   - 字段集：
     - `Faction Name`：当前仅劫掠者兄弟会
-    - `Suspicion Level`：`L0 未暴露` / `L1 怀疑` / `L2 暴露` / `L3 追查` / `L4 清算`（依据 World Master 的 Extra Details [身份暴露风险] 5 级响应）
+    - `Suspicion Level`：`L0 未暴露` / `L1 怀疑` / `L2 暴露` / `L3 追查` / `L4 清算`。升级判定以 World Master 的 Extra Details [身份暴露风险] 定性为权威——单一异常 → L1；多指标叠加 → L2；持续 3+ 周期异常 → L3；WSK 依据 WM Scene 叙事的识别/升级/反水事实记录，不自行判定升级。
     - `Last Exposed Day`：上次从 L0 升级到 L1 及以上的 Day
     - `Last Trigger Type`：`伪装交易` / `伪装采购` / `伪装换煤` / `灰色接触` / `持续异常采购模式`
-    - `Cumulative Suspicion Score`：累计怀疑值（仅作追溯记录）。Suspicion Level 升级以 World Master 的 Extra Details [身份暴露风险] 定性判定为权威——单一异常 → L1；多指标叠加 → L2；持续 3+ 周期异常 → L3；WSK 记录事实，不按分数自行升级。
-  - 默认值：劫掠者兄弟会 = `L0` / `Last Exposed Day = -` / `Score = 0`；其他 5 势力 = `not-applicable` / `-` / `0`
-  - WSK 读取 WM Scene 叙事（`Recent Changes` 或等效段含"识别 / 升级 / 反水"事实）时必须更新；更新粒度 = `Suspicion Level` 升级 / `Last Exposed Day` 写入 / `Last Trigger Type` 记录 / `Cumulative Suspicion Score` 累加
+  - 默认值：劫掠者兄弟会 = `L0` / `Last Exposed Day = -`；其他 5 势力 = `not-applicable` / `-`
+  - WSK 读取 WM Scene 叙事（`Recent Changes` 或等效段含"识别 / 升级 / 反水"事实）时必须更新；更新粒度 = `Suspicion Level` 升级 / `Last Exposed Day` 写入 / `Last Trigger Type` 记录
 - **硬下限追踪**（§硬下限）：
   - WSK 在 `Faction Activity Calendar` 中追踪"近 6 周期内覆盖了几个不同势力"；若 < 3 → 在 State Update 中标注"周期覆盖不足，建议 WM 强制触发"
   - WSK 在 `Recent Changes` 中标注"连续 2 周期零活动"警告 → 第 3 周期强制触发
@@ -136,7 +135,7 @@
   - 拾荒者阶层: Last Day=D-23 / Next=D-24 / Status=in-window / Activity=单次搜刮 / Activity Day=D-23
 
   [Faction Exposure Tracker]
-  - 劫掠者兄弟会: Level=L0 / Last Exposed Day=- / Last Trigger=- / Score=0
+  - 劫掠者兄弟会: Level=L0 / Last Exposed Day=- / Last Trigger=-
   ```
 
 [经济规则]
