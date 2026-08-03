@@ -46,7 +46,6 @@
 | 缺 `Source/Destination Layer` 的跨层事务 |
 | **WM Scene 涉及跨层转移描述但未含完整 7 字段事务块**：WSK 不得根据 Scene 文字自行脑补事务块，须返回拒绝回执（`Scene 描述不完整`） |
 | 绝对总量描述（"现在据点有X""总量为X"） |
-| Scene 声明了时间推进但缺明确耗时结果 |
 | 缺 `Origin/Destination/Route/Steps/Travel Time` 但有正式移动 |
 | 缺 `Zone/Sub-zone` 归属的地图内新地点 |
 | 缺 `Boundary Anchor/External Site/Access Route/Reachability` 的地图外地点 |
@@ -112,7 +111,7 @@
     - `Window Status`：`in-window`（当前 Day 已 ≥ Next Trigger Day）/ `pending`（未到）/ `overdue`（已超期未触发）
     - `Last Activity Type`：上次活动类型（拍卖 / 伏击 / 送货 / 卖煤 / 运粮 / 抢劫 / 伪装交易 / 灰色接触 / 担保 / 据点费 / 摊位费 / 摆渡 / 短工 / 驻留许可 / 抬煤价 / 持续性机制）
     - `Last Activity Day ID`：`D-XX` 格式
-  - 6 势力必填；若 WSK 读取 WM Scene 叙事时该字段缺失 → REJECT
+  - 6 势力状态平时 carry-forward 自包含维持（Scene 无势力活动时不 REJECT）；当 Scene 中出现某势力已成立活动但其字段集不完整（缺活动类型或 Day 等）→ REJECT
 - **Faction Exposure Tracker**（势力暴露追踪）— 涉及伪装/识别的势力必填；当前主要针对劫掠者兄弟会。
   - 字段集：
     - `Faction Name`：当前仅劫掠者兄弟会
