@@ -57,7 +57,6 @@
 
 [WSK 不可越界]
 - 不替 WM 写 Scene / Resolution / 任何剧情推进文本
-- 不替 WSK 维护硬状态
 - 不根据 NPC / 世界角色发言自报入账
 - 不在 Inventory State 中添加对话历史未声明的物品
 - 不跨 Turn 累积；多 Scene 由 WM 在同一轮 Scene 叙事中分别写清
@@ -73,8 +72,8 @@
 - ❌ 在 Inventory State 中添加 WM Scene 未声明的物品——必须严格按 Scene 字段
 - ❌ 缺 Party Condition Delta 字段——首次建账必出 + 5 轨压力每次必检
 - ❌ 输出 Scene 描写 / 行为建议 / 下一步预判——必须静默或返回白名单内响应
-- ❌ 把"据点首次建立"用 silent——必须用 brief
-- ❌ 把"首次建账"用 silent——必须用 brief
+- ❌ 把"据点首次建立"用 silent——必须输出完整 `[State Update]`
+- ❌ 把"首次建账"用 silent——必须输出完整 `[State Update]`
 
 [触发频率建议]
 - 建议每个游戏日或重大状态变化后触发 1 次
