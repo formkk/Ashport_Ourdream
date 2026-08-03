@@ -106,7 +106,7 @@
 [势力活动追踪规则]
 - **Faction Activity Calendar**（势力活动日历）— 每个 `State Update` 必填字段；WM 在 Scene 叙事中明确写出势力活动结果后必须更新。
   - 每势力 1 行，字段集：
-    - `Faction Name`：商会 / 码头帮 / 煤矿队 / 东北农场 / 劫掠者兄弟会 / 拾荒者阶层
+    - `Faction Name`：水源商会 / 码头帮 / 煤矿队 / 东北农场 / 劫掠者兄弟会 / 拾荒者阶层（官方名以 0-2 §主要势力 为准）
     - `Last Active Day`：上次已成立活动的 Day
     - `Next Trigger Day`：下次该势力活动应在哪个 Day 触发（= `Last Active Day` + 频率）
     - `Window Status`：`in-window`（当前 Day 已 ≥ Next Trigger Day）/ `pending`（未到）/ `overdue`（已超期未触发）
@@ -119,7 +119,7 @@
     - `Suspicion Level`：`L0 未暴露` / `L1 怀疑` / `L2 暴露` / `L3 追查` / `L4 清算`（依据 World Master 的 Extra Details [身份暴露风险] 5 级响应）
     - `Last Exposed Day`：上次从 L0 升级到 L1 及以上的 Day
     - `Last Trigger Type`：`伪装交易` / `伪装采购` / `伪装换煤` / `灰色接触` / `持续异常采购模式`
-    - `Cumulative Suspicion Score`：累计怀疑值（单一异常 +1；多指标叠加 +2；持续 3+ 周期异常 +3；达 4 → 自动升级到 L3）
+    - `Cumulative Suspicion Score`：累计怀疑值（仅作追溯记录）。Suspicion Level 升级以 World Master 的 Extra Details [身份暴露风险] 定性判定为权威——单一异常 → L1；多指标叠加 → L2；持续 3+ 周期异常 → L3；WSK 记录事实，不按分数自行升级。
   - 默认值：劫掠者兄弟会 = `L0` / `Last Exposed Day = -` / `Score = 0`；其他 5 势力 = `not-applicable` / `-` / `0`
   - WSK 读取 WM Scene 叙事（`Recent Changes` 或等效段含"识别 / 升级 / 反水"事实）时必须更新；更新粒度 = `Suspicion Level` 升级 / `Last Exposed Day` 写入 / `Last Trigger Type` 记录 / `Cumulative Suspicion Score` 累加
 - **硬下限追踪**（§硬下限）：
@@ -128,15 +128,15 @@
 - **示例输出格式**：
   ```
   [Faction Activity Calendar]
-  - Water Trade Guild: Last Day=D-12 / Next=D-22 / Status=in-window / Activity=公开拍卖 / Activity Day=D-12
-  - Pier Brotherhood: Last Day=D-15 / Next=D-25 / Status=in-window / Activity=送货参加拍卖 / Activity Day=D-15
-  - Coal Mine Crew: Last Day=D-22 / Next=D-23 / Status=in-window / Activity=长期卖煤点 / Activity Day=D-22
-  - NE Farm: Last Day=D-18 / Next=D-28 / Status=pending / Activity=送粮参加拍卖 / Activity Day=D-18
-  - Raider Brotherhood: Last Day=D-23 / Next=D-25 / Status=in-window / Activity=伏击海货路 / Activity Day=D-23
-  - Scavenger Class: Last Day=D-23 / Next=D-24 / Status=in-window / Activity=单次搜刮 / Activity Day=D-23
+  - 水源商会: Last Day=D-12 / Next=D-22 / Status=in-window / Activity=公开拍卖 / Activity Day=D-12
+  - 码头帮: Last Day=D-15 / Next=D-25 / Status=in-window / Activity=送货参加拍卖 / Activity Day=D-15
+  - 煤矿队: Last Day=D-22 / Next=D-23 / Status=in-window / Activity=长期卖煤点 / Activity Day=D-22
+  - 东北农场: Last Day=D-18 / Next=D-28 / Status=pending / Activity=送粮参加拍卖 / Activity Day=D-18
+  - 劫掠者兄弟会: Last Day=D-23 / Next=D-25 / Status=in-window / Activity=伏击海货路 / Activity Day=D-23
+  - 拾荒者阶层: Last Day=D-23 / Next=D-24 / Status=in-window / Activity=单次搜刮 / Activity Day=D-23
 
   [Faction Exposure Tracker]
-  - Raider Brotherhood: Level=L0 / Last Exposed Day=- / Last Trigger=- / Score=0
+  - 劫掠者兄弟会: Level=L0 / Last Exposed Day=- / Last Trigger=- / Score=0
   ```
 
 [经济规则]
