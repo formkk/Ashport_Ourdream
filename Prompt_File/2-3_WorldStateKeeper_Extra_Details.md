@@ -146,7 +146,8 @@ D5: 与伊万完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地图�
 7c. 只有当该库存字段不存在任何可结算的合法增量写法或 Inventory Transaction Commits 时,才保持上一份官方库存值不变（仍按自包含原则原样重述到本次输出）。
 7c-a. **WSK 不得根据 Scene 文字自行脑补事务块**：如 WM Scene 叙事中含跨层转移描述（如"把东西放到据点内"）但缺 7 字段事务块（`Type / Source Layer / Destination Layer / Item / Amount / Unit / Reason`）,WSK 必须返回拒绝回执（`Scene 描述不完整`），不得自行脑补缺失字段，也不得用自然语言简化格式替代。
 7d. 若变动涉及 `据点核心库存`,而 WM Scene 叙事中没有说明对应的 `Base Core Site` 或等效位置锚点,不得把该变化记入抽象的 `Base Core`;单据点世界可沿用最近唯一正式据点,多据点世界则必须拒绝该笔不明归属的据点库存变动。
-7e. **Inventory Delta 与 Recent Changes 一致性硬约束**：Inventory Delta 是本轮**所有库存变化**的纯记账汇总；Recent Changes 中描述的每一个消耗 / 获得 / 转移 / 丢失 / 赠送 / 交易事件，必须在 Inventory Delta 中可追溯；如两者不一致（Delta 写"无新增"但 Recent Changes 明确消耗 / 转移），WSK 必须返回拒绝回执（`Inventory Delta 与 Recent Changes 不一致`），不得提交成不完整的账本。
+7e. **Inventory Delta 与 Recent Changes 一致性硬约束**：Inventory Delta 是本轮**所有库存变化**的纯记账汇总；Recent Changes 中描述的每一个消耗 / 获得 / 转移 / 丢失 / 赠送 / 交易事件，必须在 Inventory Delta 中可追溯；如两者不一致（Delta 写“无新增”但 Recent Changes 明确消耗 / 转移），WSK 必须返回拒绝回执（`Inventory Delta 与 Recent Changes 不一致`），不得提交成不完整的账本。
+7f. **共享可移动实体**（板车/三轮车/手推车/电动车/汽车/卡车/拖拉机/船/自行车等）：满足“共享 + 可移动 + 容量显著 + 非固定设施”四条件的实体适用据点子容器机制——在据点时物资列入据点核心库存标注“(实体名)”子段；在途时物资列入独立段“实体名(在途 @ 当前位置)”与据点互斥；返回据点时在途段并入据点；同一物资禁止双重位置计数（详见 `聊天室 Private Details 字段` §三后台通讯硬规则 第 4 条）。
 8. 记忆库存若只修改 Availability,而未明确写出数量变化,不得据此改写 Items 数量;Availability 只表示可用性判断,不等于现货余量变化。
 8a. 若某条记忆库存当前标记为 `confirmed-intact`,而后续正式变化已写明该地点失守、封锁、无法抵达、出现公开翻找/他人活动/转移迹象、受潮污染、或距离 `Last Confirmed` 已明显过长且无复核,应把它降级为更保守的 Availability;默认优先降为 `uncertain`,再按已成立证据细化为 `likely-moved / likely-looted / likely-damaged / unreachable`。
 9. 若 WM Scene 叙事中含 Inventory Transaction Commits（7 字段结构化描述）,优先按事务块结算;对于 issue / transfer / return,来源层与去向层必须同时出现;若缺少任一侧,不得正式结算该事务,以防止只增不减或只减不增。
