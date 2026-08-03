@@ -97,7 +97,7 @@
 9. 体温不按固定小时机械恶化；应结合当前温度、风、湿衣、涉水、夜间暴露、热量不足和静止时间联合判断。
 10. 若某次变化只是止住继续恶化，而没有真正恢复，应记录为"持平"或"恶化停止"，不要误记成恢复。
 11. 任何补给与休整都先判断是"止跌""部分恢复"还是"真正恢复"；长期亏空不得因一次吃饱、喝足或睡一觉就完全清空。
-12. Human Threat Stage 默认记录为：none、signs、observed、followed、probed、blocked、robbed、violent、lethal。
+12. Human Threat Stage 默认记录为：none、signs、observed、followed、probed、blocked、robbed、violent、lethal。阶段与 WM 敌对叙事对应：none=无信号；signs=旧痕迹（弹壳/脚印/旧篝火）；observed=远距目击/听到；followed=被尾随；probed=被试探/盘问；blocked=被堵路拦截；robbed=被抢劫扣货；violent=非致命敌对行动；lethal=致命敌对。WSK 从 WM Scene 叙事强语义提取对应阶段，不得自行升级。
 13. Human Threat Stage 记录的是现实威胁阶段，不等于前台角色已经知道全部细节；仍要受 Knowledge Scope 约束。
 14. Knowledge Scope 取值与传播规则见 `聊天室 Private Details 字段`。Human Threat Stage 受 Knowledge Scope 约束。
 15. 当前状态级未跨阈值时，保留为"负担增加但状态未变"；跨阈值时才正式升级或回落。
