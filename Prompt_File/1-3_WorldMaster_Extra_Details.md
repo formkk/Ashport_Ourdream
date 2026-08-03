@@ -259,59 +259,60 @@
 
 [§13 据点结构基线]（据点结构追踪闭环）
 
-**用途**：本节定义已知据点的 Component ID + Name + Type + 初始 Condition + Role 锚点表。WM 在 Scene 中描写据点环境/设施/设备时必须引用本节 ID；WSK 收到 Base Structure Snapshot/Delta 时按本节 ID 校验。
+**用途**：本节定义已知据点的组件（Component）锚点表：组件名 + Type + 初始 Condition + Role。WM 在 Scene 中描写据点环境/设施/设备时必须引用本节组件名；WSK 从 WM Scene 叙事中语义提取组件名与变化并直接采信入账（WSK 不读本节，不自行校验）。
 
-**Component ID 命名规范**（与 WSK 的 Extra Details §Component ID 命名规范 一致）：
-- 格式：`<语义 ID>(中文名)`，例：`main-entry(大门)`、`workshop(工具间)`
+**Component 命名规范**（纯中文自然名称，贴近现实叫法，避免破坏叙事）：
+- 格式：直接使用中文组件名，例：`大门`、`工具间`、`天台集水器`
+- 唯一性：所属据点位置 + 组件名；同一据点内组件名不重复（跨据点重名由据点位置前缀消歧，如 `质检小楼·大门`）
 - Type 枚举：room / door / window / passage / storage / fixed-equipment / workstation / container
 - Role 枚举：main-entry / hidden-access / watchpoint / food-storage / medical / armory / workshop / water-access / fuel-storage / living-area / bedroom / kitchen / bathroom / basement / rooftop-collector / greenhouse / woodshed / fixed-storage / office / passage
 
 ---
 
 **化工厂质检小楼**（工业区/N/质检小楼，**主据点**）
-- `main-entry(大门)` = 完好+机械加固（D3 初加固/D8 二次加固/D12 机械加固） | main-entry
-- `workshop(工具间)` = 完好（D22 由更衣室改造） | workshop
-- `food-storage(食物储藏间)` = 完好（D22 由杂物间改造） | food-storage
-- `weapons-room(枪械间)` = 完好（D23 由档案室改造） | armory
-- `living-area(起居室)` = 可用（寝具拼大床 D36） | living-area
-- `basement-water(地下室储水)` = 可用（D22 启用） | water-access
-- `rooftop-collector(天台集水器)` = 可用（D11 启用） | water-access
-- `workshop-02(工作室)` = 完好（D38 缝纫机入库） | workshop
+- `大门` = 完好+机械加固（D3 初加固/D8 二次加固/D12 机械加固） | main-entry
+- `工具间` = 完好（D22 由更衣室改造） | workshop
+- `食物储藏间` = 完好（D22 由杂物间改造） | food-storage
+- `枪械间` = 完好（D23 由档案室改造） | armory
+- `起居室` = 可用（寝具拼大床 D36） | living-area
+- `地下室储水` = 可用（D22 启用） | water-access
+- `天台集水器` = 可用（D11 启用） | water-access
+- `工作室` = 完好（D38 缝纫机入库） | workshop
 
 **绿墙别墅**（北区/C/绿墙别墅，**安全屋**）
-- `main-entry(别墅大门)` = 完好 | main-entry
-- `living-area(一楼起居室)` = 可用 | living-area
-- `kitchen(厨房)` = 可用 | kitchen
-- `bedroom-2f(二楼卧室)` = 可用 | bedroom
-- `greenhouse-01(后院温室)` = 完好（D20 启用） | greenhouse
-- `woodshed(后院柴垛)` = 已劈完 | fixed-storage
-- `water-well(后院水井)` = 可用 | water-access
+- `别墅大门` = 完好 | main-entry
+- `一楼起居室` = 可用 | living-area
+- `厨房` = 可用 | kitchen
+- `二楼卧室` = 可用 | bedroom
+- `后院温室` = 完好（D20 启用） | greenhouse
+- `后院柴垛` = 已劈完 | fixed-storage
+- `后院水井` = 可用 | water-access
 
 **中心区消防局**（中心区/N/消防局，**物资点**）
-- `main-entry(消防局大门)` = 完好 | main-entry
-- `main-building(消防局主楼)` = 完好 | office
-- `garage(消防局车库)` = 完好 | fixed-storage
-- `coal-stall(卖煤摊位)` = 营业中（D31 启用，煤矿队长期卖煤点） | workshop
+- `消防局大门` = 完好 | main-entry
+- `消防局主楼` = 完好 | office
+- `消防局车库` = 完好 | fixed-storage
+- `卖煤摊位` = 营业中（D31 启用，煤矿队长期卖煤点） | workshop
 
 **桥口枢纽**（中心区/E/桥口，**物资点**）
-- `bridge-toll(桥口收费点)` = 营业中（商会单日收费） | workshop
-- `bridge-passage(桥体通道)` = 可达 | passage
+- `桥口收费点` = 营业中（商会单日收费） | workshop
+- `桥体通道` = 可达 | passage
 
 **石基农舍**（地图外·西郊/石基，**地图外据点**）
-- `main-entry(农舍门)` = 完好 | main-entry
-- `living-area(石基内室)` = 临时可用 | living-area
-- `storage(石基储藏)` = 可用 | fixed-storage
+- `农舍门` = 完好 | main-entry
+- `石基内室` = 临时可用 | living-area
+- `石基储藏` = 可用 | fixed-storage
 
 **蓄水池**（地图外·西郊/蓄水池，**地图外据点**）
-- `dam-camp(石壁过夜点)` = 临时（帆布棚+篝火） | passage
-- `fishing-spot(垂钓点)` = 可用（可持续≤10条/年） | water-access
+- `石壁过夜点` = 临时（帆布棚+篝火） | passage
+- `垂钓点` = 可用（可持续≤10条/年） | water-access
 
 ---
 
 **结构变化追踪规则**：
 - 任何结构节点的可通行性、完好度、用途、暴露或安全角色变化 → WM 必发 Base Structure Delta
 - 6 类必填场景见 `聊天室 Private Details 字段` §Base Structure Delta 必填场景
-- 首次入库必须发"新建"Delta（Component ID + Name + Type + Role + Condition + Last Confirmed）
+- 首次入库必须发"新建"Delta（组件名 + Type + Role + Condition + Last Confirmed）
 - 未提交 Delta 时 WSK 视为该结构节点未变化
 - 结构节点本体 ≠ 节点内物资：柜体/房间/井道记结构层，物资仍记 Inventory 层
 

@@ -8,7 +8,7 @@
 - **读取顺序**遵循 `聊天室 Private Details 字段` 中的全局读取协议（Scenario → Private Details → 本文件 + Additional + Extra）。
 - 每轮先读 World State Keeper 最新官方状态，再读 最近正式记录。
 - 当前硬状态只认最新正式 `[State Update]`（v1.30 统一视图，每次必出完整快照，权威来源 = `聊天室 Private Details 字段 §后台提取规约`）；长期历史只认最近 WSK 输出的"## 新增"段（走 Pinned Memory 同步）。
-- 当场景发生在据点/庇护所内时，叙事前必须先核对最新 `[State Update]` 中的 Base Structure Snapshot；描写据点环境、使用设施、检查设备时，必须使用 Snapshot 中的 Component Name 和状态，不得自行脑补设施名称或状态。
+- 当场景发生在据点/庇护所内时，叙事前必须先核对最新 `[State Update]` 中的 Base Structure State；描写据点环境、使用设施、检查设备时，必须使用 State 中的组件名和状态，不得自行脑补设施名称或状态。
 - 普通对白、自然述事、回忆、历史摘要、隐藏草稿、未显示提交都不构成官方依据。
 - 地图统一按 分区 / 子区域方位(N|E|S|W|C) / 地点 调用；相邻子区域移动 = 1 step = 30 分钟基准。
 - 非势力据点、非高暴露节点、无触发条件时，活体敌对默认为低概率，优先体现环境与生存压力。

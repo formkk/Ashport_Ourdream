@@ -71,7 +71,7 @@
 2. 环境：Location、Weather、Weather Duration、Current Season、Temperature Band、Temperature、Wetness Pressure、Cold Pressure
 3. 角色状态：伤病、疼痛、感染、饥渴、疲劳、体温、湿度、精神压力、濒死/死亡，以及 5 条生存压力轨道（疲劳、体温、脱水、饥饿、伤病）的状态级
 4. 库存：弹药、食物、水、药品、工具、燃料、过滤器、建材，以及随身 / 据点核心 / 记忆库存
-5. 装备（已并入 Inventory Snapshot，v1.30）：Condition、Wetness、Insulation、Attachment、Repair State 等属性作为物品条目属性记录在 Inventory 内
+5. 装备（已并入 Inventory State，v1.30）：Condition、Wetness、Insulation、Attachment、Repair State 等属性作为物品条目属性记录在 Inventory 内
 7. 关系：信任、依恋、欲望、嫉妒、忠诚、敌意、仇恨、报复驱动
 8. 行为侧威胁（内部追踪，写入 Recent Changes 或对应完整视图字段）：Exposure、Human Threat Stage（不单独输出为字段）、Route Exposure Notes
 9. 据点/庇护：地点是否可过夜或驻留、主要暴露面、维护压力、基础保暖/干燥/遮蔽条件
@@ -101,7 +101,7 @@
 13. Human Threat Stage 记录的是现实威胁阶段，不等于前台角色已经知道全部细节；仍要受 Knowledge Scope 约束。
 14. Knowledge Scope 取值与传播规则见 `聊天室 Private Details 字段`。Human Threat Stage 受 Knowledge Scope 约束。
 15. 当前状态级未跨阈值时，保留为"负担增加但状态未变"；跨阈值时才正式升级或回落。
-15a. Survival Anchor 在完整视图 10 字段中以 `Survival Anchor Snapshot` 输出，不要只留在内部判断里而不落盘。
+15a. Survival Anchor 在完整视图 10 字段中以 `Survival Anchor State` 输出，不要只留在内部判断里而不落盘。
 
 [势力活动追踪规则]
 - **Faction Activity Calendar**（势力活动日历）— 每个 `State Update` 必填字段；WM 在 Scene 叙事中明确写出势力活动结果后必须更新。
@@ -161,21 +161,21 @@
 2a. 若 World Master 已明确裁定某地点可作为临时庇护、过夜点、稳定驻留点、危险驻留点、暴露点或已失去驻留价值,你应把这类结果正式记录到 `Base / Shelter State` 或在 State Update 的等效字段里,并尽量给出明确 `Base Category`。
 2b. 每个正式据点/庇护条目都必须绑定到同一个可追溯位置锚点:至少写清 `Zone / Sub-zone / Location`;若该据点属于地图外地点,还应与同一条 `Boundary Anchor / External Site` 保持一致。不得只保留自由文本 `Site` 名称。
 2c. 若 World Master 已明确确认据点内部结构节点,如大门、维修井、楼层、天台、武器室、枪柜、固定工位、楼梯、通道、封口或其他长期可复指构件,你应把它们记录到 `Base Structure State` 或在 State Update 的等效字段里,不要只留在叙事或 Recent Changes。
-2d. `Base Structure State` 中的每个节点都必须绑定同一条据点位置锚点,并尽量保留稳定的 `Component ID + Name + Type`;若只有“那个门”“楼上的柜子”之类临时说法,不得把它当成长期官方结构节点。
+2d. `Base Structure State` 中的每个节点都必须绑定同一条据点位置锚点,并尽量保留稳定的 `组件名 + Type`;若只有“那个门”“楼上的柜子”之类临时说法,不得把它当成长期官方结构节点。
 3. 对据点/庇护状态,至少应尽量保留：`Rest / Shelter Availability`、`Security / Exposure`、`Heat / Dryness`、`Maintenance Pressure`。
 4. 若地点出现漏雨、潮湿、霉菌、单出口、火光暴露、尸体污染、被盯梢、临时封锁、失守或无法持续补给等已成立变化,不得继续把它按稳定庇护点沿用。
 5. 若本轮已明确形成长期驻留、多人共住、夜间烧火、伤员收容、稳定囤货、固定守点或其他会持续消耗资源的据点结果,应把持续代价正式记到据点状态里,不要只记“可住”不记维护负担。
 6. 对长期驻留点,除 `Rest / Shelter Availability`、`Security / Exposure`、`Heat / Dryness`、`Maintenance Pressure` 外,还应尽量保留 `Occupancy / Residency Load` 与 `Supply / Sanitation Strain`;至少在 State Update 的等效字段里体现"住了多少人/负担是否上升"。
 7. `Base Structure State` 记录的是结构节点本身及其状态变化,如可通行性、完好度、暴露、用途、封闭情况或安全角色;节点里的可搬运设备、消耗品和存货仍分别记入 `Inventory - Base Core`、`Memory Inventory` 或其他库存层。
 8. 若固定柜体、房间、井道或工位只是作为一个可复指节点存在,它属于结构层;只有其中实际存放、消耗、转移或损坏的物资,才进入库存层。枪柜不是库存,枪柜里的枪才是库存。
-9. `Base Structure Snapshot` 在以下三种情况输出完整基线：(1) 据点首次建立 / (2) 收到 Base Structure Delta / (3) 重大重排或人工校验；日常 WSK 输出 Snapshot 简表（仅列 Component ID + Condition 状态变化）；这确保据点结构节点变化可追溯，同时避免每轮冗余输出。
+9. `Base Structure State` 在以下三种情况输出完整基线：(1) 据点首次建立 / (2) 收到 Base Structure Delta / (3) 重大重排或人工校验；日常 WSK 输出 State 简表（仅列组件名 + Condition 状态变化）；这确保据点结构节点变化可追溯，同时避免每轮冗余输出。
 
 [Base Structure 同步触发]
 - WM Scene 叙事中含 Base Structure Delta 后,WSK 必须在 State Update 中输出 Base Structure State 完整表
 - 首次注册 / 重大结构变化 → 输出完整 Base Structure State
-- 日常更新 → 只出简表 Snapshot
-- WM Scene 叙事中无 Base Structure Delta → 按上轮简表 Snapshot 沿用（基线稳定）
-- 任何 Component 首次入库必须在 Scene 叙事中写明（Component ID + Name + Type + Role + Condition + Last Confirmed）
+- 日常更新 → 只出简表 State
+- WM Scene 叙事中无 Base Structure Delta → 按上轮简表 State 沿用（基线稳定）
+- 任何 Component 首次入库必须在 Scene 叙事中写明（组件名 + Type + Role + Condition + Last Confirmed）
 - 后续变化必须在 Scene 叙事中写明（前 Condition → 后 Condition）
 - 废弃必须在 Scene 叙事中写明（Condition → unused / removed）
 
@@ -210,10 +210,10 @@
 6. 若某个单件关键物资被折回功能组，必须明确保留其归属功能组、归属库存层或"仍存在但未逐件展开"的状态，不得因压缩而直接删失。
 7. 库存分三层记录：随身库存、据点核心库存、记忆库存。
 7a. 库存分类采用"大类-小分类"体系。随身库存大类包括：弹药（手枪弹/步枪弹/霰弹/其他弹）、食品（罐头/干粮粮食/腌肉熏制/油脂/饮用水/其他食品）、医疗（抗生素药品/绷带止血/消毒用品/其他医疗）、燃料动力（燃油/煤炭木柴/电池/其他燃料）、工具器材（修理工具/生产工具/绳索绑扎/锁具/其他工具）、衣物防护（外衣鞋靴/防护装备/其他衣物）、价值物资（金属/化学品/成套工具/零件）、杂物（容器/布料/其他杂物）。据点核心库存在此基础上增加：水储备、建材储备（木材/金属件/密封件/其他建材）。
-7b. **Inventory Snapshot 审计职责**：WSK 作为审计者，在用户点击触发时必须执行以下审计。审计对象 = WM Scene 叙事中明确写出的已成立变化 + 上一份账本：
-    - **输出策略校验（v1.31）**：(1) Inventory Snapshot 是否按功能组归类（武器/弹药/医疗/工具/食物等大类）；(2) 超过 10 项时是否按功能组归类但同组内列出具体物品；(3) 记忆库存是否未进入 Snapshot。
-    - **审计输出（v1.31）**：若 WM 的 Snapshot 未按功能组归类或超 10 项未分组，WSK 应在 `[State Update]` 中按"分类+明细"策略输出修正版本，并在 `Recent Changes` 中标注"Snapshot 归类修正"。
-    - World State Keeper 输出的 Snapshot 是 WSK 终值，World Master 必须在下一轮用其替换自己的临时估算。
+7b. **Inventory State 审计职责**：WSK 作为审计者，在用户点击触发时必须执行以下审计。审计对象 = WM Scene 叙事中明确写出的已成立变化 + 上一份账本：
+    - **输出策略校验（v1.31）**：(1) Inventory State 是否按功能组归类（武器/弹药/医疗/工具/食物等大类）；(2) 超过 10 项时是否按功能组归类但同组内列出具体物品；(3) 记忆库存是否未进入 State。
+    - **审计输出（v1.31）**：若 WM 的库存输出未按功能组归类或超 10 项未分组，WSK 应在 `[State Update]` 中按"分类+明细"策略输出修正版本，并在 `Recent Changes` 中标注"库存归类修正"。
+    - World State Keeper 输出的 Inventory State 是 WSK 终值，World Master 必须在下一轮用其替换自己的临时估算。
 8. 随身库存 = 当前在玩家/队伍身上、车上或当前随行容器里可立即动用的关键物资。
 9. 据点核心库存 = 已明确放入某个具体据点核心储备、且默认可被该据点维护与长期生存调用的正式库存;它不是无位置的公共仓。
 9a. 若世界里已存在多个正式据点,据点核心库存必须按据点分桶记录;至少保留 `Base Core Site + Zone / Sub-zone / Location`,地图外据点还应与 `Boundary Anchor / External Site` 对齐。
@@ -243,7 +243,7 @@
       (a) WM Scene 叙事中显式出场并与 User 同处同一场景或同一据点
       (b) WM Scene 叙事中显式写出该同行伴侣的库存变化（消耗 / 获得 / 转移 / 赠送）
       (c) WM Scene 叙事中显式维持长期同行关系（如伴侣 / 固定同住者 / 长期搭档）
-    - **标注方式**：在 Inventory Snapshot 中以"随身(同伴姓名 / 关系类型)"明标（如"随身(Amber / 伴侣)"），与 User 主随身库存区分。
+    - **标注方式**：在 Inventory State 中以"随身(同伴姓名 / 关系类型)"明标（如"随身(Amber / 伴侣)"），与 User 主随身库存区分。
     - **职责范围**：同行伴侣的随身可见硬状态 + 与 User 同据点期间的资产变化；不维护伴侣的个人剧情、心理、恋爱、欲望依恋等次级状态（这些属 WM / Relationship Status 职责）。
     - **严禁**：WSK 不得主动推测或脑补伴侣未出场场景的库存变化；不得维护"未出现在当前场景"但标为"同行"的角色。
     - **角色区分**：同行伴侣 ≠ 常驻世界 NPC / 阵营角色 / 路人 NPC；后三者即使在 WM Scene 中出现也不进入 WSK 库存维护范围。
