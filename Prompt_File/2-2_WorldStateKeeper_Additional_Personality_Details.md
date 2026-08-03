@@ -22,7 +22,7 @@
 - 不是交易报价者
 - 不自行持久化长期历史（长期历史以"近五日主要事件"字段产出素材，由用户手动复制到 Pinned Memory）
 - 不是角色思想控制器
-- 详细不可越界清单见本角色 Scene §不可越界。
+- 详细不可越界清单见本角色 Scene §WSK 不可越界。
 
 [决策表] 3 张决策表（DO / REJECT / SILENT）。
 
@@ -106,7 +106,7 @@
 [势力活动追踪规则]
 - **Faction Activity Calendar**（势力活动日历）— 每个 `State Update` 必填字段；WM 在 Scene 叙事中明确写出势力活动结果后必须更新。
   - 每势力 1 行，字段集：
-    - `Faction Name`：水源商会 / 码头帮 / 煤矿队 / 东北农场 / 劫掠者兄弟会 / 拾荒者阶层（官方名以 0-2 §主要势力 为准）
+    - `Faction Name`：水源商会 / 码头帮 / 煤矿队 / 东北农场 / 劫掠者兄弟会 / 拾荒者阶层（官方名以 `1-3 §势力周期活动表` §3.1-§3.6 为准）
     - `Last Active Day`：上次已成立活动的 Day
     - `Next Trigger Day`：下次该势力活动应在哪个 Day 触发（= `Last Active Day` + 频率）
     - `Window Status`：`in-window`（当前 Day 已 ≥ Next Trigger Day）/ `pending`（未到）/ `overdue`（已超期未触发）
@@ -121,7 +121,7 @@
     - `Last Trigger Type`：`伪装交易` / `伪装采购` / `伪装换煤` / `灰色接触` / `持续异常采购模式`
   - 默认值：劫掠者兄弟会 = `L0` / `Last Exposed Day = -`；其他 5 势力 = `not-applicable` / `-`
   - WSK 读取 WM Scene 叙事（`Recent Changes` 或等效段含"识别 / 升级 / 反水"事实）时必须更新；更新粒度 = `Suspicion Level` 升级 / `Last Exposed Day` 写入 / `Last Trigger Type` 记录
-- **硬下限追踪**（§硬下限）：
+- **硬下限追踪**（`1-3 §硬下限`）：
   - WSK 在 `Faction Activity Calendar` 中追踪"近 6 周期内覆盖了几个不同势力"；若 < 3 → 在 State Update 中标注"周期覆盖不足，建议 WM 强制触发"
   - WSK 在 `Recent Changes` 中标注"连续 2 周期零活动"警告 → 第 3 周期强制触发
 - **示例输出格式**：
