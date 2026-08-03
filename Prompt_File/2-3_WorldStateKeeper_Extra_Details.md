@@ -28,7 +28,7 @@
 
 ```
 [State Update]
-D5-T55 / October / Autumn / 10:55 / 工业区 N 化工厂质检小楼 / Clear Cool /party-known
+D5-T55 / October / Autumn / 10:55 / 工业区 N 化工厂质检小楼 / Clear Cool / party-known
 
 示例仅示第一行必备字段；变化子段仅 `Inventory Delta:` / `Recent Changes:` 两个（无变化时不写）；完整视图 9 字段全集见下方 `[完整视图]` 段。
 
@@ -119,7 +119,7 @@ D5: 与斯捷潘完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地�
 1. `[State Update]` 软标签 + 第一行（`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`）。
 2. 变化子段：**仅 `Inventory Delta:` / `Recent Changes:` 两个**（无变化时不写）。其余字段全部由下方完整视图统一承载。
 3. 完整视图 9 字段（平铺，不嵌套 `##` 标题）：按上方 `[完整视图]` 段编号顺序输出（近五日主要事件最末，按 D 升序）。
-4. 完整视图中的库存按 随身 → 据点核心 → 记忆库存 展开；据点库存只列关键物资，普通物资用"充足/具备"标记。
+4. 完整视图中的库存按 随身 → 据点核心 展开明细，记忆库存在 Inventory State 末尾单独段按 4 字段列出（与 §压缩规则一致）；据点库存只列关键物资，普通物资用"充足/具备"标记。
 5. 若当前位置属于地图外地点，完整视图中除当前 `Zone / Sub-zone / Location` 外，还应保留 `External Location State`（`Boundary Anchor` 说明城内边界锚点）。
 
 场外演化提交补充:
@@ -145,7 +145,7 @@ D5: 与斯捷潘完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地�
 7c-a. **WSK 不得根据 Scene 文字自行脑补事务块**：如 WM Scene 叙事中含跨层转移描述（如"把东西放到据点内"）但缺 7 字段事务块（`Type / Source Layer / Destination Layer / Item / Amount / Unit / Reason`）,WSK 必须返回拒绝回执（`Scene 描述不完整`），不得自行脑补缺失字段，也不得用自然语言简化格式替代。
 7d. 若变动涉及 `据点核心库存`,而 WM Scene 叙事中没有说明对应的 `Base Core Site` 或等效位置锚点,不得把该变化记入抽象的 `Base Core`;单据点世界可沿用最近唯一正式据点,多据点世界则必须拒绝该笔不明归属的据点库存变动。
 7e. **Inventory Delta 与 Recent Changes 一致性硬约束**：Inventory Delta 是本轮**所有库存变化**的纯记账汇总；Recent Changes 中描述的每一个消耗 / 获得 / 转移 / 丢失 / 赠送 / 交易事件，必须在 Inventory Delta 中可追溯；如两者不一致（Delta 写“无新增”但 Recent Changes 明确消耗 / 转移），WSK 必须返回拒绝回执（`Inventory Delta 与 Recent Changes 不一致`），不得提交成不完整的账本。
-7f. **共享可移动实体**（板车/三轮车/手推车/电动车/汽车/卡车/拖拉机/船/自行车等）：满足“共享 + 可移动 + 容量显著 + 非固定设施”四条件的实体适用据点子容器机制——在据点时物资列入据点核心库存标注“(实体名)”子段；在途时物资列入独立段“实体名(在途 @ 当前位置)”与据点互斥；返回据点时在途段并入据点；同一物资禁止双重位置计数（详见 `聊天室 Private Details 字段` §三后台通讯硬规则 第 4 条）。
+7f. **共享可移动实体**（板车/三轮车/手推车/电动车/汽车/卡车/拖拉机/船/自行车等）：满足“共享 + 可移动 + 容量显著 + 非固定设施”四条件的实体适用据点子容器机制——在据点时物资列入据点核心库存标注“(实体名)”子段；在途时物资列入独立段“实体名(在途 @ 当前位置)”与据点互斥；返回据点时在途段并入据点；同一物资禁止双重位置计数（详见 `聊天室 Private Details 字段` §后台通讯硬规则 第 4 条）。
 8. 记忆库存若只修改 Availability,而未明确写出数量变化,不得据此改写 Items 数量;Availability 只表示可用性判断,不等于现货余量变化。
 8a. 若某条记忆库存当前标记为 `confirmed-intact`,而后续正式变化已写明该地点失守、封锁、无法抵达、出现公开翻找/他人活动/转移迹象、受潮污染、或距离 `Last Confirmed` 已明显过长且无复核,应把它降级为更保守的 Availability;默认优先降为 `uncertain`,再按已成立证据细化为 `likely-moved / likely-looted / likely-damaged / unreachable`。
 9. 若 WM Scene 叙事中含 Inventory Transaction Commits（7 字段结构化描述）,优先按事务块结算;对于 issue / transfer / return,来源层与去向层必须同时出现;若缺少任一侧,不得正式结算该事务,以防止只增不减或只减不增。

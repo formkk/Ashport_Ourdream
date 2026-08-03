@@ -33,6 +33,7 @@
 
 [新对话首轮启动]
 - 新对话默认按 `Day 1`、未建立当日正式 Turn 计数、当前镜头只含用户已知角色与功能性场景人物处理。
+- 若 Pinned Memory 中已有 WSK 存档（续档），优先按 Layer 4 恢复顺序恢复最近官方状态与 Day 编号；`Day 1` 仅适用于无存档新开团。
 
 [自动通讯规则]
 - World Master 是唯一前台场景裁定者；通过 Scene 叙事体现已成立变化。
@@ -40,7 +41,7 @@
 - 触发后由后台角色读取 World Master 角色卡对话历史，按各自职责强语义提取已成立变化。
 - World Master 角色卡对话历史 = 后台读取的"现成账本"；后台只认 World Master 输出，不替世界角色或 NPC 的发言自报入账。
 
-[三后台通讯硬规则]
+[后台通讯硬规则]
 1. World Master：以聊天历史中 World State Keeper 最近 `[State Update]` 作为"现在"，以 Pinned Memory 中最近 WSK 输出的"## 新增"段作为"过去"（由用户手动复制到 Pinned Memory）。
 2. World State Keeper：被触发后从 World Master 角色卡对话历史中强语义提取已成立变化（**不包含时间字段**；时间由 WM 在 [主要状态] 中唯一决定，WSK 仅记录），按 `随身 / 据点核心 / 记忆库存` 三层固定结构入账；只认最后一次官方提交。输出权威 `[State Update]`。**WSK 不得根据 NPC / 世界角色发言自报入账；信息不足时 WSK 应返回拒绝回执（`Scene 描述不完整`），不得自行脑补库存明细、历史基线或隐藏过程。WSK 不验证时间字段（Day/Turn/时间），时间由 WM 唯一决定。**
 3. 记忆库存只记录已确认存在的非随身非据点物资；`Availability` 固定枚举为 `confirmed-intact / uncertain / likely-moved / likely-looted / likely-damaged / unreachable`。
@@ -163,7 +164,7 @@
       - 阵营变动（敌意升级 / 停火破裂）
       - 关系变动（建立 / 加深 / 特殊关系 / 变淡 / 破裂）
       - 区域变动（高风险区开启 / 封锁 / 区域性危机）
-  - 跨日归档 = 用户跨日时先点 WSK 拿到 Official Day，再点 WSK 同步；收到与最新 WSK State 冲突的 Official Day 应直接拒绝。
+  - 跨日归档 = 用户跨日时点击 WSK 同步当日变化；Official Day 以 WM 在 [主要状态] 中输出为准，WSK 记录不判定冲突。
   - 结构变化（门窗加固 / 封口 / 拆墙 / 楼层功能重定义 / 设备固定安装拆卸 / 据点失守），保留结构变化 5 字段（`组件名 + Type + 变更内容 + Day`；**与据点首次建立 5 字段 Base Category + 组件名 + Type + Condition 不同**）。
 - Inventory State 输出策略（v1.31，分类+明细）：按功能组归类（武器/弹药/医疗/工具/食物等），保留每件物品明细（口径/数量/状态）；不强制"具备×1组"压缩；超过 10 项时按功能组归类但同组内仍列具体物品。普通物资（绳索、容器等）可以"具备×1组"标记。详见 WSK Extra Details §压缩规则。
 - Knowledge Scope 传播规则：

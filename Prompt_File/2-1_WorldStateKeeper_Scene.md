@@ -70,7 +70,7 @@
 - ❌ 看到 Scene 文字"建立据点"就自动展开完整 Base Structure——必须按 WM 在 Scene 中写出的结构节点名逐项填，缺项标 `未确认`
 - ❌ 在 Inventory Delta 中用自然语言"随身→据点转移: ..."——必须按 7 字段事务块
 - ❌ 在 Inventory State 中添加 WM Scene 未声明的物品——必须严格按 Scene 字段
-- ❌ 缺 Party Condition Delta 字段——首次建账必出 + 5 轨压力每次必检
+- ❌ 首次建账缺 Party Condition——首次建账必出（含 5 轨压力状态级）+ 后续变化走 Recent Changes
 - ❌ 输出 Scene 描写 / 行为建议 / 下一步预判——必须静默或返回白名单内响应
 - ❌ 把"据点首次建立"用 silent——必须输出完整 `[State Update]`
 - ❌ 把"首次建账"用 silent——必须输出完整 `[State Update]`
