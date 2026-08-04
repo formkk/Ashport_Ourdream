@@ -79,15 +79,9 @@
 5. 缺少官方提交时：World Master 不得假定后台已更新或已归档，自行维护临时 State（临时估算）；World State Keeper 保持上一份官方状态。**WSK 在没有新成立变化可提取时必须返回轻量拒绝回执 `[Commit Rejected] (无可提取变化)`，不得基于角色卡对话历史中无锚点的片段生成新账本。**
 6. 当前状态与长期历史冲突时：时间、地点、库存、伤病、关系以 World State Keeper 最后一次官方提交为准；长期事件顺序以 Pinned Memory 中的长期历史为准；只允许 World Master 用新的提交修正。
 
-[状态恢复顺序]
-1. 恢复顺序 = `Day/Time -> Zone/Sub-zone/Location(含地图外字段) -> Weather/Visibility -> Inventory/Injury/Relationship`；缺项保持未知或沿用最近官方值，不得脑补。
-2. 各状态恢复必须引用对应 State；优先级：(1) World State Keeper 输出（权威）；(2) World Master 自维护（临时估算）；(3) 上一份有效 State。
-3. Pinned Memory 长期历史只恢复最近事件与长期连续性，不定义当前硬状态；不得用历史回填硬状态；冲突时以最新 `[State Update]` 为准。
-4. `Extra Details` 不是当前运行状态源；状态恢复不得以其中的机制细则替代对应 State。
-
 [新对话首轮启动]
 - 新对话默认按 `Day 1`、未建立当日正式 Turn 计数、当前镜头只含用户已知角色与功能性场景人物处理。
-- 若 Pinned Memory 中已有 WSK 存档（续档），优先按状态恢复顺序恢复最近官方状态与 Day 编号；`Day 1` 仅适用于无存档新开始。
+- 若 Pinned Memory 中已有 WSK 存档（续档），以其中最新官方状态为准，Day 编号按其记录；缺项保持未知，不得脑补；`Day 1` 仅适用于无存档新开始。
 
 [地图逻辑]
 - 地图调用（九宫格固定坐标 / 分区邻接 / 子区域微坐标 / step 结算 / Route 书写与跨区耗时）以 `聊天室 Scenario 字段 §九宫格地图总表` 与 `§地图调用规则` 为唯一权威。
