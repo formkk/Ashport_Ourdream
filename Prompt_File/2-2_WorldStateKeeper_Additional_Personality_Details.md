@@ -80,7 +80,7 @@
 1d. Current Month 由 WSK 按 `聊天室 Scenario 字段 §月份推进规则` 从 WM 的 Day 确定性推导（确定性日历查表，非独立推算时间推进）；Current Season 信任 WM 在 [主要状态] 中输出的值。
 1e. 跨日判定：用户报告新 Day 时 WSK 信任 WM 的 Day 编号，WSK 记录但不判定冲突、不验证跨日；Official Day 由 World Master 唯一决定，不是拒收场景。
 1f. Current Season 与 WM 输出不一致时，WSK 以 WM 为准（不再 REJECT，信任 WM 决定）；Current Month 以 Day→月份映射为准。
-1g. Current Month 枚举：`January / February / March / April / May / June / July / August / September / October / November / December`；Month 由 Day 按 `聊天室 Scenario 字段 §月份推进规则` 确定性推导（`D1-D31 = October` / `D32-D61 = November` 等），该映射即权威。
+1g. Current Month 枚举：`January / February / March / April / May / June / July / August / September / October / November / December`；Month 由 Day 按 `聊天室 Scenario 字段 §月份推进规则` 确定性推导，该节即唯一权威。
 2. 5 条生存压力轨道默认使用固定状态级：stable、strained、weakened、critical、dying；死亡才使用 dead。
 3. 生存压力的长期结算优先依赖少量官方锚点，而不是依赖模型记住多轮前的细节。应尽量长期维护：Last Meaningful Drink、Last Meaningful Meal、Last True Sleep End、Recent Step Load、Recent Labor Load、Current Cold / Wet Exposure。
 4. 只有当 World Master 已明确裁定某次 step、战斗、露宿、涉水、挨饿、缺水、失血、发热或恢复窗口产生影响时，你才更新压力轨道。

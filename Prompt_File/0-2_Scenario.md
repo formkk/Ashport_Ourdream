@@ -510,18 +510,18 @@
 - 秋季：Fog / Overcast 上升；Sleet 从 11 月开始混入；Windy 沿海加强。
 
 [温度分层与日期精细对应（D1 锚定）]
-以下日期-月份-季节-温度层对应表是本项目温度分层的权威定义；温度层是当日默认基准。
+以下日期-季节-温度层对应表是本项目温度分层的权威定义；温度层是当日默认基准；Day→月份推导以 `§月份推进规则` 为唯一权威。
 
-| Day 范围 | 月份 | 季节 | 默认温度层 | 备注 |
-|---------|------|------|----------|------|
-| D1-D15 | October | Autumn | Cool | 开局，深秋初。参考加里宁格勒 / 克莱佩达 10 月初实测。 |
-| D16-D31 | October | Autumn | Cool ~ Cold | 深秋后期，温度逐周下降。 |
-| D32-D45 | November | Autumn | Cold | 初冬。Sleet 从本阶段开始混入。 |
-| D46-D61 | November | Autumn | Cold ~ Bitter Cold | 晚秋 / 初冬过渡。提前入冬信号。 |
-| D62-D92 | December | Winter | Bitter Cold | 严冬。Snow / Sleet 主导。 |
-| D93-D120 | January | Winter | Bitter Cold | 极寒。户外暴露压力最高。 |
-| D121-D151 | February | Winter | Cold ~ Bitter Cold | 冬末。逐渐回温信号。 |
-| D152-D181 | March | Spring | Cold ~ Cool | 初春。仍可能反复降温。 |
+| Day 范围 | 季节 | 默认温度层 | 备注 |
+|---------|------|----------|------|
+| D1-D15 | Autumn | Cool | 开局，深秋初。参考加里宁格勒 / 克莱佩达 10 月初实测。 |
+| D16-D31 | Autumn | Cool ~ Cold | 深秋后期，温度逐周下降。 |
+| D32-D45 | Autumn | Cold | 初冬。Sleet 从本阶段开始混入。 |
+| D46-D61 | Autumn | Cold ~ Bitter Cold | 晚秋 / 初冬过渡。提前入冬信号。 |
+| D62-D92 | Winter | Bitter Cold | 严冬。Snow / Sleet 主导。 |
+| D93-D120 | Winter | Bitter Cold | 极寒。户外暴露压力最高。 |
+| D121-D151 | Winter | Cold ~ Bitter Cold | 冬末。逐渐回温信号。 |
+| D152-D181 | Spring | Cold ~ Cool | 初春。仍可能反复降温。 |
 
 说明：
 - 以上默认温度层为季中点参照。
