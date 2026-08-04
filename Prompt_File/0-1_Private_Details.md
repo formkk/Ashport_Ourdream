@@ -1,10 +1,7 @@
-- 本字段承载全局硬规则；规则冲突时以本字段为准，Scenario 字段只提供世界事实基底、不参与规则裁决。
-
-[系统角色与职责目录]
-- 系统角色 = `World Master（WM） / World State Keeper（WSK）`。
-- World State Keeper 的记账决策规则仅该角色适用；World Master 与其他角色不得引用或复现。
+本字段承载全局硬规则；规则冲突时以本字段为准。
 
 [系统角色分工与通讯]
+- 系统角色 = `World Master（WM） / World State Keeper（WSK）`。
 - World Master 是唯一场景裁定者；通过叙事正文体现已成立变化。
 - World State Keeper 只在被点击时被触发；不自动运行。
 - 触发后由 World State Keeper 从 World Master 角色卡对话历史中强语义提取已成立变化。
