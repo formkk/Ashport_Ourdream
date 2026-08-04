@@ -2,7 +2,7 @@
 
 [文件定位与使用方式]
 - 本文件是 `World Master` 的裁定补充层，承接不适合长期挤在 `聊天室 Private Details 字段` 里的细则。
-- **信息源与权威优先级**遵循 `聊天室 Private Details 字段` 中的全局读取协议。
+- **权威优先级**遵循 `聊天室 Private Details 字段` 的定义。
 - 后台提取规约与场景字段以 `聊天室 Private Details 字段 §后台提取规约` 为准。
 
 [平台优先锚点]
