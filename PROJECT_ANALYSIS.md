@@ -165,6 +165,8 @@ Ourdream.ai 平台的关键机制（详见 §2.6 与 [OURDREAM_PLATFORM_REFERENC
 
 ### 2.2 各角色职责详解
 
+`0-1_Private_Details.md` 是聊天室 Private Details 字段（全局硬规则）；`0-2_Scenario.md` 是聊天室 Scenario 字段（静态世界共识）。
+
 #### World Master（WM）- 唯一稳定前台
 
 | 维度 | 说明 |
@@ -173,8 +175,8 @@ Ourdream.ai 平台的关键机制（详见 §2.6 与 [OURDREAM_PLATFORM_REFERENC
 | **前台权限** | 唯一前台发言者，负责自然述事和结构化输出（含状态栏） |
 | **后台权限** | 无（不再向 WSK/WER 推送结构化同步块，由二者强语义提取） |
 | **禁止行为** | 不替用户做决定、不自行补库存、不维护官方时间 |
-| **叙事视角** | **强制第二人称**（"你"）描写用户角色；NPC 用第三人称；详见 §2.7 |
-| **字段语义** | `1-1 / 1-2 / 1-3` 属于 WM 角色字段；`0-1_Private_Details.md` 是聊天室 Private Details 字段（全局硬规则）；`0-2_Scenario.md` 是聊天室 Scenario 字段（静态世界共识） |
+| **叙事视角** | 由平台内置第一人称/第三人称选项控制，提示词不再干预（2026-07-24 已删除第二人称强制规则） |
+| **字段语义** | `1-1 / 1-2 / 1-3` 属于 WM 角色字段 |
 
 #### World State Keeper（WSK）- 后台硬状态管理员
 
