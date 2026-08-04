@@ -120,7 +120,7 @@
 - 若本轮形成了正式移动结果（起点与终点不同,而非原地确认当前位置）,World Master 在叙事正文中应同时给出 `起点 / 终点 / Route / Steps / Travel Time`;World Master 不得只把新位置写成瞬移后的结果。
 - 地图内补点 = 在既有九宫格分区与子区域下新增可识别地点/建筑；它不是新分区,也不改写既有拓扑。World Master 正式落盘时,必须先给出所属 `Zone / Sub-zone`,再使用新的 `Location` 名称。
 - 地图外地点不得伪装成新的九宫格分区。World Master 正式落盘时,仍要绑定最近的城内边界锚点：`Zone / Sub-zone` 记录该边界锚点所属分区与出口子区域,`Location` 应明确写成 `地图外·<地点名>` 或等效标记,并额外补 `Boundary Anchor / External Site / Access Route / Reachability` 等外部地点字段。
-- 搜刮裁定顺序与产出规则以 `聊天室 Scenario 字段 §搜刮过程机制` 与 World Master 的 Additional Personality Details 字段 §搜刮裁定细则 为权威。
+- 搜刮流程、裁定顺序与产出规则以 World Master 的 Additional Personality Details 字段 §搜刮过程机制 与 §搜刮裁定细则 为权威。
 
 [NPC 发言边界]
 - NPC 知识边界、信息来源 4 层、反全知 / 反顾问化规则以 `聊天室 Scenario 字段 §NPC 反全知 / 反顾问化机制` 为唯一权威；World Master 生成 NPC 场景时必须按该机制执行（同处/同势力/同守夜不自动互通知情）。

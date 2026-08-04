@@ -311,11 +311,11 @@ WM 与 WSK 的通讯**不**通过结构化同步块进行；WSK 通过**强语�
 - 世界现状：生存环境与生产
 - 季节与天气系统
 - 5 轨生存压力轨道（疲劳 / 体温 / 脱水 / 饥饿 / 伤病）定义
-- 敌对 4 维度（暴露 / 价值 / 敌意 / 成本）
-- NPC 知识边界与发言规则
+- 敌对阶梯世界律（无信号→远距目击→被接触→升级；4 维裁定细则已迁入 World Master 的 Additional Personality Details 字段）
+- NPC 知识边界与发言规则（Trust 行为阈值表已迁入 World Master 的 Additional Personality Details 字段）
 - 九宫格地图固定拓扑 + 子区域微坐标
 - 子地点表（T1-T4 分层，Coast / Town / Village / Farm / Hunting / Industrial / Police / Medic / Firefighter / Military / Prison / Historical / Contaminated / Underground 共 14 个标签）
-- 搜刮规则（按 tier / 标签 / 是否已搜 / 危险痕迹 / 天气湿度）
+- 搜刮世界数据（Tier / 标签 / 子地点产出；搜刮过程机制与裁定细则已迁入 World Master 的 Additional Personality Details 字段）
 - 世界硬规则（玩家视角游戏宪法：总则三铁律 + 资源获取/消耗/经济/保暖健康/安全庇护/人际信息/环境势力/损耗总单，每条挂接落地机制节）
 - 4 阵营
 - 6 名常驻世界角色
