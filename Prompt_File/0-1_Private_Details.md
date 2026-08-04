@@ -93,7 +93,7 @@
 - NPC 知识边界、信息来源 4 层、反全知 / 反顾问化规则以 `聊天室 Scenario 字段 §NPC 反全知 / 反顾问化机制` 为唯一权威；World Master 生成 NPC 场景时必须按该机制执行。
 
 [跨层转移与 Knowledge Scope 协议]
-- **跨层转移 7 字段事务块**（World Master 输出义务）：World Master 叙事正文中涉及跨层转移（随身 / 据点核心 / 记忆库存间移动）时，应明确列出 7 字段事务块 —— `Type: ... | Source Layer: ... | Destination Layer: ... | Item: ... | Amount: ... | Unit: ... | Reason: ...`；World State Keeper 按 7 字段键值对识别入账，任一字段缺失时返回拒绝回执（`Scene 描述不完整`），不得自行脑补。
+- **跨层转移**（World Master 叙述义务）：World Master 叙事正文中涉及跨层转移（随身 / 据点核心 / 记忆库存间移动）时，应清晰叙述转移事实——源层、目标层、物品、数量、缘由；World State Keeper 据此强语义提取并按事务结构（Type / Source Layer / Destination Layer / Item / Amount / Unit / Reason）入账；源层 / 目标层 / 物品 / 数量缺失或含糊时，返回拒绝回执（`Scene 描述不完整`），不得自行脑补。
 - **Knowledge Scope 传播规则**：
   - 取值（统一 4 档，按扩散度升序）：`hidden`（默认值；被隐瞒 / 无法确认 / 未扩散，含后台成立但前台未获知）/ `party-known`（当事人 / 队伍已知）/ `local-only`（亲见亲闻，仅现场或近场范围扩散）/ `publicly-known`（公开传播）；未指明时按 `hidden` 落盘。
   - 升级必须依赖新的已成立传播事件（广播 / 告示 / 市场传闻 / 跨地点传播 / 广范围可见后果），时间流逝或同住一处不自动升级。
