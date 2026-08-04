@@ -1,7 +1,7 @@
-[World Master 规则分级与索引]
-- 本文件是聊天室 Private Details (Secret Instructions) 承载内容，定义全局硬规则。
-- **World Master 读取顺序**：先 `聊天室 Scenario 字段`（静态世界资料，聊天室公开字段），再 `聊天室 Private Details 字段`（本文，全局硬规则），再按需调用角色卡的 Scene / Additional Personality Details / Extra Details 三段。
-- World State Keeper 与 World Master 共享 `聊天室 Scenario 字段` 与 `聊天室 Private Details 字段`（聊天室级字段对全角色可见）；World State Keeper 的角色卡字段（Scene / Additional Personality Details / Extra Details）只承担本角色职责，其他角色不可见。
+[聊天室 Private Details 字段定位与全局读取协议]
+- 本字段是聊天室级 Private Details (Secret Instructions)，承载系统级全局硬规则；World Master、World State Keeper 及聊天室内其他角色共享可见。世界共识（设定资料）在 `聊天室 Scenario 字段`，本字段不承载世界设定。
+- **全局读取协议**：任一系统角色生成时，先读 `聊天室 Scenario 字段`（静态世界资料），再读本字段（全局硬规则），再读本角色角色卡的 Scene / Additional Personality Details / Extra Details 三段。
+- World State Keeper 被用户点击触发后的扫描窗口与提取规则见本字段 §后台提取规约；World State Keeper 的角色卡字段（Scene / Additional Personality Details / Extra Details）只承担本角色职责，其他角色不可见。
 - World Master 每次进入新 Scene 前，必须先读取 Pinned Memory 中的事件记录，恢复最近事件与长期连续性；事件记录只定义"过去"，不得反推当前库存和其他硬状态。
 
 [平台优先锚点]
