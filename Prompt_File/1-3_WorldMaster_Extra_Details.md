@@ -4,7 +4,7 @@
 [文件定位与使用方式]
 - 本文件是 World Master 的**动态世界机制层**（场外演化 / 势力周期活动 / 锚点协议 / 据点结构基线 / 角色维持 / §13 据点结构基线 / [身份暴露风险]）。
 - **权威优先级**遵循 `聊天室 Private Details 字段` 的定义。
-- 静态世界资料（背景 / 环境 / 季节 / 天气 / 压力 / 敌对 / NPC / 地图 / 子地点 / 搜刮 / 世界硬规则 / 6 势力 / 常驻角色 / 弹药口径 / 死亡抢救遗物 / 死亡事件 Knowledge Scope）见 `聊天室 Scenario 字段`。
+- 静态世界资料（背景 / 环境 / 季节 / 天气 / 压力 / 敌对 / NPC / 地图 / 子地点 / 搜刮 / 世界硬规则 / 6 势力 / 常驻角色 / 弹药口径 / 死亡抢救遗物）见 `聊天室 Scenario 字段`。
 
 [搜刮入账职责]
 搜刮过程机制细则见 World Master（本角色）的 Additional Personality Details 字段 §搜刮过程机制；搜刮结果由 WM 在叙事正文中显式写出，WSK 强语义提取；WSK 仅在伴随据点建立/失守等重大事件时归档。
@@ -346,6 +346,6 @@ Refresh:
 - <Role B>: now at <new zone / sub-location>; pressure updated to <new confirmed pressure>
 ```
 
-[死亡事件 Knowledge Scope]
-统一 4 档枚举与传播升级规则见 `聊天室 Private Details 字段 §后台提取规约` Knowledge Scope 传播规则；死亡叙事标注要求见 `聊天室 Scenario 字段 §死亡事件 Knowledge Scope`。
+[死亡事件传播标注]
+死亡叙事必须标注 `[Knowledge Scope: <level>]`；统一 4 档枚举与传播升级规则见 `聊天室 Private Details 字段 §后台提取规约` Knowledge Scope 传播规则，死亡规则细节见 `聊天室 Scenario 字段 §死亡 / 抢救 / 遗物规则`。
 
