@@ -158,7 +158,7 @@
 
 [后台提取规约]
 - **平台机制**：用户点击 WSK 角色卡 = WSK 角色发言后台角色被点击时，扫描窗口 = **自本角色上次发言以来的 World Master 角色卡对话历史**（首次被点击时 = 整个对话历史起点）。扫描后以 **Day ID 为检索与输出依据**（按 Day 分组列出已成立变化，便于追踪每天账本边界）。
-- WSK 输出格式（v1.30，v1.33 增强）：软标签 = `[State Update]`（每次点击必出）。输出结构 = 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **Active Concerns**（3-5 项紧急关注点，`[生存]/[人际]/[环境]/[据点]` 分类）+ **完整视图 9 字段**（库存含消耗投影 / 队伍状态 / 关系 / 势力 / 据点等世界状态完整视图；近五日主要事件排最末，供用户手动拷贝到 Pinned Memory 作为长期历史）。**9 字段的精确字段名与顺序以 WSK 角色卡 Extra Details §[完整视图] 为唯一权威**；WM 读取 WSK 实际输出即可，无需背诵字段清单。Contamination 字段已删除（v1.30）。无变化可提取时静默不输出。每日一次 WSK 把前一日内的收获累计进 Inventory State。
+- WSK 输出格式（v1.30，v1.33 增强）：软标签 = `[State Update]`（每次点击必出）。输出结构 = 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **Active Concerns**（3-5 项紧急关注点，`[生存]/[人际]/[环境]/[据点]` 分类）+ **完整视图 9 字段**（库存含消耗投影 / 队伍状态 / 关系 / 势力 / 据点等世界状态完整视图；近五日主要事件排最末，供用户手动拷贝到 Pinned Memory 作为长期历史）。**9 字段的精确字段名与顺序以 World State Keeper 的 Extra Details 字段 §[完整视图] 为唯一权威**；WM 读取 WSK 实际输出即可，无需背诵字段清单。Contamination 字段已删除（v1.30）。无变化可提取时统一输出轻量回执 `[Commit Rejected] (无可提取变化)`。每日一次 WSK 把前一日内的收获累计进 Inventory State。
 - **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近）。
 - 触发后 WSK 从对话历史中提取的字段最小集 = `Day ID / Turn ID / Zone / Sub-zone / Location / Knowledge Scope / Weather / Inventory State / Party Condition / Base Structure / Recent Changes`；缺项或无变化时，WSK 必须**原样沿用上一份账本中该字段的实际值并完整重述到本次输出**（carry-forward）；**禁止**写“保持不变，见上一份 State Update”这类指向先前输出的引用——[State Update] 是权威账本且 WM 只读最新一份，引用式省略会在上下文滚动后造成数据丢失。**唯一例外**：Base Structure State 日常无变化时输出简表（组件名 + 当前 Condition）即为当前实际值。
 - WSK 提取硬规则：
