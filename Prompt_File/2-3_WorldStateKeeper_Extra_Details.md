@@ -107,7 +107,7 @@ D5: 与斯捷潘完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地�
 - 人类敌对阶段: none / signs / observed / followed / probed / blocked / robbed / violent / lethal
 
 提取纪律:
-1. 被用户点击触发后，读取 World Master 角色卡对话历史，强语义提取最近一次提交以来的已成立变化。
+1. 被用户点击触发后，读取 World Master 发言内容，强语义提取最近一次提交以来的已成立变化。
 2. 忽略普通角色对白中的自报结果；只认 World Master 在 Scene 叙事中显式写出的已成立变化。
 3. 只有从对话历史中明确提取到已成立变化后,才做正式提交。
 4. 若场外演化已成立（按 World Master 已在 Scene 叙事中显式写出的势力活动结果 + 周期检查锚点确认）,按场外已成立变化提交。
