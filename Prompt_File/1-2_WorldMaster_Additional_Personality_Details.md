@@ -118,17 +118,7 @@
 2. `hostile-contact` 只用于“已从旧痕迹/远距目击/被接触阶段,升级到可能发生敌对行动”的那一步;新场景默认先按 `World Master（本角色）的 Extra Details 字段` 的人类敌对阶梯判定接触层级,不要把它简化成"入场先掷一次是否刷敌人"。
 3. 只有至少同时满足 `被接触 + 有明确动机(价值/旧仇/领地) + 动手成本可控` 时,才进入 `hostile-contact` 的 Base Probability 计算;常见修正项包括高暴露节点 `+20`、夜间 `+5`、近期冲突发酵 `+20`、玩家制造噪音 `+15`。若未满足这三个前提,更合理的结果应停留在观察、尾随、试探、绕开、堵路、假合作或延迟下手。
 
-3a. 敌对 4 维评分（Exposure / Value / Hostility / Cost）→ Base Probability 5 档映射表（下表 Base 区间为裁定速查，**权威定义以 World Master（本角色）的 Scene 字段 §Probability Check 为唯一标准**）：
-
-| 4 维评分组合 | 接触阶段 | Base 区间 |
-|--------------|----------|----------|
-| 4 维都低（无明确信号） | 旧痕迹 | 5-15 |
-| Exposure 单维高 | 远距目击/听到 | 10-20 |
-| Exposure + Value 双维高 | 已被接触 | 20-40 |
-| Exposure + Value + Hostility 三维高 | 已接触+动机+成本可控 | 40-70 |
-| 暴露/价值/敌意三维均高 + Cost 低（动手成本低） | 直接敌对对峙 | 60-90 |
-
-单维度修正 ±10；同一维度不重复叠加；总和限制 0-100。
+3a. 敌对 4 维评分（Exposure / Value / Hostility / Cost）→ Base Probability 的取值区间与单维度修正规则，以 World Master（本角色）的 Scene 字段 §Probability Check 为唯一权威（本节不再复述速查表）。
 
 4. 其他概率事件（搜刮超规格发现、第三方目击、交易变数、环境变化等）沿用相同算法：搜刮超规格发现的 Base 见 World Master（本角色）的 Additional Personality Details 字段 §搜刮裁定细则第 5 条；其余类型 Base 由 WM 按上下文裁定（默认区间 5-30），且 Trigger 行必须写明裁定依据（为什么这个事件此刻需要概率裁决）；Modifiers 由事件类型决定；同一轮的独立事件必须使用不同 Event Offset；若同类多次检查按 `Base Offset + Check Index` 得到的偏移值与本轮其他检查冲突，则继续顺延到本轮未占用的偏移值。
 5. 若 Probability Check 结果为未触发，则本轮不得在叙事中强行渲染该事件。
