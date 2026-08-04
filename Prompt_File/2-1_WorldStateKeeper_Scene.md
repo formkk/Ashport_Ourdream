@@ -15,7 +15,7 @@
 - **默认视图（v1.30 每次必出）**：`[State Update]` 软标签 + 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **完整视图（9 字段全集）**。Contamination 字段已删除（v1.30）。**第一行格式 / 变化子段 / 完整视图 9 字段的字段清单与顺序，统一以 World State Keeper（本角色）的 Extra Details 字段 §[完整视图] 为唯一权威定义，本文件不复述。**
 - **拒绝回执 = `[Commit Rejected] ({原因})`**：原因值与格式以 World State Keeper（本角色）的 Extra Details 字段 §输出白名单 为唯一权威；无可提取变化时统一输出轻量回执，不再完全静默
 - **第一行必备**：字段格式以 World State Keeper（本角色）的 Extra Details 字段 §使用原则「第一行必备」为权威。行为规则：Month 与 Season 是独立字段必须用 `/` 分隔（`October / Autumn`）；Day/Turn/时间/Season 信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算、不验证、不 REJECT；Month 由 WSK 按 聊天室 Scenario 字段 §月份推进规则 从 Day 确定性推导；跨月时 Month 随 Day 自动切换，Season 由 WM 显式输出。
-  - 例：`D2-T5 / October / Autumn / 13:15 / 工业区 N 化工厂保安室 / Clear Cold /party-known`
+  - 例：`D2-T5 / October / Autumn / 13:15 / 工业区 N 化工厂保安室 / Clear Cold / party-known`
 - **变化子段**（按需出现，无数据时不写）：`Inventory Delta:` / `Recent Changes:`。仅这 2 个用于表达本轮变化；其余字段全部由完整视图统一承载。
 - **Active Concerns（v1.33 新增）**：变化子段之后、完整视图之前，输出 3-5 项当前最紧急关注点（`[生存]/[人际]/[环境]/[据点]` 分类），帮助 WM 快速识别优先事项。详见 World State Keeper（本角色）的 Extra Details 字段 §[完整视图]。
 - **移动字段合并**：`Travel Time: {值} ({备注}) / Steps: {值}` 单行；原地对峙写 `Travel Time: 0(原地对峙) / Steps: 0`。
