@@ -92,29 +92,9 @@
 [NPC 发言边界]
 - NPC 知识边界、信息来源 4 层、反全知 / 反顾问化规则以 `聊天室 Scenario 字段 §NPC 反全知 / 反顾问化机制` 为唯一权威；World Master 生成 NPC 场景时必须按该机制执行。
 
-[后台提取规约]
-- **平台机制**：用户点击 WSK 角色卡 = WSK 角色发言。扫描窗口 = **自本角色上次发言以来的 World Master 角色卡对话历史**（首次被点击时 = 整个对话历史起点）。扫描后以 **Day ID 为检索与输出依据**（按 Day 分组列出已成立变化）。
-- WSK 输出格式：软标签 = `[State Update]`。输出结构 = 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **Active Concerns**（3-5 项紧急关注点，`[生存]/[人际]/[环境]/[据点]` 分类）+ **完整视图 9 字段**（库存含消耗投影 / 队伍状态 / 关系 / 势力 / 据点等世界状态完整视图；近五日主要事件排最末，供用户手动拷贝到 Pinned Memory 作为长期历史）。**9 字段的精确字段名与顺序以 World State Keeper 的 Extra Details 字段 §[完整视图] 为唯一权威**；WM 读取 WSK 实际输出即可，无需背诵字段清单。无变化可提取时统一输出轻量回执 `[Commit Rejected] (无可提取变化)`。触发时 WSK 把扫描窗口内未入账的收获累计进 Inventory State。
-- **近五日主要事件**：格式规格（D 单位 / 总容量 1500 字符 / 每条 150-500 字符 / 按 D 升序 / 无则省略整段）以 World State Keeper 的 Extra Details 字段 §[完整视图] 为唯一权威；该段由用户手动拷贝到 Pinned Memory 作为长期历史。
-- 触发后 WSK 从对话历史中提取的字段最小集 = `Day ID / Turn ID / Zone / Sub-zone / Location / Knowledge Scope / Weather / Inventory State / Party Condition / Base Structure / Recent Changes`；缺项或无变化时，WSK 必须**原样沿用上一份账本中该字段的实际值并完整重述到本次输出**（carry-forward）；**禁止**写“保持不变，见上一份 State Update”这类指向先前输出的引用——[State Update] 是权威账本且 WM 只读最新一份，引用式省略会在上下文滚动后造成数据丢失。**唯一例外**：Base Structure State 日常无变化时输出简表（组件名 + 当前 Condition）即为当前实际值。
-- WSK 提取硬规则：
-  - 库存字段只接受增量句法：`获得 / 消耗 / 丢失 / 转移 + 数量 + 单位`；绝对总量无效。
-  - **跨层转移格式约定**：WM 叙事正文中涉及跨层转移时，应明确列出 7 字段事务块 —— `Type: ... | Source Layer: ... | Destination Layer: ... | Item: ... | Amount: ... | Unit: ... | Reason: ...`；任一字段缺失时 WSK 应返回拒绝回执（`Scene 描述不完整`），不得自行脑补。
-  - WSK 强语义提取时按 7 字段键值对识别；识别失败或事务块缺项 → 返回拒绝回执并保留上一份账本。
-  - 据点分类固定使用 `主据点 / 物资点 / 安全屋 / 地图外据点`；不得用自由叫法。
-  - 据点首次建立必须含完整 Base Structure（含 WM 写出的全部结构组件名）；缺项 WSK 应返回拒绝回执。
-  - 记忆库存只记 `Location / Last Confirmed / Availability / Items`；只接受已确认存在的非随身非据点物资。
-  - 主要事件：LLM 语义提取该日的主要事件，参考以下类别（包括但不限于）：
-      - 人员变动（死亡 / 失踪 / 叛逃 / 被俘 / 重伤）
-      - 据点变动（建立 / 失守）
-      - 阵营变动（敌意升级 / 停火破裂）
-      - 关系变动（建立 / 加深 / 特殊关系 / 变淡 / 破裂）
-      - 区域变动（高风险区开启 / 封锁 / 区域性危机）
-  - 跨日归档 = 用户跨日时点击 WSK 同步当日变化；Official Day 以 WM 在 [主要状态] 中输出为准，WSK 记录不判定冲突、不验证跨日。
-  - 结构变化（门窗加固 / 封口 / 拆墙 / 楼层功能重定义 / 设备固定安装拆卸 / 据点失守），保留结构变化 4 字段（`组件名 + Type + 变更内容 + Day`；**与据点首次建立 4 字段 Base Category + 组件名 + Type + Condition 不同**）。
-- Inventory State 输出策略（分类+明细）：按功能组归类（武器/弹药/医疗/工具/食物等），保留每件物品明细（口径/数量/状态）；不强制"具备×1组"压缩；超过 10 项时按功能组归类但同组内仍列具体物品。普通物资（绳索、容器等）可以"具备×1组"标记。详见 World State Keeper 的 Extra Details 字段 §压缩规则。
-- Knowledge Scope 传播规则：
+[跨层转移与 Knowledge Scope 协议]
+- **跨层转移 7 字段事务块**（World Master 输出义务）：World Master 叙事正文中涉及跨层转移（随身 / 据点核心 / 记忆库存间移动）时，应明确列出 7 字段事务块 —— `Type: ... | Source Layer: ... | Destination Layer: ... | Item: ... | Amount: ... | Unit: ... | Reason: ...`；World State Keeper 按 7 字段键值对识别入账，任一字段缺失时返回拒绝回执（`Scene 描述不完整`），不得自行脑补。
+- **Knowledge Scope 传播规则**：
   - 取值（统一 4 档，按扩散度升序）：`hidden`（默认值；被隐瞒 / 无法确认 / 未扩散，含后台成立但前台未获知）/ `party-known`（当事人 / 队伍已知）/ `local-only`（亲见亲闻，仅现场或近场范围扩散）/ `publicly-known`（公开传播）；未指明时按 `hidden` 落盘。
   - 升级必须依赖新的已成立传播事件（广播 / 告示 / 市场传闻 / 跨地点传播 / 广范围可见后果），时间流逝或同住一处不自动升级。
   - 多人目击 / 当众冲突 / 现场围观仍为 `local-only`，需广播/告示/市场传闻才升 `publicly-known`。
-- 拒收场景：Scene 描述不完整 / 跨层转移缺 Source 或 Destination / 据点首次建立缺组件名 / 信息不足时 WSK 应返回拒绝回执（`Scene 描述不完整` / `字段不完整`），不得自行脑补或简化。**Official Day 由 WM 唯一决定，不是拒收场景。**

@@ -347,5 +347,5 @@ Refresh:
 ```
 
 [死亡事件传播标注]
-死亡叙事必须标注 `[Knowledge Scope: <level>]`；统一 4 档枚举与传播升级规则见 `聊天室 Private Details 字段 §后台提取规约` Knowledge Scope 传播规则，死亡规则细节见 `聊天室 Scenario 字段 §死亡 / 抢救 / 遗物规则`。
+死亡叙事必须标注 `[Knowledge Scope: <level>]`；统一 4 档枚举与传播升级规则见 `聊天室 Private Details 字段 §跨层转移与 Knowledge Scope 协议` Knowledge Scope 传播规则，死亡规则细节见 `聊天室 Scenario 字段 §死亡 / 抢救 / 遗物规则`。
 

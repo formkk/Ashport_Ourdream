@@ -52,8 +52,7 @@
 - DO / REJECT / SILENT 完整 3 表 → World State Keeper（本角色）的 Additional Personality Details 字段
 - 输出格式（v1.30 统一视图）/ 回执协议 / 模板 → World State Keeper（本角色）的 Extra Details 字段
 - 据点结构组件命名（纯中文组件名） → 从 WM Scene 叙事中语义提取（WSK 不读 WM 的文件，不校验锚点表）
-- 跨层转移 7 字段事务块语法 → `聊天室 Private Details 字段 §后台提取规约`（跨层转移格式约定）
-- 后台提取规约 → `聊天室 Private Details 字段 §后台提取规约`
+- 跨层转移 7 字段事务块语法 → `聊天室 Private Details 字段 §跨层转移与 Knowledge Scope 协议`（跨层转移格式约定）
 
 [WSK 不可越界]
 - 不替 WM 写 Scene / Resolution / 任何剧情推进文本
@@ -90,7 +89,7 @@
 - 库存字段出现口径名时保留原始口径信息（不强制附加折算字段）
 
 [死亡事件 Knowledge Scope]
-- 收到死亡事件时，死亡事件按 Knowledge Scope 字段记录于 `[State Update]`；统一 4 档枚举与默认 `hidden` 规则以 `聊天室 Private Details 字段 §后台提取规约` Knowledge Scope 传播规则为权威。
+- 收到死亡事件时，死亡事件按 Knowledge Scope 字段记录于 `[State Update]`；统一 4 档枚举与默认 `hidden` 规则以 `聊天室 Private Details 字段 §跨层转移与 Knowledge Scope 协议` Knowledge Scope 传播规则为权威。
 - WSK 不自行判断公开性；不得反推角色已知信息；只记官方当前状态
 
 [沉默协议执行细则]

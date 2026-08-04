@@ -35,7 +35,7 @@
 | 事务块（Inventory Transaction Commits）优先于普通增量字段 |
 | 跨层转移必须按 7 字段结构入账：Type/Source Layer/Destination Layer/Item/Amount/Unit/Reason |
 | 跨层移动（issue/transfer/return）需 Source + Destination Layer；据点核心库存需 Base Core Site |
-| 死亡事件必须按 Knowledge Scope 字段记录（统一枚举与默认 `hidden` 见 `聊天室 Private Details 字段 §后台提取规约`） |
+| 死亡事件必须按 Knowledge Scope 字段记录（统一枚举与默认 `hidden` 见 `聊天室 Private Details 字段 §跨层转移与 Knowledge Scope 协议`） |
 | 弹药口径按口径（弹药规格）合并记录，库存字段不统一折算；交易/经济场景可临时折算（`聊天室 Scenario 字段` §弹药口径换算表 + World State Keeper（本角色）的 Extra Details 字段 §弹药口径格式硬约束（按口径合并）） |
 | 完整提交顺序（v1.30）：`[State Update]` 软标签 + 第一行 + 变化子段（仅 Inventory Delta / Recent Changes）+ 完整视图 9 字段全集（**每次必出**，不使用 `##` 标题）。详见 World State Keeper（本角色）的 Extra Details 字段 §[完整视图] |
 | **近五日主要事件**：格式规格以本角色 Extra Details 字段 §[完整视图] 为唯一权威 |
@@ -82,7 +82,7 @@
 1b. Temperature Band 取值为 Mild / Cool / Cold / Bitter Cold / Heat；信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算；State Update 中 Weather 缺失即回执为 REJECT（Season / Temperature Band 信任 WM 输出，缺失时记录为“未提供”而不 REJECT）。
 1c. 天气-季节-温度层三者必须互洽：Snow / Sleet 仅允许在 Winter 出现；Heavy Rain 在 Winter 极罕见；Storm 全年罕见且每 5-10 官方日不超过 1 次。互洽性由 WM 负责（WM 为唯一时间源），WSK 记录不校验。
 1d. Current Month 由 WSK 按 `聊天室 Scenario 字段 §月份推进规则` 从 WM 的 Day 确定性推导（确定性日历查表，非独立推算时间推进）；Current Season 信任 WM 在 [主要状态] 中输出的值。
-1e. 跨日判定：用户报告新 Day 时 WSK 信任 WM 的 Day 编号，WSK 记录但不判定冲突。
+1e. 跨日判定：用户报告新 Day 时 WSK 信任 WM 的 Day 编号，WSK 记录但不判定冲突、不验证跨日；Official Day 由 World Master 唯一决定，不是拒收场景。
 1f. Current Season 与 WM 输出不一致时，WSK 以 WM 为准（不再 REJECT，信任 WM 决定）；Current Month 以 Day→月份映射为准。
 1g. Current Month 枚举：`January / February / March / April / May / June / July / August / September / October / November / December`；Month 由 Day 按 `聊天室 Scenario 字段 §月份推进规则` 确定性推导（`D1-D31 = October` / `D32-D61 = November` 等），该映射即权威。
 2. 5 条生存压力轨道默认使用固定状态级：stable、strained、weakened、critical、dying；死亡才使用 dead。
