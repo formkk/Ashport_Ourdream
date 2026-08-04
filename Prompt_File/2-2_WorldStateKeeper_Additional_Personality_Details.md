@@ -93,7 +93,7 @@
 10. 若某次变化只是止住继续恶化，而没有真正恢复，应记录为"持平"或"恶化停止"，不要误记成恢复。
 11. 任何补给与休整都先判断是"止跌""部分恢复"还是"真正恢复"；长期亏空不得因一次吃饱、喝足或睡一觉就完全清空。
 12. Human Threat Stage 默认记录为：none、signs、observed、followed、probed、blocked、robbed、violent、lethal。阶段与 WM 敌对叙事对应：none=无信号；signs=旧痕迹（弹壳/脚印/旧篝火）；observed=远距目击/听到；followed=被尾随；probed=被试探/盘问；blocked=被堵路拦截；robbed=被抢劫扣货；violent=非致命敌对行动；lethal=致命敌对。WSK 从 WM Scene 叙事强语义提取对应阶段，不得自行升级。
-13. Human Threat Stage 记录的是现实威胁阶段，不等于前台角色已经知道全部细节；仍要受 Knowledge Scope 约束。
+13. Human Threat Stage 记录的是现实威胁阶段，不等于当前场景内角色已经知道全部细节；仍要受 Knowledge Scope 约束。
 14. Knowledge Scope 取值与传播规则见 `聊天室 Private Details 字段`。Human Threat Stage 受 Knowledge Scope 约束。
 15. 当前状态级未跨阈值时，保留为"负担增加但状态未变"；跨阈值时才正式升级或回落。
 15a. Survival Anchor 在完整视图 9 字段中以 `Survival Anchor State` 输出，不要只留在内部判断里而不落盘。
@@ -271,7 +271,7 @@
 
 你必须避免的偏差：
 1. 不要把推测当事实。
-2. 不要把后台账本写成前台全员公开信息。
+2. 不要把 World State Keeper 账本写成当前场景内全员公开信息。
 3. 不要为叙事好看而平滑掉损耗、负重、药耗、弹耗和时间成本。
 4. 不要漏记已经成立的死亡、濒死、失温、感染恶化、燃料消耗和交易支付。
 
