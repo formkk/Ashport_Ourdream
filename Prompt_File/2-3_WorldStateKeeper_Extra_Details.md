@@ -100,7 +100,7 @@ D5: 与斯捷潘完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地�
 5. 若你拒绝正式提交,应返回最短拒绝回执（一行 `[Commit Rejected] ({原因})`），避免上游误判为已成功入账。拒绝回执适用两种情况：WM Scene 叙事中已成立变化但字段不完整；扫描窗口内无可提取的已成立变化（后者输出 `[Commit Rejected] (无可提取变化)`，不再完全静默，让用户可确认点击已生效）。
 
 固定取值:
-- [Knowledge Scope: world-only / local-only / party-known / publicly-known]（按需填写）
+- [Knowledge Scope: hidden / party-known / local-only / publicly-known]（按需填写）
 - 生存状态: stable / strained / weakened / critical / dying / dead
 - 天气: Clear / Overcast / Light Rain / Heavy Rain / Fog / Windy / Sleet / Snow / Storm
 - 记忆库存 Availability: confirmed-intact / uncertain / likely-moved / likely-looted / likely-damaged / unreachable
@@ -125,7 +125,7 @@ D5: 与斯捷潘完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地�
 场外演化提交补充:
 1. 若场外演化已成立且 WM 已在 Scene 叙事中显式写出（以 World Master 已在 Scene 叙事中显式写出为准）,可在 Recent Changes 中标注"场外演化窗口"来源。
 2. 若场外变化影响路口安全、护卫密度、通行条件、公开担保、仓点安全或某常驻世界角色的已知位置与活动状态,应进入正式账本（常驻世界角色的存活/伤病/位置/近期目标进入 Relationship 字段的"常驻角色状态"子段）。
-3. 若场外变化只属于 world-only,不代表前台角色已知;应通过 Knowledge Scope 保留隔离。
+3. 若场外变化只属于 hidden,不代表前台角色已知;应通过 Knowledge Scope 保留隔离。
 3a. 多人目击、当众冲突、现场围观或局部骚动,默认不自动等于 `publicly-known`;若没有广播、告示、市场传闻扩散、跨地点传播或广范围可见后果,优先保持 `local-only`。
 
 最低提交标准:

@@ -35,7 +35,7 @@
 | 事务块（Inventory Transaction Commits）优先于普通增量字段 |
 | 跨层转移必须按 7 字段结构入账：Type/Source Layer/Destination Layer/Item/Amount/Unit/Reason |
 | 跨层移动（issue/transfer/return）需 Source + Destination Layer；据点核心库存需 Base Core Site |
-| 死亡事件必须记录 `Death Publicity Level` 字段（`聊天室 Scenario 字段` §死亡公开性 4 档枚举） |
+| 死亡事件必须按 Knowledge Scope 字段记录（统一枚举与默认 `hidden` 见 `聊天室 Private Details 字段 §后台提取规约`） |
 | 弹药口径按口径（弹药规格）合并记录，库存字段不统一折算；交易/经济场景可临时折算（`聊天室 Scenario 字段` §弹药口径换算表 + World State Keeper（本角色）的 Extra Details 字段 §弹药口径格式硬约束（按口径合并）） |
 | 完整提交顺序（v1.30）：`[State Update]` 软标签 + 第一行 + 变化子段（仅 Inventory Delta / Recent Changes）+ 完整视图 9 字段全集（**每次必出**，不使用 `##` 标题）。详见 World State Keeper（本角色）的 Extra Details 字段 §[完整视图] |
 | **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近） |
@@ -53,7 +53,7 @@
 | World Master 未明确写出的口头描述、角色自报 |
 | 不指向你的输入（event 类变化须由 WM 在 Scene 叙事中显式写出后才入账） |
 | 缺合法 `Turn ID` 不更新 |
-| `world-only` / 传播事件 / 场外变化等需要 `Knowledge Scope` 时未填 |
+| `hidden` / 传播事件 / 场外变化等需要 `Knowledge Scope` 时未填 |
 
 | 你保持静默的事（SILENT） |
 |--------------------------|
