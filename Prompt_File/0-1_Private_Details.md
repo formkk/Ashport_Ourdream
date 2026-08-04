@@ -90,10 +90,7 @@
 - 地图外地点不得伪装成新的九宫格分区。World Master 正式落盘时,仍要绑定最近的城内边界锚点：`Zone / Sub-zone` 记录该边界锚点所属分区与出口子区域,`Location` 应明确写成 `地图外·<地点名>` 或等效标记,并额外补 `Boundary Anchor / External Site / Access Route / Reachability` 等外部地点字段。
 
 [NPC 发言边界]
-- NPC 知识边界、信息来源 4 层、反全知 / 反顾问化规则以 `聊天室 Scenario 字段 §NPC 反全知 / 反顾问化机制` 为唯一权威；World Master 生成 NPC 场景时必须按该机制执行（同处/同势力/同守夜不自动互通知情）。
-
-[场外演化时间规则]
-- 场外演化时间规则（时段边界 + 12h 累计阈值 + 已成立变化的同步门槛）由 World Master 按其 Extra Details 字段 §演化触发流程 执行。
+- NPC 知识边界、信息来源 4 层、反全知 / 反顾问化规则以 `聊天室 Scenario 字段 §NPC 反全知 / 反顾问化机制` 为唯一权威；World Master 生成 NPC 场景时必须按该机制执行。
 
 [后台提取规约]
 - **平台机制**：用户点击 WSK 角色卡 = WSK 角色发言。扫描窗口 = **自本角色上次发言以来的 World Master 角色卡对话历史**（首次被点击时 = 整个对话历史起点）。扫描后以 **Day ID 为检索与输出依据**（按 Day 分组列出已成立变化）。
