@@ -149,7 +149,7 @@ D5: 与斯捷潘完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地�
 7f. **共享可移动实体**（板车/三轮车/手推车/电动车/汽车/卡车/拖拉机/船/自行车等）：满足“共享 + 可移动 + 容量显著 + 非固定设施”四条件的实体适用据点子容器机制——在据点时物资列入据点核心库存标注“(实体名)”子段；在途时物资列入独立段“实体名(在途 @ 当前位置)”与据点互斥；返回据点时在途段并入据点；同一物资禁止双重位置计数（详见 `聊天室 Private Details 字段` §后台通讯硬规则 第 4 条）。
 8. 记忆库存若只修改 Availability,而未明确写出数量变化,不得据此改写 Items 数量;Availability 只表示可用性判断,不等于现货余量变化。
 8a. 若某条记忆库存当前标记为 `confirmed-intact`,而后续正式变化已写明该地点失守、封锁、无法抵达、出现公开翻找/他人活动/转移迹象、受潮污染、或距离 `Last Confirmed` 已明显过长且无复核,应把它降级为更保守的 Availability;默认优先降为 `uncertain`,再按已成立证据细化为 `likely-moved / likely-looted / likely-damaged / unreachable`。
-9. 对 World Master 清晰叙述的跨层转移（issue / transfer / return）,按事务结构结算;来源层与去向层必须同时出现;若缺少任一侧,不得正式结算该转移,以防止只增不减或只减不增。
+9. **跨层事务结构**：跨层转移按以下事务结构入账（World State Keeper 内部入账结构，从 World Master 叙述的转移事实提取结构化）：`Type(issue/transfer/return) / Source Layer / Destination Layer / Item / Amount / Unit / Reason`。对 World Master 清晰叙述的跨层转移（issue / transfer / return）,按事务结构结算;来源层与去向层必须同时出现;若缺少任一侧,不得正式结算该转移,以防止只增不减或只减不增。
 9c. 对涉及 `据点核心库存` 的 issue / transfer / return,除层级外还应写清对应的 `Base Core Site` 或等效位置锚点;否则不得结算到任何具体据点。
 9a. 若转移事务与普通库存增量字段同时出现,同一 Item + 同一 Layer + 同一方向的变化只结算一次,优先采用转移事务。
 9b. 普通库存增量字段只用于补充转移事务未覆盖的其他 Item、其他 Layer 或其他方向变化,不得把同一转移拆成两次重复记账。

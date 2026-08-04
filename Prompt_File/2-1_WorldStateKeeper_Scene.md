@@ -67,7 +67,7 @@
 [常见误操作警示]
 - ❌ 看到 WM Scene 文字"把东西放到据点内"就自动入账为"随身→据点转移"——必须待 World Master 清晰叙述转移事实（源层、目标层、物品、数量），缺失或含糊返回拒绝回执
 - ❌ 看到 Scene 文字"建立据点"就自动展开完整 Base Structure——必须按 WM 在 Scene 中写出的结构节点名逐项填，缺项标 `未确认`
-- ❌ 在 Inventory Delta 中用自然语言"随身→据点转移: ..."——必须按事务结构（Type/Source Layer/Destination Layer/Item/Amount/Unit/Reason）记录
+- ❌ 在 Inventory Delta 中用自然语言"随身→据点转移: ..."——必须按事务结构记录（结构见 World State Keeper（本角色）的 Extra Details 字段 §跨层事务结构）
 - ❌ 在 Inventory State 中添加 WM Scene 未声明的物品——必须严格按 Scene 字段
 - ❌ 首次建账缺 Party Condition——首次建账必出 Party Condition（含 5 轨压力状态级），后续变化走 Recent Changes
 - ❌ 输出 Scene 描写 / 行为建议 / 下一步预判——必须静默或返回白名单内响应

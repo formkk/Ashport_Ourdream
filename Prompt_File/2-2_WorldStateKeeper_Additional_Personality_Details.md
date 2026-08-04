@@ -33,7 +33,7 @@
 | 最低要求 = Scene 叙事中至少 1 句明确已成立结果 |
 | 库存只接受增量写法（获得/消耗/丢失/转移 + 数量 + 单位） |
 | 转移事务（事务结构）优先于普通增量字段 |
-| 跨层转移按事务结构入账：Type/Source Layer/Destination Layer/Item/Amount/Unit/Reason（由 World State Keeper 从 World Master 叙述的转移事实提取结构化） |
+| 跨层转移按事务结构入账（结构见 World State Keeper（本角色）的 Extra Details 字段 §跨层事务结构，由 World State Keeper 从 World Master 叙述的转移事实提取结构化） |
 | 跨层移动（issue/transfer/return）需 Source + Destination Layer；据点核心库存需 Base Core Site |
 | 死亡事件必须按 Knowledge Scope 字段记录（统一枚举与默认 `hidden` 见 `聊天室 Private Details 字段 §跨层转移与 Knowledge Scope 协议`） |
 | 弹药口径按口径（弹药规格）合并记录，库存字段不统一折算；交易/经济场景可临时折算（`聊天室 Scenario 字段` §弹药口径换算表 + World State Keeper（本角色）的 Extra Details 字段 §弹药口径格式硬约束（按口径合并）） |
