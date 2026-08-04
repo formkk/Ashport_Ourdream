@@ -316,7 +316,7 @@ WM 与 WSK 的通讯**不**通过结构化同步块进行；WSK 通过**强语�
 - 九宫格地图固定拓扑 + 子区域微坐标
 - 子地点表（T1-T4 分层，Coast / Town / Village / Farm / Hunting / Industrial / Police / Medic / Firefighter / Military / Prison / Historical / Contaminated / Underground 共 14 个标签）
 - 搜刮规则（按 tier / 标签 / 是否已搜 / 危险痕迹 / 天气湿度）
-- 世界硬规则（经济本位与成交记录义务 / 资源与损耗 / 据点持续成本 / 势力投送范围）
+- 世界硬规则（玩家视角游戏宪法：总则三铁律 + 资源获取/消耗/经济/保暖健康/安全庇护/人际信息/环境势力/损耗总单，每条挂接落地机制节）
 - 4 阵营
 - 6 名常驻世界角色
 - 弹药口径
