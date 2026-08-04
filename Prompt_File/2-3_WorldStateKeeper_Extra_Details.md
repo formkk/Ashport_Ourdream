@@ -19,7 +19,7 @@
 - **默认视图（v1.30 每次必出）**：`[State Update]` 软标签 + 第一行 + 变化子段（**仅 Inventory Delta / Recent Changes**，无变化时不写）+ **完整视图（9 字段全集，字段清单与顺序见下方 `[完整视图]` 段）**。Contamination 字段已删除（v1.30），Trade Obligation 字段已删除（残留清理，债务/赊账义务归入 Relationship）。用户每次点击 WSK 都输出完整视图，确保 WM 每轮都能独立获取完整世界状态。
 - **第一行必备**：`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`，用 `/` 分隔；**Month 与 Season 是独立字段，必须用 `/` 分隔**（`October / Autumn`），不允许省略分隔符；**Day/Turn/时间/Season 信任 WM 在 [主要状态] 中输出的值，WSK 记录但不推算、不验证、不 REJECT**；**Month 由 WSK 按 `聊天室 Scenario 字段 §月份推进规则` 从 WM 的 Day 确定性推导**（确定性日历查表，不属时间推进推算）；跨月时 Month 随 Day 自动切换，Season 由 WM 显式输出。
 - **变化子段**（按需出现，无数据时不写）：**仅 `Inventory Delta:` / `Recent Changes:` 两个**。其余字段（即下方 `[完整视图]` 段所列 9 字段）**全部由完整视图统一承载，不得作为变化子段单独列出**。无变化时整段省略。
-- **近五日主要事件**（实验性字段）：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近）
+- **近五日主要事件**：以 D 为单位，输出最近 5 日的主要事件记录；总容量 1500 字符；格式：`D{day}: {事件摘要}`；事件摘要限 150-500 字符/条；无主要事件时省略整段；**按 D 升序排列**（从最早到最近）
 - **移动字段合并**：`Travel Time: {值} ({备注}) / Steps: {值}` 单行
 - 库存用 `:` 分隔的简洁格式（如 `随身: 武器: 霰弹枪×1(泵动式，空膛)+转轮手枪×1(6发，空膛)...`），便于 WM 解析但不强求对齐 WM 风格
 - 5 轨压力用自然语言 + 状态级（轨道名与状态级取值以 `聊天室 Scenario 字段 §环境生存压力系统` 为权威；如 疲劳 strained / 脱水 critical）
@@ -32,7 +32,7 @@ D5-T55 / October / Autumn / 10:55 / 工业区 N 化工厂质检小楼 / Clear Co
 
 示例仅示第一行必备字段；变化子段仅 `Inventory Delta:` / `Recent Changes:` 两个（无变化时不写）；完整视图 9 字段全集见下方 `[完整视图]` 段。
 
-近五日主要事件（实验性字段，总容量 1500 字符，按 D 升序排列）：
+近五日主要事件（总容量 1500 字符，按 D 升序排列）：
 D2: 化工厂质检小楼确立为主据点，完成 Base Structure 初始化。据点包含大门、工具间、食物储藏间、枪械间、起居室、地下室储水、天台集水器、工作室等 8 个结构节点。
 D3: 别墅区 C 栋地下室发现 Piper Cooke 与 Ivy Learner，建立债务关系。Piper 右小腿感染创面经 Jiang 以碘伏清创+纱布包扎处理后感染控制有望。Jiang 提供压缩饼干及饮水，双方建立债务关系。
 D4: 高地公寓搜刮，获得管螺纹切刀、弯管器、电工工具等基建物资。据点管道维修与电路改造能力从应急修补升级至可独立施工。获取短波收音机及频率记录笔记本，建立无线电监听能力。
@@ -106,16 +106,16 @@ D5: 与斯捷潘完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地�
 - 记忆库存 Availability: confirmed-intact / uncertain / likely-moved / likely-looted / likely-damaged / unreachable
 - 人类敌对阶段: none / signs / observed / followed / probed / blocked / robbed / violent / lethal
 
-监听规则:
+提取纪律:
 1. 被用户点击触发后，读取 World Master 角色卡对话历史，强语义提取最近一次提交以来的已成立变化。
 2. 忽略普通角色对白中的自报结果；只认 World Master 在 Scene 叙事中显式写出的已成立变化。
 3. 只有从对话历史中明确提取到已成立变化后,才做正式提交。
 4. 若场外演化已成立（按 World Master 已在 Scene 叙事中显式写出的势力活动结果 + 周期检查锚点确认）,按场外已成立变化提交。
 5. 若没有比"上一次正式提交"更新的新成立变化,不得因为再次被点击而重复提交。
-6. 无 `Sync Mode` 概念；WSK 只校验 Scene 叙事中已出现的字段,不得要求对方补齐完整模板后才提交。
-7. 每次成功提交必须输出完整视图 9 字段（见上方 `[完整视图]` 段），不得省略。无变化可提取时输出轻量回执 `[Commit Rejected] (无可提取变化)`；信息不足时返回对应原因的 `[Commit Rejected]`（v1.30）。
+6. WSK 只校验 Scene 叙事中已出现的字段,不得要求对方补齐完整模板后才提交。
+7. 每次成功提交必须输出完整视图 9 字段（见上方 `[完整视图]` 段），不得省略。无变化可提取时输出轻量回执 `[Commit Rejected] (无可提取变化)`；信息不足时返回对应原因的 `[Commit Rejected]`。
 
-正式提交顺序（v1.30 每次必出）:
+正式提交顺序（每次必出）:
 1. `[State Update]` 软标签 + 第一行（`D{day}-T{turn} / {Month} / {Season} / HH:MM / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {Knowledge Scope}`）。
 2. 变化子段：**仅 `Inventory Delta:` / `Recent Changes:` 两个**（无变化时不写）。其余字段全部由下方完整视图统一承载。
 3. 完整视图 9 字段（平铺，不嵌套 `##` 标题）：按上方 `[完整视图]` 段编号顺序输出（近五日主要事件最末，按 D 升序）。
