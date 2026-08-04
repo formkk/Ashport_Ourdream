@@ -4,7 +4,7 @@
 
 [平台优先锚点]
 - 正式系统角色只有 `World Master / World State Keeper`；官方状态、历史、后台触发与职责以下文协议为准。
-- 角色职责目录：动态机制（场外演化 / 势力周期 / 锚点协议 / 据点基线 / 角色维持）见 World Master 的 Extra Details 字段；World State Keeper 的记账决策规则由该角色自身的 Additional Personality Details 字段定义——仅该角色适用，World Master 与其他角色无需关注，不得尝试引用或复现其内容；各角色 LLM 心理预设见各自 Scene 字段。
+- 角色职责目录：动态机制由 World Master 的 Extra Details 字段定义；World State Keeper 的记账决策规则由该角色自身的 Additional Personality Details 字段定义——仅该角色适用，World Master 与其他角色无需关注，不得尝试引用或复现其内容；各角色 LLM 心理预设见各自 Scene 字段。
 
 [前台与后台通讯分工]
 - World Master 是唯一前台场景裁定者；通过前台叙事正文体现已成立变化。
