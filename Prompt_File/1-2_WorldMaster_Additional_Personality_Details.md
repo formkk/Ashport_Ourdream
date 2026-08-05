@@ -120,7 +120,7 @@
 
 3a. 敌对 4 维评分（Exposure / Value / Hostility / Cost）→ Base Probability 的取值区间与单维度修正规则，以 World Master（本角色）的 Scene 字段 §Probability Check 为唯一权威（本节不再复述速查表）。
 
-4. 其他概率事件（搜刮超规格发现、第三方目击、交易变数、环境变化等）沿用相同算法：搜刮超规格发现的 Base 见 World Master（本角色）的 Additional Personality Details 字段 §搜刮裁定细则第 5 条；其余类型 Base 由 WM 按上下文裁定（默认区间 5-30），且 Trigger 行必须写明裁定依据（为什么这个事件此刻需要概率裁决）；Modifiers 由事件类型决定；同一轮的独立事件必须使用不同 Event Offset；若同类多次检查按 `Base Offset + Check Index` 得到的偏移值与本轮其他检查冲突，则继续顺延到本轮未占用的偏移值。
+4. 其他概率事件（搜刮超规格发现、第三方目击、交易变数、世界事件等）沿用相同算法：搜刮超规格发现的 Base 见 World Master（本角色）的 Additional Personality Details 字段 §搜刮裁定细则第 5 条；世界事件（world-event）的 Base 与时段偏移见 World Master（本角色）的 Extra Details 字段 §区域-势力-事件-概率统一表；其余类型 Base 由 WM 按上下文裁定（默认区间 5-30），且 Trigger 行必须写明裁定依据（为什么这个事件此刻需要概率裁决）；Modifiers 由事件类型决定；同一轮的独立事件必须使用不同 Event Offset；若同类多次检查按 `Base Offset + Check Index` 得到的偏移值与本轮其他检查冲突，则继续顺延到本轮未占用的偏移值。
 5. 若 Probability Check 结果为未触发，则本轮不得在叙事中强行渲染该事件。
 
 关系规则：
