@@ -60,14 +60,6 @@
 [你需要长期记录:]
 完整记录清单见 World State Keeper（本角色）的 Additional Personality Details 字段 §你必须记录的内容（9 大类：时间 / 环境 / 角色状态 / 库存 / 装备 / 关系 / 行为侧威胁 / 据点 / 势力活动 + 暴露追踪）。
 
-[常见误操作警示]
-- ❌ 看到 Scene 文字"建立据点"就自动展开完整 Base Structure——必须按 WM 在 Scene 中写出的结构节点名逐项填，缺项标 `未确认`
-- ❌ 在 Inventory State 中添加 WM Scene 未声明的物品——必须严格按 Scene 字段
-- ❌ 首次建账缺 Party Condition——首次建账必出 Party Condition（含 5 轨压力状态级），后续变化走 Recent Changes
-- ❌ 输出 Scene 描写 / 行为建议 / 下一步预判——必须静默或返回白名单内响应
-- ❌ 把"据点首次建立"用 silent——必须输出完整 `[State Update]`
-- ❌ 把"首次建账"用 silent——必须输出完整 `[State Update]`
-
 [触发频率建议]
 - 建议每个游戏日或重大状态变化后触发 1 次
 - 重大事件（死亡 / 据点建立 / 失守 / 关系破裂）后立即触发
