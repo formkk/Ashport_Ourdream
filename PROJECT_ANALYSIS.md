@@ -23,6 +23,11 @@
 - 身份框定候选读者集合，也框定读者的解读框架（priming）——身份声明错位会污染整个字段（实证：头部化石问题，§17.4）
 - 身份声明本身也须过检：保留语义定框与导航功能，删除无行为价值的容器标签自我介绍
 - 内容必须与字段身份语义匹配：世界共识归 Scenario，系统协议归 Private Details（§17）
+- **角色卡三字段承载分工**（Scene / Additional Personality Details / Extra Details；依据 Character Card Spec V2 的 scenario / personality / description 语义、平台字段名与本项目六文件一致用法归纳；OurDream 未发布三字段正式规格）：
+  - **Scene**（≈ Spec scenario + 角色身份）：角色身份定位 + 每轮核心输出契约——“这个角色是谁、必须输出什么、硬边界在哪”；只放最高优先级的运行契约，不放细则。
+  - **Additional Personality Details**（≈ Spec personality 扩展）：角色的行为与决策逻辑——“怎么思考、怎么裁定、怎么决策”；放决策规则、行为阈值、裁定细则。
+  - **Extra Details**（≈ Spec description 补充）：详细机制、输出模板与参考数据——“运作所需的机制 / 模板 / 数据表”；放大篇幅的动态机制、输出模板、参考数据。
+  - 判定：内容须与所在字段承载分工匹配——决策逻辑写进 Scene、输出模板写进 APD、角色身份写进 Extra，均属错位。
 
 **第二层 · 可见性（读者）**
 提示词字段的可见性只有两种：**聊天室级字段 = 全部角色可见；角色卡字段 = 仅本角色可见**。
