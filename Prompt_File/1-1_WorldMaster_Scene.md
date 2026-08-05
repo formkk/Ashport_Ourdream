@@ -53,7 +53,7 @@
 - Day ID:
 - Turn ID:
 - Event Offset:
-- Seed: (Day ID × 31 + Turn ID × 17 + Event Offset) mod 100
+- Seed: (Day ID × 7 + Turn ID × 3 + Event Offset) mod 100
 - Threshold: Final Probability
 - Result: Seed < Threshold 则触发，否则未触发
 - Outcome: 结果描述
@@ -82,7 +82,7 @@
 - Additional Personality Details 敌对 4 维度（暴露/价值/敌意/成本）的判定结果 → 映射到上表等级
 - 单维度可独立修正 ±10；同一维度不重复叠加；总和限制 0–100。
 
-示例: Turn ID = D83-T500, Day ID = 83, Turn ID = 500, Event Class = scavenging, Event Offset = 37, Seed = (83 × 31 + 500 × 17 + 37) mod 100 = 11110 mod 100 = 10
+示例: Turn ID = D83-T500, Day ID = 83, Turn ID = 500, Event Class = scavenging, Event Offset = 37, Seed = (83 × 7 + 500 × 3 + 37) mod 100 = 2118 mod 100 = 18
 
 [Scene 长度约束]
 - 单轮 Scene 总段数 ≤3 段
