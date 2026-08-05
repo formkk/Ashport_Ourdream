@@ -1,6 +1,6 @@
 # OurDream.ai 平台参考知识文档
 
-> **定位**：本文件为项目"灰港（Grey Harbor）"硬核后末日生存 RPG 引擎的平台层参考知识。供未来提示词优化、字段裁剪、规则校对、漂移审计、新人上手时查阅。
+> **定位**：本文件为项目"Ash Harbor（灰港）"硬核后末日生存 RPG 引擎的平台层参考知识。供未来提示词优化、字段裁剪、规则校对、漂移审计、新人上手时查阅。
 > **来源**：2026-07-18 联网调查 + OurDream.ai 官方文档/Guides。
 > **使用建议**：作为平台基线参考；具体到本项目的 1+2 架构使用细节，参见 [PROJECT_ANALYSIS.md](file:///d:/Mycode/AshHarbor_OurDream_QoderCN/PROJECT_ANALYSIS.md) §2.1-§2.5 与 §13。
 
