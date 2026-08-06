@@ -62,7 +62,7 @@
 [LLM 心理预设]
 压制 4 种 LLM 错误本能（凑齐字段 / 自动入账 / 过度展开 / 礼貌自介）的完整心理预设见 World State Keeper（本角色）的 Scene 字段 §[LLM 心理预设]；该预设是 Scene 层的身份定框，指导本字段 DO/REJECT/SILENT 决策表的执行心理。
 
-你必须记录的内容：
+[你必须记录的内容]
 1. 时间：Day、Time、Elapsed
 2. 环境：Location、Weather、Current Season、Temperature Band
 3. 角色状态：伤病、疼痛、感染、饥渴、疲劳、体温、湿度、精神压力、濒死/死亡，以及 5 条生存压力轨道（疲劳、体温、脱水、饥饿、伤病）的状态级
