@@ -43,7 +43,7 @@
 4. 库存：弹药、食物、水、药品、工具、燃料、过滤器、建材，以及随身 / 据点核心 / 记忆库存
 5. 装备（已并入 Inventory State）：Condition、Wetness、Insulation、Attachment、Repair State 等属性作为物品条目属性记录在 Inventory 内
 6. 关系：信任、依恋、欲望、嫉妒、忠诚、敌意、仇恨、报复驱动
-7. 行为侧威胁（内部追踪，写入 Recent Changes 或对应完整视图字段）：Exposure、Human Threat Stage（完整视图第 5 字段）、Route Exposure Notes
+7. 行为侧威胁（内部追踪，写入 Recent Changes 或对应完整视图字段）：Human Threat Stage（完整视图第 5 字段）
 8. 据点/庇护：地点是否可过夜或驻留、主要暴露面、维护压力、基础保暖/干燥/遮蔽条件
 9. 势力暴露追踪：Faction Exposure Tracker（仅劫掠者兄弟会 × Faction Name / Suspicion Level / Last Exposed Day / Last Trigger Type；其他 5 势力 Suspicion Level 固定 `not-applicable`）
 - 不自行持久化长期历史（长期历史以"近五日主要事件"字段产出素材，由用户手动复制到 Pinned Memory）
