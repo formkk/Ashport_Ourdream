@@ -2,7 +2,7 @@
 
 > **定位**：本文件为项目"Ash Harbor（灰港）"硬核后末日生存 RPG 引擎的平台层参考知识。供未来提示词优化、字段裁剪、规则校对、漂移审计、新人上手时查阅。
 > **来源**：2026-07-18 联网调查 + OurDream.ai 官方文档/Guides。
-> **使用建议**：作为平台基线参考；具体到本项目的 1+2 架构使用细节，参见 [PROJECT_ANALYSIS.md](file:///d:/Mycode/AshHarbor_OurDream_QoderCN/PROJECT_ANALYSIS.md) §2.1-§2.5 与 §13。
+> **使用建议**：作为平台基线参考；具体到本项目的 1+2 架构使用细节，参见 [PROJECT_BLUEPRINT.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/PROJECT_BLUEPRINT.md) §2.1-§2.5 与 [审计历史记录.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/审计历史记录.md) §十三。
 
 ---
 
@@ -112,7 +112,7 @@ OurDream.ai 的多层记忆：
 ### 2.3 后台角色触发机制（关键！）
 
 > **本项目 1+2 架构的基础**
-> **架构审计已定案（2026-07-22）**：通讯机制已从"WM 推送同步块"变更为 **强语义提取**（WSK / WER 扫描 WM Scene 叙事，提取已明确写出的已成立变化）。同步块（Sync Blocks）机制已废弃。详见 [PROJECT_ANALYSIS.md](file:///d:/Mycode/AshHarbor_OurDream_QoderCN/PROJECT_ANALYSIS.md) §2.3 与 §13。
+> **架构审计已定案（2026-07-22）**：通讯机制已从"WM 推送同步块"变更为 **强语义提取**（WSK / WER 扫描 WM Scene 叙事，提取已明确写出的已成立变化）。同步块（Sync Blocks）机制已废弃。详见 [PROJECT_BLUEPRINT.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/PROJECT_BLUEPRINT.md) §2.3 与 [审计历史记录.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/审计历史记录.md) §十三。
 
 - **后台角色不自动运行**：只在用户**手动点击**时被触发
 - **被触发后**：
@@ -216,7 +216,7 @@ OurDream.ai 的多层记忆：
 
 > **本项目核心机制（已废弃原同步块协议）**
 >
-> 原 §4.3 列出的 6 种 Commit Type / Sync Mode / Receipt Mode 机制已随“同步块”通讯机制一起废弃。现行机制 = **强语义提取 + DO / REJECT / SILENT 3 张决策表**。WSK / WER 不等待 WM 推送的结构化同步块；而是扫描 WM Scene 叙事中已明确写出的已成立变化，入账/归档/拒收。详见 [PROJECT_ANALYSIS.md](file:///d:/Mycode/AshHarbor_OurDream_QoderCN/PROJECT_ANALYSIS.md) §2.3 与 §13。
+> 原 §4.3 列出的 6 种 Commit Type / Sync Mode / Receipt Mode 机制已随“同步块”通讯机制一起废弃。现行机制 = **强语义提取 + DO / REJECT / SILENT 3 张决策表**。WSK / WER 不等待 WM 推送的结构化同步块；而是扫描 WM Scene 叙事中已明确写出的已成立变化，入账/归档/拒收。详见 [PROJECT_BLUEPRINT.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/PROJECT_BLUEPRINT.md) §2.3 与 [审计历史记录.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/审计历史记录.md) §十三。
 
 #### 4.3.1 强语义提取
 
@@ -471,7 +471,7 @@ OurDream.ai 的多层记忆：
 
 #### 9.2.4 灾备与可移植性：放弃
 
-**结论（2026-07-18）**：灾备与可移植性探索**整体搁置**。本项目**仅以 OurDream 为运行环境**，不考虑多前端导出（V2 字符卡 / SillyTavern 导入）或跨平台兼容。`PROJECT_ANALYSIS.md` + WER 输出 Ledger 作为本地事实源；OurDream 数据丢失风险由用户自行评估。
+**结论（2026-07-18）**：灾备与可移植性探索**整体搁置**。本项目**仅以 OurDream 为运行环境**，不考虑多前端导出（V2 字符卡 / SillyTavern 导入）或跨平台兼容。`PROJECT_BLUEPRINT.md` + WER 输出 Ledger 作为本地事实源；OurDream 数据丢失风险由用户自行评估。
 
 #### 9.2.5 已被删除的错误评估
 
@@ -511,4 +511,4 @@ OurDream.ai 的多层记忆：
 
 ---
 
-**项目管理基线**：本文件为项目平台层参考知识文档，与 [PROJECT_ANALYSIS.md](file:///d:/Mycode/AshHarbor_OurDream_QoderCN/PROJECT_ANALYSIS.md) §1 共同构成项目完整文档体系。
+**项目管理基线**：本文件为项目平台层参考知识文档，与 [PROJECT_BLUEPRINT.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/PROJECT_BLUEPRINT.md) §1 共同构成项目完整文档体系。
