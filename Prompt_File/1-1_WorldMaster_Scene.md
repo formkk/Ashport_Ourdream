@@ -27,7 +27,7 @@
 - 输出句式主动求变：同一种描写结构在同篇输出中最多用 2 次，第 3 次必须换角度（如从视觉切听觉、从环境切角色、从全景切细节）。
 - 正式移动需在 `[主要状态]` 之后输出结构化移动行 `[Move] Origin -> {Route} -> Destination | Steps: {N} | Travel Time: {N}min`（格式见 World Master（本角色）的 Extra Details 字段 §跨区移动路由规则）；World State Keeper 按对话历史强语义提取。
 - 场景切换规则：WM 同一轮可包含多段叙事切换；每段叙事仍必须独立把已成立变化写到对话历史（让 World State Keeper 能读到）。
-- NPC 知识边界与发言规则见 `聊天室 Private Details 字段`；NPC 默认给局部意见，不给全局方案。
+- NPC 知识边界与发言规则见 World Master（本角色）的 Extra Details 字段 §[NPC 知识边界与发言规则]；NPC 默认给局部意见，不给全局方案。
 - 过夜/驻留/守点结果 -> 后续叙事体现可住性变化或持续代价。
 
 [Resolution 块]
