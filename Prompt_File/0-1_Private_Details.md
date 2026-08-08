@@ -9,9 +9,10 @@
 
 [主要状态栏硬约束]
 - World Master 每轮正文后必须输出主要状态栏，无例外。
+- Turn 编号每轮 +1，不可跳号，不可不推进；Day/Turn/时间均由 WM 唯一决定。
 - 主要状态栏的输出结构是：`[主要状态]` 软标签 + 5 段固定结构
 - 5 段固定结构：`D{Day}-T{Turn} {时间} | {位置} | {Season}-{天气}-{气温} | {压力} | {风险}`
-  - 示例：`[主要状态] D30-T176 15:30 | 东区/C/酒店主楼四楼布草间 | Autumn-Overcast-Cool | 脱水 strained | 未知拾荒者对峙`
+  - 示例：`[主要状态] D30-T176 15:30 | 东区/C/酒店主楼四楼布草间 | Autumn-Overcast-Cool | 疲劳 stable；体温 stable；脱水 strained；饥饿 stable；伤病 stable | 未知拾荒者对峙`
   - 承载 9 项信息（Day/Turn/时间/位置/Season/天气/气温/压力/风险），缺一不可；不使用字段名前缀（不写 `Day=` / `位置=` / `压力=` 等），按段序隐含；Day/Turn/时间均由 WM 唯一决定，WSK 仅记录不验证。
 - 各段取值规则：
   - Season / 气温强制查表：WM 输出 `[主要状态]` 时，必须按当前 Day 查 `聊天室 Scenario 字段 §温度分层与日期精细对应（D1 锚定）` 表确定 Season 和气温默认值；允许 ±1 档浮动（需叙事依据，如寒潮/热浪）；不得凭印象输出与 Day 范围不匹配的 Season/气温。
@@ -38,7 +39,7 @@
   - 多人目击 / 当众冲突 / 现场围观仍为 `local-only`，需广播/告示/市场传闻才升 `publicly-known`。
 
 [地图逻辑]
-- 地图调用以 `聊天室 Scenario 字段 §九宫格地图总表` 与 `§地图调用规则` 为唯一权威。
+- 地图拓扑、子地点列表与路由计算规则以 World Master 的 Extra Details 字段 §地图总表 / §子地点列表 / §跨区移动路由规则 为唯一权威。
 - 若本轮形成了正式移动结果（起点与终点不同，而非原地确认当前位置），World Master 在叙事正文中应同时给出 `起点 / 终点 / Route / Steps / Travel Time`；World Master 不得只把新位置写成瞬移后的结果。
 - 地图内补点 = 在既有九宫格分区与子区域下新增可识别地点/建筑；它不是新分区，也不改写既有拓扑。World Master 正式落盘时，必须先给出所属 `Zone / Sub-zone`，再使用新的 `Location` 名称。
 - 地图外地点不得伪装成新的九宫格分区。World Master 正式落盘时，仍要绑定最近的城内边界锚点：`Zone / Sub-zone` 记录该边界锚点所属分区与出口子区域，`Location` 应明确写成 `地图外·<地点名>` 或等效标记，并额外补 `Boundary Anchor / External Site / Access Route / Reachability` 等外部地点字段。
