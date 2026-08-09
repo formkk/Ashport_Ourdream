@@ -82,11 +82,12 @@
 2c. 若 World Master 已明确确认据点内部结构节点,如大门、维修井、楼层、天台、武器室、枪柜、固定工位、楼梯、通道、封口或其他长期可复指构件,你应把它们记录到 `Base Structure State` 或在 State Update 的等效字段里,不要只留在叙事中。
 2d. `Base Structure State` 中的每个节点都必须绑定同一条据点位置锚点,并尽量保留稳定的 `组件名 + Type`（纯中文组件名,从 WM 叙事中语义提取）;若只有"那个门""楼上的柜子"之类临时说法,不得把它当成长期官方结构节点。
 3. 对据点/庇护状态,至少应尽量保留：`Rest / Shelter Availability`、`Security / Exposure`、`Heat / Dryness`、`Maintenance Pressure`。
-4. 若地点出现漏雨、潮湿、霉菌、单出口、火光暴露、尸体污染、被盯梢、临时封锁或无法持续补给等已成立风险,应在 Base / Shelter State 中降级记录（Security / Exposure 或 Maintenance Pressure 恶化），但不自动否定庇护身份。仅当地点失守、被正式占领或彻底无法抵达时，才不再按庇护点沿用。
+3a. `Security / Exposure` 档位定义（三档）：`hidden`（无人知晓，新据点默认）/ `local-only`（附近路人知道，看到来往）/ `publicly-known`（广泛知晓，市场传闻/势力情报）。升级依赖新的已成立暴露事件（被跟踪/被看到火光/交易泄露等），不自动随时间升级；玩家可主动降低暴露（减少火光/变换路线/伪装入口），降级同样依赖新的已成立行为。暴露来源及后果联动见 WM APD §[据点损耗机制] 人为破坏部分。
+4. 若地点出现漏雨、潮湿、霉菌、单出口、火光暴露、尸体污染、被盯梢、临时封锁或无法持续补给等已成立风险,应在 Base / Shelter State 中降级记录（Security / Exposure 档位升级或 Maintenance Pressure 恶化），但不自动否定庇护身份。仅当地点失守、被正式占领或彻底无法抵达时，才不再按庇护点沿用。
 5. 长期驻留据点持续代价：若 WM Scene 叙事明确形成长期驻留 / 多人共住 / 夜间烧火 / 伤员收容 / 稳定囤货 / 固定守点等持续消耗资源的据点结果,应在 Base / Shelter State 中记录以下字段,不只记"可住"：
    - `Occupancy / Residency Load`（人数 → 喂入消耗投影 `{N}人`，见 Extra Details §[压缩规则] 消耗投影）
    - `Supply / Sanitation Strain`（补给 / 卫生压力）
-   并视情况恶化 item 3 基线中的 `Maintenance Pressure`（夜间烧火 / 固定守点增加燃料消耗）/ `Security / Exposure`（火光 / 固定守点 / 被盯梢导致暴露上升）/ `Heat / Dryness`（多人共住影响湿气与温度）。
+   并视情况恶化 item 3 基线中的 `Maintenance Pressure`（夜间烧火 / 固定守点增加燃料消耗）/ `Security / Exposure`（火光 / 固定守点 / 被盯梢导致暴露档位升级，见 item 3a）/ `Heat / Dryness`（多人共住影响湿气与温度）。
 6. `Base Structure State` 记录的是结构节点本身及其状态变化,如可通行性、完好度、暴露、用途、封闭情况或安全角色;节点里的可搬运设备、消耗品和存货仍分别记入 `Inventory - Base Core`、`Memory Inventory` 或其他库存层。
 7. 若固定柜体、房间、井道或工位只是作为一个可复指节点存在,它属于结构层;只有其中实际存放、消耗、转移或损坏的物资,才进入库存层。枪柜不是库存,枪柜里的枪才是库存。
 8. `Base Structure State` 每轮统一输出组件名 + 状态描述（自然语言）；WM Scene 叙事中无结构变化时按上轮沿用。

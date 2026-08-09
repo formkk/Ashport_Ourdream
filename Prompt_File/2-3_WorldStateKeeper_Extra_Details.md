@@ -102,6 +102,7 @@ D5: 与{角色名}完成首笔交易，换得 9mm 弹药 + 通行卡 + 码头地
 
 [固定取值]
 - 知情范围: hidden / party-known / local-only / publicly-known（按需填写）
+- Security/Exposure: hidden / local-only / publicly-known（据点暴露程度，见 APD §[据点与庇护记录规则] item 3a）
 - 天气: Clear / Overcast / Light Rain / Heavy Rain / Fog / Windy / Sleet / Snow / Storm
 - Temperature Band: Mild / Cool / Cold / Bitter Cold / Heat
 - Current Season: Winter / Spring / Summer / Autumn
