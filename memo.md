@@ -334,16 +334,19 @@ v1.55（Month 去除 + WSK 记账层精简）已全部完成并验证：
 | D1 保暖机制落地 | 1-3 新增 [保暖修正] 子节（保暖值 5 档优/良/中/弱/差修正有效温度层）+ 1-2 新增 [保暖裁定] 节（WM 每轮实时裁定，不持久化） |
 | Condition 全库移除 + Component 生命周期简化 | Condition 枚举（Pristine/Worn/Damaged/Badly Damaged/Ruined）全库删除；Component 生命周期简化为"组件名 + Type + Role + 状态描述（自然语言）" |
 | T1 据点消耗机制 | 1-1 Resolution 每轮必出 + Day 推进消耗行 / 1-2 据点消耗规则 / 1-3 Resolution 格式更新 |
+| D2 据点损耗机制最终版 | 三级状态+统一Day触发+天气/人为Probability Check+二级后果映射+MP指示器 |
+| D3 Relationship升降档指引 | 1-2升降档触发表+跨档跳跃+势力差异 / 2-2初始档中立->冷漠+单向记录 |
+| D4 据点暴露机制 | 1-2暴露来源+后果联动 / 2-3 Exposure三档定义 / 2-3固定取值加枚举 |
 
 ### 受影响文件
 
 | 文件 | 改动 |
 |------|------|
 | 2-1 Scene | 沉默协议简化 / 输出白名单 / LLM 心理预设 |
-| 2-2 APD | 决策表 3->2（删 REJECT）/ 关系规则重写 / 删势力暴露追踪规则整节 / 合并记录内容 / 删除物品 Condition 枚举 + Component 生命周期简化 |
-| 2-3 Extra | 输出白名单 / 模板声明 / 提取纪律 / 最低提交标准 / 完整视图字段合并 / 固定取值增加 Relationship / 2-3 审计修复 28 项 / 删除结构 Condition 引用 |
+| 2-2 APD | 决策表 3->2（删 REJECT）/ 关系规则重写 / 删势力暴露追踪规则整节 / 合并记录内容 / 删除物品 Condition 枚举 + Component 生命周期简化 / D3 初始档中立->冷漠+单向记录 |
+| 2-3 Extra | 输出白名单 / 模板声明 / 提取纪律 / 最低提交标准 / 完整视图字段合并 / 固定取值增加 Relationship / 2-3 审计修复 28 项 / 删除结构 Condition 引用 / D4 Exposure三档定义+固定取值加枚举 |
 | 1-1 Scene | 关系追踪核心 三轴->两轴 / [Resolution] 每轮必出 + Day 推进消耗行 |
-| 1-2 APD | Trust/Hostility -> Relationship / NPC 行为阈值表引用更新 / 新增 [保暖裁定] 节 / 新增 [据点消耗规则] |
+| 1-2 APD | Trust/Hostility -> Relationship / NPC 行为阈值表引用更新 / 新增 [保暖裁定] 节 / 新增 [据点消耗规则] / [据点损耗机制]最终版：三级状态+统一Day触发+OR关系+二级后果映射 / D3 升降档触发表+跨档跳跃+势力差异 / D4 暴露来源+后果联动 |
 | 1-3 Extra | [NPC Trust 行为阈值表] -> [NPC Relationship 行为阈值表] 5 档->7 档 / 常驻角色状态引用更新 / 新增 [保暖修正] 子节 / 锚点表删除 Condition + Delta 改为状态描述 / [Resolution 块] 格式增加消耗行 |
 | 0-2 Scenario | 人际与信息条 Trust -> Relationship |
 | PROJECT_BLUEPRINT.md | 9 处更新 / 头部 changelog v1.56 / PAM v1.2 |
