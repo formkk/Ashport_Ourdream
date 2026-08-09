@@ -506,11 +506,129 @@ WM 叙事玩家行为 -> WSK 更新 Security/Exposure -> 暴露程度可能降�
 - 形态黑名单 2.10（SSOT 元注释）
 - 陷阱 #21（机械阶段空转）/ #22（枚举跨文件不一致）
 
-**待讨论问题**：
-1. **脚本化**：Phase 1 的 1.1-1.6 是否值得写自动化脚本？（grep + 集合比对）
-2. **审计模板**：是否为每次审计生成标准化的执行证据模板？
+**决议**：Phase 1 的 1.1-1.6 全部脚本化，Phase 2 的 2.8/2.9/2.10 部分脚本化。已有工具基础上增量完善，不推倒重来。
 
-**建议方向**：优先脚本化 1.1（引用活性）和 1.6（跨文件枚举一致性），这两项纯客观、可完全自动化。
+### 1. 现状评估
+
+已有工具（`tools/` 目录）：
+
+| 工具 | 覆盖项 | 状态 | 缺口 |
+|------|--------|------|------|
+| `gen_ref_graph.py` | 1.1 引用活性（断链检测）+ 1.5 节名引用链（孤立节检测） | 可用 | 未检测口语化引用（陷阱 #14：`按 X 条`/`按 X 律`/`见 X 规则`）；未区分前向/后向引用距离 |
+| `validate_enums.py` | 1.6 枚举一致性（弃用术语 + 权威源文件存在性） | 半成品 | **核心逻辑缺失**：只检查弃用术语和文件存在性，未做跨文件枚举值集合比对（注册表值 vs 各文件实际值集合）；陷阱 #22 正是此缺口导致 |
+| `enum_registry.json` | 1.6/1.2 的数据源 | 可用 | 需补 `form_blacklist` 节（形态黑名单模式定义） |
+
+### 2. 脚本化方案
+
+#### 2.1 Phase 1 逐项方案
+
+| # | 检查项 | 脚本化 | 方案 |
+|---|--------|--------|------|
+| 1.1 | 引用活性 | ✅ 完全自动 | **增强 `gen_ref_graph.py`**：在现有 `§[section]` 断链检测基础上，增加口语化引用扫描（正则：`按.{0,8}[条律规则]`/`见.{0,12}规则`/`参照.{0,12}`），与全库 `[section]` 定义集做匹配，无对应 section 的标记为疑似死链（陷阱 #14） |
+| 1.2 | 术语一致性 | ✅ 完全自动 | **增强 `validate_enums.py`**：复用 `enum_registry.json` 的 `term_pairs`，扫描全库弃用术语（已有）；新增未定义术语扫描（角色简称首次出现时是否有前置定义） |
+| 1.3 | 重复检测 | ⚠️ 半自动 | **新增 `detect_duplicates.py`**：提取所有 `[section]` 内容块，用行级 diff + 相似度阈值（如 Jaccard > 0.7）标记疑似重复块；精确逐字重复直接 grep。语义等价（陷阱 #19）仍需人工 |
+| 1.4 | 格式合规 | ✅ 完全自动 | **新增 `format_lint.py`**：正则检测 `**bold**`（2.8）/ emoji（2.8）/ `(v1.xx)` 版本标注（2.9）/ section 名含开发编号 `[§x.x]`（2.8）；统计精确数量（陷阱 #13） |
+| 1.5 | 节名引用链 | ✅ 完全自动 | **已有** `gen_ref_graph.py` 覆盖（断链 + 孤立节）。无需改动 |
+| 1.6 | 跨文件枚举一致性 | ✅ 完全自动 | **重写 `validate_enums.py` 核心逻辑**：对 `enum_registry.json` 中每个枚举，grep 权威源文件提取实际值集合，与注册表声明值集合做集合差运算，报告 `missing`（注册表有/文件无）/ `extra`（文件有/注册表无）/ `mismatch`（值不同）。逐文件交叉比对（陷阱 #22） |
+
+#### 2.2 Phase 2 部分脚本化
+
+| # | 病灶形态 | 脚本化 | 方案 |
+|---|----------|--------|------|
+| 2.8 | 强调性格式化石 | ✅ | 并入 `format_lint.py`：`**bold**` / `【】` / emoji / `[§x.x]` |
+| 2.9 | 版本化石 | ✅ | 并入 `format_lint.py`：`(v1.xx)` / "字段已删除" 类描述 |
+| 2.10 | SSOT 元注释 | ✅ | 并入 `format_lint.py`：正则匹配 `（与.*§.*一致）`/`（见.*字段.*§.*）` 类开发者指针 |
+| 2.1-2.7 | 语义类病灶 | ❌ | 保留人工判断（句型模式需上下文理解） |
+
+#### 2.3 不脚本化的项
+
+Phase 3-7（节级漏斗 / 机制闭环 / 行级审计 / 组织预算 / 汇总处置）均为 `[人]` 判断，不做脚本化。脚本只产出客观证据，人工做语义判定。
+
+### 3. 审计执行证据模板
+
+每次审计的 Phase 1/2 机械阶段输出标准化模板，直接嵌入审计报告：
+
+```
+## Phase 1 · 机械核验执行证据
+
+### 1.1 引用活性
+工具：python tools/gen_ref_graph.py
+执行：rg "§" Prompt_File/*.md | wc -l  ->  {N} 处引用
+断链：{broken_count} 处
+口语化引用：rg "按.{0,8}[条律规则]|见.{0,12}规则|参照.{0,12}" Prompt_File/*.md  ->  {N} 处
+  [文件:行号] 原文  ->  [疑似/确认死链]
+
+### 1.2 术语一致性
+工具：python tools/validate_enums.py --term-check
+弃用术语：{deprecated_count} 处
+  [文件:行号] '{deprecated}' -> 应使用 '{unified}'
+
+### 1.3 重复检测
+工具：python tools/detect_duplicates.py
+逐字重复：{exact_count} 处
+疑似重复（相似度 > 0.7）：{similarity_count} 处
+  [文件A:行号] <-> [文件B:行号]  相似度 {score}
+
+### 1.4 格式合规
+工具：python tools/format_lint.py
+bold 标记：rg "\*\*.+\*\*" Prompt_File/*.md -c  ->  {N} 处
+emoji：{N} 处
+版本标注 (v1.xx)：{N} 处
+
+### 1.5 节名引用链
+工具：python tools/gen_ref_graph.py
+断链引用：{broken_count} 处
+孤立章节：{orphan_count} 处
+
+### 1.6 跨文件枚举一致性
+工具：python tools/validate_enums.py --enum-check
+扫描枚举类型：{enum_count} 个
+不一致项：{mismatch_count} 项
+  [{enum_key}] {authority_file} vs {target_file}
+    missing: {values}
+    extra: {values}
+```
+
+### 4. 集成与执行流程
+
+```
+tools/
+├── enum_registry.json          # 枚举注册表（数据源，已有）
+├── gen_ref_graph.py            # 1.1 + 1.5（增强口语化引用检测）
+├── validate_enums.py           # 1.2 + 1.6（重写核心比对逻辑）
+├── detect_duplicates.py        # 1.3（新增）
+├── format_lint.py              # 1.4 + 2.8/2.9/2.10（新增）
+└── run_audit.py                # 统一入口，串联上述脚本，输出标准化证据模板
+```
+
+**执行**：`python tools/run_audit.py` -> 输出完整 Phase 1/2 执行证据，审计者复制到报告头部，然后进入 Phase 3-7 人工审查。
+
+**设计原则**：
+- 每个脚本独立可运行（单独审计某一项时直接调用）
+- `run_audit.py` 仅做串联 + 模板格式化，不含检测逻辑
+- 所有输出包含**实际执行的命令 + 结果计数**（陷阱 #21 对策）
+- 脚本不产出"已检查，无违规"的空结论--无问题时输出 `✅ {check_item}: 0 issues (scanned {N} files, {M} patterns)`
+
+### 5. 实施优先级
+
+| 批次 | 内容 | 依据 |
+|------|------|------|
+| P1 | 重写 `validate_enums.py` 核心逻辑（1.6 跨文件枚举比对） | 陷阱 #22 直接成因，现有脚本半成品 |
+| P1 | 增强 `gen_ref_graph.py` 口语化引用检测（1.1） | 陷阱 #14，现有脚本只扫 `§` 前缀 |
+| P2 | 新增 `format_lint.py`（1.4 + 2.8/2.9/2.10） | 陷阱 #13，形态黑名单客观可扫 |
+| P3 | 新增 `detect_duplicates.py`（1.3） | 收益较低（语义等价仍需人工），半自动 |
+| P3 | 新增 `run_audit.py` 统一入口 | 前序脚本完成后才有意义 |
+
+### 6. 改动范围
+
+| 文件 | 改动 |
+|------|------|
+| `tools/validate_enums.py` | 重写核心逻辑：枚举值集合跨文件比对（grep 权威源 -> 集合差运算 -> 报告 missing/extra/mismatch） |
+| `tools/gen_ref_graph.py` | 新增口语化引用扫描函数 + 输出口语化引用疑似死链清单 |
+| `tools/format_lint.py` | 新建：bold/emoji/版本标注/SSOT 元注释扫描 |
+| `tools/detect_duplicates.py` | 新建：section 块提取 + 行级 diff + 相似度计算 |
+| `tools/run_audit.py` | 新建：串联所有脚本，输出标准化执行证据模板 |
+| `tools/enum_registry.json` | 可选：补 `form_blacklist` 节（正则模式定义），供 `format_lint.py` 读取 |
 
 ---
 

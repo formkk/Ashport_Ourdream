@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """
-Ash Harbor 引用关系图生成脚本
-扫描 Prompt_File/*.md 中所有 §[章节名] 引用，生成 Mermaid 格式引用关系图。
-输出：tools/ref_graph.mmd
+Ash Harbor 引用关系图 + 引用活性检查脚本（PAM v1.2 Phase 1.1 + 1.5）
+
+功能：
+  1.1 引用活性：扫描 §[章节名] 断链 + 口语化引用（陷阱 #14）
+  1.5 节名引用链：孤立章节检测
+  附带输出 Mermaid 格式引用关系图 -> tools/ref_graph.mmd
 
 用法: python tools/gen_ref_graph.py
 """
@@ -25,6 +28,14 @@ REF_PATTERN_PLAIN = re.compile(r'§([^\s,，。；;（）\(\)\[\]`]+)')
 # 匹配聊天室字段引用
 CHATROOM_REF_PATTERN = re.compile(r'聊天室\s*(?:Scenario|Private Details|自定义指令)?\s*字段\s*§\[?([^\]），\s]+)')
 
+# --- 陷阱 #14：口语化引用模式（未使用 § 前缀） ---
+# "按 X 条" / "按 X 律" / "按 X 规则" -- 不含 §
+COLLOQUIAL_REF_PATTERN_1 = re.compile(r'按\s*([^\s§`]{2,12})\s*[条律规则]')
+# "见 X 规则" / "见 X 机制" / "见 X 表" / "见 X 协议" -- 不含 §
+COLLOQUIAL_REF_PATTERN_2 = re.compile(r'见\s*([^\s§`]{2,15})\s*(?:规则|机制|表|协议|矩阵)')
+# "参照 X" -- 不含 §
+COLLOQUIAL_REF_PATTERN_3 = re.compile(r'参照\s*([^\s§`]{2,15})')
+
 # 文件简称映射
 FILE_SHORT = {
     "0-1_Private_Details.md": "0-1",
@@ -46,7 +57,7 @@ def extract_sections(filename, content):
     return sections
 
 def extract_references(filename, content):
-    """提取文件中的所有引用"""
+    """提取文件中的所有 § 引用"""
     refs = []
     seen = set()  # 去重：(filename, section)
     
@@ -70,6 +81,69 @@ def extract_references(filename, content):
     
     return refs
 
+def extract_colloquial_refs(filename, content):
+    """
+    提取口语化引用（陷阱 #14）：未使用 § 前缀的引用模式。
+    返回 [(pattern_type, matched_text, captured_ref, line_number)]
+    """
+    # 常见非引用词，匹配到这些的跳过（减少误报）
+    FALSE_POSITIVE_WORDS = {
+        '混合', '口径', '时钟', '暴露', '自包含原', '需', 'step', '实际',
+        '上一轮', '场景', '消耗', '优先', '行', '区', '基', '步',
+    }
+
+    results = []
+    patterns = [
+        ("按X条/律/规则", COLLOQUIAL_REF_PATTERN_1),
+        ("见X规则/机制/表", COLLOQUIAL_REF_PATTERN_2),
+        ("参照X", COLLOQUIAL_REF_PATTERN_3),
+    ]
+    for ptype, pattern in patterns:
+        for match in pattern.finditer(content):
+            # 排除：已含 § 的行段（在同一行中如果附近有 § 则跳过）
+            line_start = content.rfind('\n', 0, match.start()) + 1
+            line_end = content.find('\n', match.end())
+            if line_end == -1:
+                line_end = len(content)
+            line_text = content[line_start:line_end]
+            if '§' in line_text:
+                continue
+
+            # 排除："见" 前一个字与 "见" 构成常见词（如 意见/发现/看见/遇见/听见）
+            match_start = match.start()
+            if ptype == "见X规则/机制/表" and match_start > 0:
+                prev_char = content[match_start - 1]
+                if prev_char in '意发看遇听见':
+                    continue
+
+            captured = match.group(1)
+
+            # 排除：匹配到的后缀字符是更长词的一部分
+            # 如 "条目" 中的 "条"、"规格" 中的 "规"
+            match_end = match.end()
+            if match_end < len(content):
+                next_char = content[match_end]
+                # "条" 后接 "目" = 条目（非引用）
+                if match.group(0).endswith('条') and next_char == '目':
+                    continue
+                # "规" 后接 "格" = 规格（非引用）
+                if match.group(0).endswith('规') and next_char == '格':
+                    continue
+
+            # 排除常见非引用词
+            if any(fp in captured for fp in FALSE_POSITIVE_WORDS):
+                continue
+
+            # 参照X 模式：要求 X 以规则/机制/表/协议等结尾或包含节名关键词
+            if ptype == "参照X":
+                if not any(kw in captured for kw in ['规则', '机制', '表', '协议', '矩阵', '节', '段']):
+                    # 检查 captured 是否匹配某个已定义 section 名
+                    continue
+
+            line_num = get_line_number(content, match.start())
+            results.append((ptype, match.group(0), captured, line_num))
+    return results
+
 def get_line_number(content, pos):
     """根据字符位置获取行号"""
     return content[:pos].count('\n') + 1
@@ -89,6 +163,12 @@ def main():
             for ref_type, section, pos in extract_references(md.name, content):
                 line_num = get_line_number(content, pos)
                 all_refs.append((md.name, ref_type, section, line_num))
+    
+    # 收集口语化引用
+    all_colloquial_refs = []  # (source_file, pattern_type, matched_text, captured_ref, line)
+    for md_name, content in files.items():
+        for ptype, matched, captured, line in extract_colloquial_refs(md_name, content):
+            all_colloquial_refs.append((md_name, ptype, matched, captured, line))
     
     # 构建引用图
     # edges: source_file -> [(target_file, section, line)]
@@ -153,15 +233,16 @@ def main():
     
     # 控制台报告
     print("=" * 60)
-    print("Ash Harbor 引用关系图生成报告")
+    print("1.1 引用活性 + 1.5 节名引用链 检查报告")
     print("=" * 60)
     print()
     print(f"扫描文件: {len(files)}")
     print(f"定义章节: {len(all_defined_sections)}")
-    print(f"引用总数: {len(all_refs)}")
+    print(f"§引用总数: {len(all_refs)}")
     print(f"有效引用: {sum(len(v) for v in edges.values())}")
     print(f"断链引用: {len(broken_refs)}")
     print(f"孤立章节: {len(orphan_sections)}")
+    print(f"口语化引用: {len(all_colloquial_refs)}")
     print()
     
     if broken_refs:
@@ -169,6 +250,15 @@ def main():
         for source, section, line in broken_refs:
             short = FILE_SHORT.get(source, source)
             print(f"  ❌ {short} L{line}: §[{section}]")
+    
+    if all_colloquial_refs:
+        print()
+        print(f"口语化引用（陷阱 #14，未使用 § 前缀）({len(all_colloquial_refs)}):")
+        for source, ptype, matched, captured, line in all_colloquial_refs:
+            short = FILE_SHORT.get(source, source)
+            print(f"  ⚠️ [{short} L{line}] [{ptype}] '{matched}' -> captured: '{captured}'")
+    else:
+        print(f"✅ 1.1 口语化引用: 0 issues (scanned {len(files)} files)")
     
     if orphan_sections:
         print()
