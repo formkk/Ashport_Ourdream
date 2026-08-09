@@ -11,7 +11,7 @@
 - [ ] Party Condition 包含 5 轨压力状态级（首次必出）
 - [ ] Inventory State 有初始随身物品（非空）
 - [ ] 近五日主要事件有 D1 条目
-- [ ] Day = D1-T1，Month = October，Season = Autumn
+- [ ] Day = D1-T1，Season = Autumn
 
 ## 用例 2：跨日推进
 
@@ -22,7 +22,7 @@
 - [ ] Turn 继续累计（不归零）
 - [ ] 时间设为合理时刻（06:00-08:00）
 - [ ] WSK 第一行 Day 与 WM 一致
-- [ ] WSK Month 按 D->月份映射正确更新（如 D32 = November）
+- [ ] WSK Season 与 WM [主要状态] 一致（如 D62 = Winter）
 - [ ] 近五日主要事件新增当日条目
 
 ## 用例 3：死亡事件

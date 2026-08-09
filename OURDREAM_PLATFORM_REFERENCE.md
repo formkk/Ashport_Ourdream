@@ -81,7 +81,7 @@ OurDream.ai 的角色字段结构（基于 Character Card Spec V1/V2）：
 
 | 引用类型 | 统一格式 | 示例 |
 |---|---|---|
-| 指向聊天室级字段 | `聊天室 {Private Details / Scenario} 字段 §章节名` | `聊天室 Scenario 字段 §月份推进规则` |
+| 指向聊天室级字段 | `聊天室 {Private Details / Scenario} 字段 §章节名` | `聊天室 Scenario 字段 §季节锚点` |
 | 角色内跨字段引用 | `{角色全称}（本角色）的 {Scene / Additional Personality Details / Extra Details} 字段 §章节名` | `World Master（本角色）的 Scene 字段 §Probability Check` |
 | 跨文件指向某角色卡（由聊天室字段或第三方读者可见处） | `{角色全称} 的 {字段名} 字段 §章节名`（不带"（本角色）"） | `World State Keeper 的 Extra Details 字段 §压缩规则` |
 | 跨角色内容依赖 | 禁止引用对方角色卡；改为"以对方在对话历史中的实际输出为准" | `以最新 [State Update] 实际输出为准` |

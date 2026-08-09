@@ -54,17 +54,6 @@
         "wsk": "2-3 §[固定取值]"
       }
     },
-    "current_month": {
-      "values": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-      "authority": "0-2_Scenario.md",
-      "authority_section": "§月份推进规则",
-      "derivation_rule": "D1-D31=October, D32-D61=November, D62-D92=December, D93-D120=January, D121-D151=February, D152-D181=March",
-      "referenced_in": ["1-2", "2-2", "2-3"],
-      "inline_copies": {
-        "wm": "1-3 ([主要状态] 输出)",
-        "wsk": "2-2 (推导) / 2-3 §[固定取值]"
-      }
-    },
     "memory_inventory_availability": {
       "values": ["confirmed-intact", "uncertain", "likely-moved", "likely-looted", "likely-damaged", "unreachable"],
       "authority": "2-3_WorldStateKeeper_Extra_Details.md",

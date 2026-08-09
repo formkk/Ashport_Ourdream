@@ -32,7 +32,7 @@
 ### [State Update] 格式
 ```
 [State Update]
-D{day}-T{turn} / {Month} / {Season} / HH:MM / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {知情范围}
+D{day}-T{turn} / {Season} / HH:MM / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {知情范围}
 
 Inventory Delta: ...
 Recent Changes: ...
@@ -52,8 +52,7 @@ Active Concerns:
 ```
 
 验证项：
-- [ ] 第一行 7 段完整（Day-Turn / Month / Season / 时间 / 位置 / 天气+温度 / 知情范围）
-- [ ] Month 与 Season 独立字段，用 `/` 分隔
+- [ ] 第一行 6 段完整（Day-Turn / Season / 时间 / 位置 / 天气+温度 / 知情范围）
 - [ ] 变化子段仅 Inventory Delta / Recent Changes（无变化时不写）
 - [ ] Active Concerns 位于变化子段之后、完整视图之前
 - [ ] 完整视图 9 字段全部输出
