@@ -35,6 +35,6 @@
 [弹药口径合并]
 - 弹药按口径（弹药规格）合并记录的完整规则，以 World State Keeper（本角色）的 Extra Details 字段 §[弹药口径格式硬约束（按口径合并）] 为唯一权威。
 
-[死亡事件 Knowledge Scope]
-- 收到死亡事件时，按 Knowledge Scope 字段记录于 `[State Update]`，默认 `hidden`。
+[死亡事件 知情范围]
+- 收到死亡事件时，按 知情范围 字段记录于 `[State Update]`，默认 `hidden`。
 - WSK 不自行判断公开性；不得反推角色已知信息；只记当前状态。

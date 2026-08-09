@@ -30,8 +30,8 @@
 **输入**：WM 叙事中 NPC 死亡
 
 **预期**：
-- [ ] WM 死亡叙事标注 `[Knowledge Scope: <level>]`
-- [ ] 默认 KS = hidden
+- [ ] WM 死亡叙事标注 `[知情范围: <level>]`
+- [ ] 默认 知情范围 = hidden
 - [ ] WSK 在 Relationship 或 Party Condition 中记录死亡
 - [ ] WSK 不自行判断公开性
 

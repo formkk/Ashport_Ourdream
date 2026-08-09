@@ -222,8 +222,8 @@ OurDream.ai 的多层记忆：
 
 - **扫描窗口**：自本角色上次发言以来的 WM 角色卡对话历史（首次点击 = 整个对话历史起点）
 - **提取源**：WM Scene 叙事 + `[主要状态]` 状态栏中已明确写出的已成立变化
-- **WSK 提取集**：`Day ID / Turn ID / Zone / Sub-zone / Location / Knowledge Scope / Weather / Inventory Snapshot / Party Condition / Base Structure / Recent Changes`
-- **WER 提取集**：`Day ID / Official Day / Recent Events / Structural Changes / Irreducible Anchors / Knowledge Scope Notes`
+- **WSK 提取集**：`Day ID / Turn ID / Zone / Sub-zone / Location / 知情范围 / Weather / Inventory Snapshot / Party Condition / Base Structure / Recent Changes`
+- **WER 提取集**：`Day ID / Official Day / Recent Events / Structural Changes / Irreducible Anchors / 知情范围 Notes`
 - **展示块隔离**：`[Resolution]` / `[Probability Check]` / 子结构块仅供用户阅读，**不**作为提取源
 
 #### 4.3.2 决策表（WSK / WER 各 3 张）
@@ -239,7 +239,7 @@ OurDream.ai 的多层记忆：
 - 拒绝回执仅适用于「WM Scene 叙事中已成立变化但字段不完整」场景；普通文本保持静默
 - ESCALATE 决策表已废弃
 
-### 4.4 知识可见性（Knowledge Scope）
+### 4.4 知识可见性（知情范围）
 
 > **防 NPC 反全知的核心机制**
 
@@ -323,11 +323,11 @@ OurDream.ai 的多层记忆：
 | 维度 | 原生 Group Chat | 本项目 1+2 架构 |
 |------|----------------|-----------------|
 | 角色触发 | 平台自动或手动 | **手动触发后台** |
-| 信息流 | 全部共享 | **强语义提取 + Knowledge Scope 约束** |
+| 信息流 | 全部共享 | **强语义提取 + 知情范围 约束** |
 | 状态管理 | 角色各自维护 | **WSK 唯一权威** |
 | 历史归档 | 上下文窗口 | **WER 永久归档 + Pinned Memory 手动同步** |
 | 玩家代理权 | 易被后台抢话 | **WM 唯一前台** |
-| NPC 反全知 | 难防 | **Knowledge Scope 强制约束 + 场景隔离** |
+| NPC 反全知 | 难防 | **知情范围 强制约束 + 场景隔离** |
 | 决策表 | 无 | **DO / REJECT / SILENT 各 3 张** |
 | 通讯机制 | 自由文本 | **强语义提取（不用同步块）** |
 
@@ -384,7 +384,7 @@ OurDream.ai 的多层记忆：
 | **平台上下文窗口有限** | 超长会话早期内容失效 | WSK + WER + Pinned Memory 三层持久化 |
 | **后台不自动运行** | 需手动触发；忘记触发则同步块积累 | 1+2 架构明确分离前台/后台 |
 | ~~**CI 限额 15,000**~~ | ~~极严格~~ | ~~v4.4 迁出 0-1 后此约束不再适用 0-1；0-1 现承载于 Private Details 字段（≥50K）~~ |
-| **多角色共享历史** | 后台可见玩家未公开信息 | Knowledge Scope 强制约束 |
+| **多角色共享历史** | 后台可见玩家未公开信息 | 知情范围 强制约束 |
 | **无内置决策表机制** | LLM 容易"逐条规则解释" | 决策表化（v4 B 批次） |
 | **无内置死亡公开性** | 死亡信息传播易漂移 | Death Publicity Level 字段（v4.1 新增） |
 
@@ -392,7 +392,7 @@ OurDream.ai 的多层记忆：
 
 | 限制 | 影响 | 本项目应对 |
 |------|------|-----------|
-| **多角色共享历史** | 后台可见玩家未公开信息 | Knowledge Scope 强制约束 |
+| **多角色共享历史** | 后台可见玩家未公开信息 | 知情范围 强制约束 |
 
 > 外部平台对比（Character.AI / SillyTavern / NovelAI / Janitor AI 等）已删除；本项目仅以 OurDream 为运行平台。
 
@@ -421,7 +421,7 @@ OurDream.ai 的多层记忆：
 | **长期记忆** | Pinned Memory + Auto Memory | WSK + WER + Pinned Memory | WSK/WER 提供结构化账本而非自由文本 |
 | **状态管理** | 角色各自维护 | WSK 唯一权威 | 防止角色间状态漂移 |
 | **历史归档** | 上下文窗口 + Auto Memory | WER 永久归档 + Pinned Memory | 100+ 日可追溯 |
-| **NPC 反全知** | 靠 prompt 限制 | Knowledge Scope 字段 + 强语义提取 | 结构化强制约束 |
+| **NPC 反全知** | 靠 prompt 限制 | 知情范围 字段 + 强语义提取 | 结构化强制约束 |
 | **决策表** | 无 | 3 张表（DO/REJECT/SILENT） | 替代长规则；降低 LLM 漂移（v4.4 后统一为 3 表） |
 
 ---
@@ -462,7 +462,7 @@ OurDream.ai 的多层记忆：
 
 | 方案 | 机制 | 优点 | 缺点 | 状态（2026-07-18） |
 |------|------|------|------|-------------------|
-| **A 内嵌自检清单** | WM 每轮 Scene 后输出 `[自检报告]` 块（决策表 / KS / 死亡公开性 / 同步块字段 / 库存增量句法 5 项） | 零成本；立即可上线 | 依赖 WM 自我审计；自检块每轮 ~100 字符上下文污染 | ✗ 放弃：收益小+污染上下文 |
+| **A 内嵌自检清单** | WM 每轮 Scene 后输出 `[自检报告]` 块（决策表 / 知情范围 / 死亡公开性 / 同步块字段 / 库存增量句法 5 项） | 零成本；立即可上线 | 依赖 WM 自我审计；自检块每轮 ~100 字符上下文污染 | ✗ 放弃：收益小+污染上下文 |
 | **B 诊断角色**（Drift Auditor） | 新增第 4 角色，扫描聊天历史 + WSK State + WER Ledger，输出 `[Drift Report]` | 独立审计；不受 WM 主观影响 | 增加 1 角色字段占用；需额外点击 | ✗ 放弃：用户决定 1+2 架构不变 |
 | **C Lorebook 决策表** | 利用 OurDream 平台 Lorebook 按关键词触发决策表条目 | 上下文不变即可调用 | 用户实测角色设置无 Lorebook 面板；平台能力未确认 | ✗ 放弃：平台不支持 |
 | **D 外部 Drift Dashboard** | 用户每 5 轮手动统计关键指标，写入 `Drift_Dashboard.md` | 完全本地化；与 Pinned Memory 隔离 | 需用户手动维护；不可自动化 | ✗ 放弃：用户决定不维护外部 dashboard |

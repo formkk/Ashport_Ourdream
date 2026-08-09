@@ -9,7 +9,7 @@
 | 最低要求 = Scene 叙事中至少 1 句明确已成立结果 |
 | 库存只接受变化量写法（获得/消耗/丢失/转移 + 数量 + 单位） |
 | 跨层转移按转移变化量入账：`转移 + 数量 + 单位 + 源层->目标层`，需同时记源层减、目标层加两侧；据点核心库存需 Base Core Site |
-| 死亡事件必须按 Knowledge Scope 字段记录（取值：hidden/party-known/local-only/publicly-known，默认 hidden） |
+| 死亡事件必须按 知情范围 字段记录（取值：hidden/party-known/local-only/publicly-known，默认 hidden） |
 | 弹药口径按口径（弹药规格）合并记录，库存字段不统一折算；交易/经济场景可临时折算（`聊天室 Scenario 字段` §[弹药口径换算表] + World State Keeper（本角色）的 Extra Details 字段 §[弹药口径格式硬约束（按口径合并）]） |
 | 近五日主要事件：格式规格以本角色 Extra Details 字段 §[完整视图] 为唯一权威 |
 
@@ -82,8 +82,8 @@
 1f. Current Season 与 WM 输出不一致时，WSK 以 WM 为准；Current Month 以 Day->月份映射为准。
 1g. Current Month 枚举见本角色 Extra Details 字段 §[固定取值]；推导规则见 1d。
 2. Human Threat Stage 默认记录的取值见本角色 Extra Details 字段 §[固定取值]；阶段与 WM 敌对叙事对应，WSK 从 WM Scene 叙事强语义提取对应阶段，不得自行升级。
-3. Human Threat Stage 记录的是现实威胁阶段，不等于当前场景内角色已经知道全部细节；仍要受 Knowledge Scope 约束。
-4. Knowledge Scope 取值（统一 4 档，按扩散度升序）：`hidden`（默认值；被隐瞒/无法确认/未扩散）/ `party-known`（当事人/队伍已知）/ `local-only`（亲见亲闻，仅现场或近场范围扩散）/ `publicly-known`（公开传播）；未指明时按 `hidden` 落盘。升级必须依赖新的已成立传播事件（广播/告示/市场传闻/跨地点传播/广范围可见后果），时间流逝或同住一处不自动升级；多人目击/当众冲突/现场围观仍为 `local-only`。Human Threat Stage 受 Knowledge Scope 约束。
+3. Human Threat Stage 记录的是现实威胁阶段，不等于当前场景内角色已经知道全部细节；仍要受 知情范围 约束。
+4. 知情范围 取值（统一 4 档，按扩散度升序）：`hidden`（默认值；被隐瞒/无法确认/未扩散）/ `party-known`（当事人/队伍已知）/ `local-only`（亲见亲闻，仅现场或近场范围扩散）/ `publicly-known`（公开传播）；未指明时按 `hidden` 落盘。升级必须依赖新的已成立传播事件（广播/告示/市场传闻/跨地点传播/广范围可见后果），时间流逝或同住一处不自动升级；多人目击/当众冲突/现场围观仍为 `local-only`。Human Threat Stage 受 知情范围 约束。
 
 [地点与路径记录规则]
 1. 地图内补点 = 在既有九宫格 `Zone / Sub-zone` 下新增地点、建筑、地下室、院落、仓间、桥洞或其他可稳定复指的节点;你应把它作为新的 `Location` 记录,但不得把它当作新的九宫格分区。

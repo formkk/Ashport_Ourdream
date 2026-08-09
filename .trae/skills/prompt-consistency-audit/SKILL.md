@@ -31,7 +31,7 @@ Extract and cross-compare all enum definitions:
 3. Flag any mismatched values (missing, extra, or different spelling)
 
 **Enums to check**:
-- Knowledge Scope: `hidden / party-known / local-only / publicly-known`
+- 知情范围: `hidden / party-known / local-only / publicly-known`
 - Survival state levels: `stable / strained / weakened / critical / dying / dead`
 - Weather: `Clear / Overcast / Light Rain / Heavy Rain / Fog / Windy / Sleet / Snow / Storm`
 - Temperature Band: `Mild / Cool / Cold / Bitter Cold / Heat`
@@ -60,8 +60,8 @@ Verify each data table / enum / rule has exactly ONE authoritative source in 0-1
 | 5 轨压力系统 | 0-2 §[环境生存压力系统] | 1-2/1-3 | 2-2/2-3 |
 | 温度分层与季节 | 0-2 §[温度分层与 5 轨道联动] / §[季节锚点] | 1-3 | 2-3 §[固定取值] |
 | 天气枚举与影响 | 0-2 §[轻量天气系统] | 1-3 | 2-3 §[固定取值] |
-| Knowledge Scope | 0-1 §[跨层转移与 Knowledge Scope 协议] | 1-2 | 2-2 |
-| 跨层转移规则 | 0-1 §[跨层转移与 Knowledge Scope 协议] | 1-2 | 2-2 |
+| 知情范围 | 0-1 §[跨层转移与 知情范围 协议] | 1-2 | 2-2 |
+| 跨层转移规则 | 0-1 §[跨层转移与 知情范围 协议] | 1-2 | 2-2 |
 | NPC 知识边界 | 0-2 §[NPC 反全知 / 反顾问化机制] | 1-2 | -- |
 | 移动与路由规则 | 0-2 §[地图调用规则] | 1-3 | 2-2 |
 | 死亡/抢救规则 | 0-2 §[死亡 / 抢救 / 遗物规则] | 1-2 | -- |
@@ -97,7 +97,7 @@ Check that the same concept uses the same name across all files:
 Verify the same process is described consistently:
 1. Pinned Memory flow: Who produces? Who copies? (WSK produces -> user manually copies)
 2. Cross-layer transfer: Source decreases, target increases (both sides recorded)
-3. Death event: Default Knowledge Scope = hidden
+3. Death event: Default 知情范围 = hidden
 4. Off-screen evolution: Time threshold definition exists
 5. Pressure listing: WM lists only non-stable; WSK lists all 5
 
