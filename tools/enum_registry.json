@@ -1,0 +1,133 @@
+{
+  "$schema": "enum_registry_v1",
+  "description": "Ash Harbor 项目枚举注册表 -- 全库枚举一致性校验的权威源。修改枚举时必须同步本文件。",
+  "enums": {
+    "knowledge_scope": {
+      "values": ["hidden", "party-known", "local-only", "publicly-known"],
+      "authority": "0-1_Private_Details.md",
+      "authority_section": "§跨层转移与 Knowledge Scope 协议",
+      "default": "hidden",
+      "referenced_in": ["0-2", "1-2", "1-3", "2-1", "2-2", "2-3"],
+      "inline_copies": {
+        "wm": "1-2 (裁定)",
+        "wsk": "2-2 (记录) / 2-3 §[固定取值]"
+      }
+    },
+    "survival_state_level": {
+      "values": ["stable", "strained", "weakened", "critical", "dying", "dead"],
+      "authority": "0-2_Scenario.md",
+      "authority_section": "§环境生存压力系统",
+      "note": "dead 仅用于正式死亡",
+      "referenced_in": ["0-1", "1-2", "1-3", "2-2", "2-3"],
+      "inline_copies": {
+        "wm": "1-2/1-3 (裁定+阈值表)",
+        "wsk": "2-2/2-3 (记录+状态级) / 2-3 §[固定取值]"
+      }
+    },
+    "weather": {
+      "values": ["Clear", "Overcast", "Light Rain", "Heavy Rain", "Fog", "Windy", "Sleet", "Snow", "Storm"],
+      "authority": "0-2_Scenario.md",
+      "authority_section": "§轻量天气系统",
+      "referenced_in": ["1-2", "1-3", "2-3"],
+      "inline_copies": {
+        "wm": "1-3 (叙事渲染)",
+        "wsk": "2-3 §[固定取值]"
+      }
+    },
+    "temperature_band": {
+      "values": ["Mild", "Cool", "Cold", "Bitter Cold", "Heat"],
+      "authority": "0-2_Scenario.md",
+      "authority_section": "§温度分层与 5 轨道联动",
+      "referenced_in": ["1-2", "1-3", "2-3"],
+      "inline_copies": {
+        "wm": "1-3 ([主要状态] 输出)",
+        "wsk": "2-3 §[固定取值]"
+      }
+    },
+    "current_season": {
+      "values": ["Winter", "Spring", "Summer", "Autumn"],
+      "authority": "0-2_Scenario.md",
+      "authority_section": "§季节锚点",
+      "referenced_in": ["1-2", "1-3", "2-2", "2-3"],
+      "inline_copies": {
+        "wm": "1-3 ([主要状态] 输出)",
+        "wsk": "2-3 §[固定取值]"
+      }
+    },
+    "current_month": {
+      "values": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      "authority": "0-2_Scenario.md",
+      "authority_section": "§月份推进规则",
+      "derivation_rule": "D1-D31=October, D32-D61=November, D62-D92=December, D93-D120=January, D121-D151=February, D152-D181=March",
+      "referenced_in": ["1-2", "2-2", "2-3"],
+      "inline_copies": {
+        "wm": "1-3 ([主要状态] 输出)",
+        "wsk": "2-2 (推导) / 2-3 §[固定取值]"
+      }
+    },
+    "memory_inventory_availability": {
+      "values": ["confirmed-intact", "uncertain", "likely-moved", "likely-looted", "likely-damaged", "unreachable"],
+      "authority": "2-3_WorldStateKeeper_Extra_Details.md",
+      "authority_section": "§[固定取值]",
+      "default": "uncertain",
+      "referenced_in": ["2-2", "2-3"],
+      "inline_copies": {
+        "wm": null,
+        "wsk": "2-2 (记录规则) / 2-3 §[固定取值]"
+      }
+    },
+    "human_threat_stage": {
+      "values": ["none", "signs", "observed", "followed", "probed", "blocked", "robbed", "violent", "lethal"],
+      "authority": "2-3_WorldStateKeeper_Extra_Details.md",
+      "authority_section": "§[固定取值]",
+      "referenced_in": ["1-2", "2-2", "2-3"],
+      "inline_copies": {
+        "wm": "1-2 (敌对阶梯判定)",
+        "wsk": "2-2 (记录) / 2-3 §[固定取值]"
+      }
+    },
+    "ammunition_caliber": {
+      "values": ["9mm", ".45 ACP", ".380 ACP", ".22 LR", "霰弹", "7.62", "5.45", "其他口径"],
+      "authority": "2-3_WorldStateKeeper_Extra_Details.md",
+      "authority_section": "§[弹药口径格式硬约束（按口径合并）]",
+      "conversion_authority": "0-2_Scenario.md §[弹药口径换算表]",
+      "referenced_in": ["0-2", "1-2", "2-1", "2-3"],
+      "inline_copies": {
+        "wm": "1-3 (交易场景)",
+        "wsk": "2-3 §[弹药口径格式硬约束]"
+      }
+    },
+    "base_category": {
+      "values": ["主据点", "物资点", "安全屋", "地图外据点"],
+      "authority": "2-2_WorldStateKeeper_Additional_Personality_Details.md",
+      "authority_section": "§[据点与庇护记录规则]",
+      "referenced_in": ["1-3", "2-2"],
+      "inline_copies": {
+        "wm": "1-3 (据点结构基线)",
+        "wsk": "2-2 (记录规则)"
+      }
+    },
+    "exposure_response_level": {
+      "values": ["L0 未暴露", "L1 怀疑", "L2 暴露", "L3 追查", "L4 清算"],
+      "authority": "1-3_WorldMaster_Extra_Details.md",
+      "authority_section": "§[身份暴露风险]",
+      "co_authority": "2-2_WorldStateKeeper_Additional_Personality_Details.md §[势力暴露追踪规则]",
+      "referenced_in": ["1-3", "2-2"],
+      "inline_copies": {
+        "wm": "1-3 (裁定)",
+        "wsk": "2-2 (记录)"
+      }
+    }
+  },
+  "term_pairs": {
+    "description": "已知易混淆术语对照（历史已修复，防止回退）",
+    "pairs": [
+      {"unified": "沉默协议", "deprecated": ["静默协议"]},
+      {"unified": "Human Threat Stage", "deprecated": ["Human Contact Status"]},
+      {"unified": "据点核心库存", "deprecated": ["据点库存", "据点储备"]},
+      {"unified": ".45 ACP", "deprecated": [".45（短名）"]},
+      {"unified": "Inventory State 之后", "deprecated": ["Inventory State 末尾"], "context": "记忆库存位置"},
+      {"unified": "由 WSK 产出素材、由用户手动复制到 Pinned Memory", "deprecated": ["由 WSK 归档到 Pinned Memory"]}
+    ]
+  }
+}
