@@ -96,15 +96,26 @@
         "wsk": "2-2 (记录规则)"
       }
     },
-    "exposure_response_level": {
-      "values": ["L0 未暴露", "L1 怀疑", "L2 暴露", "L3 追查", "L4 清算"],
-      "authority": "1-3_WorldMaster_Extra_Details.md",
-      "authority_section": "§[身份暴露风险]",
-      "co_authority": "2-2_WorldStateKeeper_Additional_Personality_Details.md §[势力暴露追踪规则]",
-      "referenced_in": ["1-3", "2-2"],
+    "relationship": {
+      "values": ["依恋/完全信任", "亲密/信任", "好感", "中立", "冷漠", "敌意", "仇恨"],
+      "authority": "2-3_WorldStateKeeper_Extra_Details.md",
+      "authority_section": "§[固定取值]",
+      "co_authority": "1-3_WorldMaster_Extra_Details.md §[NPC Relationship 行为阈值表]",
+      "referenced_in": ["1-1", "1-2", "1-3", "2-2", "2-3", "0-2"],
       "inline_copies": {
-        "wm": "1-3 (裁定)",
-        "wsk": "2-2 (记录)"
+        "wm": "1-3 (行为阈值表)",
+        "wsk": "2-3 (固定取值)"
+      }
+    },
+    "warmth_level": {
+      "values": ["优", "良", "中", "弱", "差"],
+      "authority": "1-3_WorldMaster_Extra_Details.md",
+      "authority_section": "§[保暖修正]",
+      "note": "WM 每轮实时裁定，不持久化（WSK 不记录）",
+      "referenced_in": ["1-2", "1-3"],
+      "inline_copies": {
+        "wm": "1-2 (裁定) / 1-3 (保暖修正表)",
+        "wsk": null
       }
     }
   },

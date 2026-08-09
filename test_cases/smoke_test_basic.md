@@ -35,27 +35,23 @@
 D{day}-T{turn} / {Season} / HH:MM / {Zone} {Sub-zone} {Location} / {Weather} {Temperature Band} / {知情范围}
 
 Inventory Delta: ...
-Recent Changes: ...
 
 Active Concerns:
 - [类别] 问题描述
 
 1. Inventory State（随身/据点核心，含穿戴标记）
 2. Party Condition
-3. Relationship
-4. Faction（含 Faction Exposure Tracker）
-5. Human Threat Stage
-6. Map Knowledge
-7. Survival Anchor State
-8. Base Structure State（含基础设施）
-- 近五日主要事件（按 D 升序）
+3. Relationship & Threat
+4. Map Knowledge
+5. Base Structure State（含基础设施）
+6. 近五日主要事件（按 D 升序）
 ```
 
 验证项：
 - [ ] 第一行 6 段完整（Day-Turn / Season / 时间 / 位置 / 天气+温度 / 知情范围）
-- [ ] 变化子段仅 Inventory Delta / Recent Changes（无变化时不写）
+- [ ] 变化子段仅 Inventory Delta（无变化时不写）
 - [ ] Active Concerns 位于变化子段之后、完整视图之前
-- [ ] 完整视图 9 字段全部输出
+- [ ] 完整视图 6 字段全部输出
 - [ ] 全部 5 轨压力均列出（含 stable）
 - [ ] 记忆库存在 Inventory State 之后作为独立段（不在 Inventory State 内）
 - [ ] 弹药按口径合并记录（不按武器类别分组）
@@ -67,7 +63,7 @@ Active Concerns:
 | WM [主要状态] 格式 | 5 段结构完整 + 无字段名前缀 + 压力仅列非 stable |
 | WM 叙事长度 | ≤3 段 / ≤5 句/段 / ≤1200 字符 |
 | WM 物资渲染 | 可消耗物资有容器描述+约Xkg |
-| WSK [State Update] 格式 | 第一行 7 段 + Active Concerns + 9 字段完整 |
+| WSK [State Update] 格式 | 第一行 7 段 + Active Concerns + 6 字段完整 |
 | WSK 压力列出 | 全部 5 轨（含 stable） |
 | WSK 记忆库存位置 | Inventory State 之后独立段 |
 | WSK 弹药格式 | 按口径合并 |

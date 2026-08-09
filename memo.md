@@ -1,10 +1,10 @@
-# 优化方案 memo：v1.55（已收尾）+ v2.01（待审）
+# 优化方案 memo：v1.55（已收尾）+ v1.56（已收尾）+ v2.01（待审）
 
-> **范围**：2-2 为主，涉及 0-2、1-3、2-3（Task 7 跨文件去除 Month）
+> **范围**：v1.55 = 2-2 为主；v1.56 = WSK 三文件 + WM 三文件 + 0-2 + PB + enum_registry + test_cases
 > **日期**：2026-08-09
 > **前置**：v1.54（WSK 越界内容清理已完成）
 > **原则**：v1.55 只做已明确结论的修复；需机制设计讨论的项排入 v2
-> **状态**：v1.55 ✅ 已收尾（7 任务+扩展清理+文档同步，验证通过）；v2.01 📋 方案待审
+> **状态**：v1.55 ✅ 已收尾；v1.56 ✅ 已收尾（WSK 反应模型简化 + 字段合并 + Relationship 统一关系轴 + D1 保暖机制落地 + Condition 全库移除）；v2.01 📋 方案待审（T2 废弃）
 
 ---
 
@@ -315,6 +315,47 @@ v1.55（Month 去除 + WSK 记账层精简）已全部完成并验证：
 
 ---
 
+## v1.56 执行完成报告
+
+> **日期**：2026-08-09
+> **来源**：2-3 审计 + 用户讨论中确认的 WSK 系统简化 + D1 保暖机制设计
+> **范围**：WSK 三文件（2-1/2-2/2-3）+ WM 三文件（1-1/1-2/1-3）+ 0-2 + PB + enum_registry + test_cases
+
+### 改动总览
+
+| 改动 | 说明 |
+|------|------|
+| WSK 反应模型 5->2 | 删除 [Commit Rejected] 及 4 种拒绝原因；有变化输出完整视图，无变化输出空白标记 `-`；缺失字段标 `未确认` 沿用，不拒绝 |
+| Recent Changes 移除 | 变化子段从 2 个（Inventory Delta + Recent Changes）缩减为 1 个（仅 Inventory Delta）；标注迁移到对应字段 |
+| 完整视图 8->6 字段 | 旧 3（Relationship）+ 4（Faction）+ 5（Human Threat Stage）合并为 3（Relationship & Threat） |
+| Relationship 统一关系轴 | Trust 0-100 + Hostility 0-100 -> Relationship 7 档定性（依恋/完全信任 / 亲密/信任 / 好感 / 中立 / 冷漠 / 敌意 / 仇恨）；适用于所有个体与势力；WSK 语义升降档，不做数值记录 |
+| Faction Exposure Tracker 移除 | 删除 [势力暴露追踪规则] 整节；Suspicion Level L0-L4 / Last Exposed Day / Last Trigger Type 全部移除 |
+| PAM v1.1->v1.2 | 增加 Phase 1 执行证据约束 + 1.6 跨文件枚举一致性检查 + 形态黑名单 2.10 + 陷阱 #21/#22 |
+| D1 保暖机制落地 | 1-3 新增 [保暖修正] 子节（保暖值 5 档优/良/中/弱/差修正有效温度层）+ 1-2 新增 [保暖裁定] 节（WM 每轮实时裁定，不持久化） |
+| Condition 全库移除 + Component 生命周期简化 | Condition 枚举（Pristine/Worn/Damaged/Badly Damaged/Ruined）全库删除；Component 生命周期简化为"组件名 + Type + Role + 状态描述（自然语言）" |
+| T1 据点消耗机制 | 1-1 Resolution 每轮必出 + Day 推进消耗行 / 1-2 据点消耗规则 / 1-3 Resolution 格式更新 |
+
+### 受影响文件
+
+| 文件 | 改动 |
+|------|------|
+| 2-1 Scene | 沉默协议简化 / 输出白名单 / LLM 心理预设 |
+| 2-2 APD | 决策表 3->2（删 REJECT）/ 关系规则重写 / 删势力暴露追踪规则整节 / 合并记录内容 / 删除物品 Condition 枚举 + Component 生命周期简化 |
+| 2-3 Extra | 输出白名单 / 模板声明 / 提取纪律 / 最低提交标准 / 完整视图字段合并 / 固定取值增加 Relationship / 2-3 审计修复 28 项 / 删除结构 Condition 引用 |
+| 1-1 Scene | 关系追踪核心 三轴->两轴 / [Resolution] 每轮必出 + Day 推进消耗行 |
+| 1-2 APD | Trust/Hostility -> Relationship / NPC 行为阈值表引用更新 / 新增 [保暖裁定] 节 / 新增 [据点消耗规则] |
+| 1-3 Extra | [NPC Trust 行为阈值表] -> [NPC Relationship 行为阈值表] 5 档->7 档 / 常驻角色状态引用更新 / 新增 [保暖修正] 子节 / 锚点表删除 Condition + Delta 改为状态描述 / [Resolution 块] 格式增加消耗行 |
+| 0-2 Scenario | 人际与信息条 Trust -> Relationship |
+| PROJECT_BLUEPRINT.md | 9 处更新 / 头部 changelog v1.56 / PAM v1.2 |
+| enum_registry.json | 删除 exposure_response_level / 新增 relationship / 新增 warmth_level（保暖值） |
+| test_cases/ | smoke_test_basic + edge_cases 适配新 WSK 模型 |
+
+### 遗留项
+
+- ~~**1-3 §[身份暴露风险]**（L610-621）：WM 侧的劫掠者伪装暴露 L0-L4 响应机制仍存在。用户已指示"去除暴露机制"，但该节涉及 WM 叙事机制设计（伪装交易/采购/灰色接触的后果连锁），需用户确认是否一并删除或保留伪装机制但去除 L0-L4 框架。~~ ✅ 已处理：保留伪装触发机制（Probability Check），删除 L0-L4 分级响应，改为"暴露后 Relationship 降为敌意/仇恨 + 自然后果"。
+
+---
+
 ## v2.01 优化方案
 
 > **来源**：v1.55 遗留的 5 项 v2 排期项转化为可执行方案
@@ -352,28 +393,23 @@ v1.55（Month 去除 + WSK 记账层精简）已全部完成并验证：
 - 后果联动（L3→巡逻 / L4→袭击）：**defer 到 v2.02**（需 WM 叙事指令设计）
 - 多势力扩展（码头帮 / 商会等）：**defer**（需用户决定 scope）
 
-**状态**：✅ 部分可执行（标准迁移 + 触发扩展）；后果联动 / 多势力 defer
+**状态**：❌ 废弃（v1.56 已整体移除 Faction Exposure Tracker / Suspicion Level，本任务前提不复存在）
 
 ---
 
-### v2.01-T3：Insulation 定位决议（v2-4）
+### v2.01-T3：Insulation 从 WSK 移除（v2-4 账本侧）
 
-**问题**：v1.55 Task 3 保留 Insulation，但定位未定。
+**问题**：v1.55 Task 3 保留 Insulation 在 WSK，但 WSK 不应持有静态属性。
 
-**分析**：
-- Insulation 是衣物**静态属性**（一件冬衣保暖值不变），不像 Condition 是动态状态
-- WSK 定位 = "记会变化的状态"（PB §0.5 原则③）；静态参考数据属 WM
-- WM 裁定体温轨时需 Insulation → 应在 1-3 维护为参考数据
-- Condition 降级（Worn→Damaged）已由 WSK 记录；WM 读 Condition + Insulation 推演效果，不需 WSK 重复持有 Insulation
+**决议（用户确认）**：Insulation 是衣物**静态属性**（一件冬衣保暖值不变），WSK 定位 = "记会变化的状态"（PB §0.5 原则③），静态属性不属 WSK 账本。从 WSK 移除。
 
-**推荐决议**：**从 WSK 移除 Insulation**，改为 WM 参考数据
+**改动**（仅 WSK 账本侧，不涉及机制设计）：
 - 2-2 L64：`（装备 Condition / Insulation 作为物品条目属性记录在 Inventory 内）` → `（装备 Condition 作为物品条目属性记录在 Inventory 内）`
 - 2-2 [物资状态规则] item 2：删除 `衣物和装备应尽量记录 Insulation`
-- 1-3 [温度分层与 5 轨压力联动]：补注 `WM 裁定体温压力时参考衣物 Insulation（Light / Medium / Heavy / Extreme），衣物 Condition 降级（Worn→Damaged）降低保暖效果`
 
-**注**：此决议逆转 v1.55 Task 3 的"保留 Insulation"决定——v1.55 保留是因"机制联动待讨论"，现讨论结论为 WSK 不应持有静态属性。
+**注**：Insulation 作为**游戏机制**（如何修正体温轨映射、Condition 降级联动、枚举化等）不在本任务范围，排入 v2.02+ 讨论（见下）。移除后 Insulation 暂时从提示词消失——当前 WM [温度分层与 5 轨压力联动] 本就未引用 Insulation，故运行时无影响；v2 机制设计完成后再补入 WM 侧。
 
-**状态**：⚠️ 需用户确认（逆转 v1.55 决定）
+**状态**：✅ 可执行（用户已确认移除）
 
 ---
 
@@ -396,8 +432,9 @@ v1.55（Month 去除 + WSK 记账层精简）已全部完成并验证：
 
 ### v2.02+ 延期项
 
-- 势力暴露后果联动（L3→巡逻 / L4→袭击的 WM 叙事指令设计）
-- 势力暴露多势力扩展（码头帮 / 商会等是否建立追踪，需 scope 决定）
+- **Insulation 游戏机制设计**（用户指定排入 v2 讨论）：衣物保暖值如何修正 [温度分层与 5 轨压力联动] 的温度档→体温压力映射（如 `Cool` 档 + 无保暖衣物 → strained；`Cool` 档 + 冬衣 → stable）；Condition 降级（Worn→Damaged）是否降低保暖效果；Insulation 枚举化（Light/Medium/Heavy/Extreme 还是自然语言）。属 WM 侧机制，设计完成后补入 1-3。
+- ~~势力暴露后果联动（L3->巡逻 / L4->袭击的 WM 叙事指令设计）~~ ❌ 废弃（v1.56 移除 Suspicion Level）
+- ~~势力暴露多势力扩展（码头帮 / 商会等是否建立追踪，需 scope 决定）~~ ❌ 废弃（v1.56 移除 Faction Exposure Tracker）
 - 库存规则大重构（如未来规则膨胀到影响运行时再议）
 
 ---
@@ -408,5 +445,5 @@ v1.55（Month 去除 + WSK 记账层精简）已全部完成并验证：
 |------|------|------|
 | T1 联动职责澄清 | ✅ 可执行 | 纯澄清，低风险，可立即做 |
 | T2 升级标准迁移 | ✅ 部分可执行 | 标准迁移+触发扩展可做；后果联动 defer |
-| T3 Insulation 移除 | ⚠️ 需确认 | 逆转 v1.55，待用户拍板 |
+| T3 Insulation 移除 | ✅ 可执行 | 用户已确认；机制设计 defer v2.02+ |
 | T4 库存梳理评估 | ✅ 已结题 | 结论=不重构，无后续动作 |
