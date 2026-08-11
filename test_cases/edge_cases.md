@@ -1,77 +1,56 @@
-# 边界测试用例
+# edge_cases - 边界场景测试
 
-> 用途：验证边界条件下的输出完整性。逐项在平台验证。
+## 场景 1：无变化可提取
+WM 本轮无 Day 推进、无库存变化、无结构变化。WSK 被点击但无已成立变化可提取。
 
-## 用例 1：首次建账（空库存 -> 初始化）
+## WSK 正确输出（无变化）
 
-**输入**：新对话开始，玩家首次点击 WSK
+```
+-
+```
 
-**预期**：
-- [ ] WSK 输出完整 `[State Update]`（非空白标记 `-`）
-- [ ] Party Condition 包含 5 轨压力状态级（首次必出）
-- [ ] Inventory State 有初始随身物品（非空）
-- [ ] 近五日主要事件有 D1 条目
-- [ ] Day = D1-T1，Season = Autumn
+## 场景 2：Day 推进消耗行提取
+D5->D6 据点过夜。WM 在 [Resolution] 中写消耗行：`消耗（D5->D6）: 随身 干粮×0.5kg / 据点 大米×1kg + 木柴×2kg`
 
-## 用例 2：跨日推进
+## WSK 正确输出（消耗行提取）
 
-**输入**：WM 叙事中明确写到"第二天"/"天亮"/过夜后醒来
+```
+[State Update] D6-T58
 
-**预期**：
-- [ ] WM [主要状态] Day +1
-- [ ] Turn 继续累计（不归零）
-- [ ] 时间设为合理时刻（06:00-08:00）
-- [ ] WSK 第一行 Day 与 WM 一致
-- [ ] WSK Season 与 WM [主要状态] 一致（如 D62 = Winter）
-- [ ] 近五日主要事件新增当日条目
+Inventory Delta: 消耗 干粮×0.5kg（随身）；消耗 大米×1kg（据点）；消耗 木柴×2kg（据点）
 
-## 用例 3：死亡事件
+1. Inventory State: 随身: 食品: 干粮×1.0kg；据点核心: 食品: 大米×4kg；燃料动力: 木柴×8kg
+2. Party Condition: 1人；疲劳 stable；体温 stable；脱水 stable；饥饿 stable；伤病 stable
+3. Relationship & Threat: 无正式关系记录
+4. Map Knowledge: 工业区/N 已探索
+5. Base Structure State: 质检小楼：完好
+6. 近五日主要事件:
+D5: 到达工业区/N/质检小楼
+D6: 据点过夜消耗
+```
 
-**输入**：WM 叙事中 NPC 死亡
+## WSK 错误输出（- 输出但有多行内容）
 
-**预期**：
-- [ ] WM 死亡叙事标注 `[知情范围: <level>]`
-- [ ] 默认 知情范围 = hidden
-- [ ] WSK 在 Relationship 或 Party Condition 中记录死亡
-- [ ] WSK 不自行判断公开性
+```
+-
 
-## 用例 4：地图外地点
+Inventory State: 随身: 武器: 猎枪×1
+```
 
-**输入**：玩家到达地图外地点（如西郊石基农舍）
+## WSK 错误输出（缺少必出字段）
 
-**预期**：
-- [ ] WM 叙事中给出 Boundary Anchor / External Site / Access Route / Reachability
-- [ ] WSK 第一行位置写 `地图外·{地点名}`
-- [ ] WSK 完整视图中保留 External Location State
-- [ ] WSK 不把地图外地点当作新九宫格分区
+```
+[State Update] D6-T58
 
-## 用例 5：交易场景
+Inventory Delta: 消耗 干粮×0.5kg
 
-**输入**：玩家与 NPC 交易（如用弹药换食物）
+1. Inventory State: 随身: 食品: 干粮×1.0kg
+2. Party Condition: 1人；疲劳 stable
+3. Relationship & Threat: 无正式关系记录
+```
 
-**预期**：
-- [ ] WM 叙事中写明谁付出什么、谁得到什么
-- [ ] WSK Inventory Delta 记录获得/消耗
-- [ ] WSK 弹药按口径记录（9mm×67发），不按武器类别
-- [ ] WSK Relationship 记录关系变化（7 级定性：依恋/完全信任 / 亲密/信任 / 好感 / 中立 / 冷漠 / 敌意 / 仇恨）
-- [ ] 轻交易不展开担保/押货条款
-
-## 用例 6：无可提取变化
-
-**输入**：WM 叙事仅有对话/观察，无已成立状态变化；用户点击 WSK
-
-**预期**：
-- [ ] WSK 输出空白标记 `-`（无可提取变化）
-- [ ] 仅一行，不附完整视图
-- [ ] 保持上一份官方状态不变
-
-## 用例 7：概率检查触发
-
-**输入**：玩家在拾荒者活动频繁区域搜刮，WM 判定需要第三方目击检查
-
-**预期**：
-- [ ] WM 输出 `[Probability Check]` 块
-- [ ] 包含 Trigger / Event Class / Base Probability / Modifiers / Final Probability / Day ID / Turn ID / Event Offset / Seed / Threshold / Result / Outcome
-- [ ] Seed = (Day ID × 7 + Turn ID × 3 + Event Offset) mod 100
-- [ ] 未触发时不在叙事中渲染该事件
-- [ ] WSK 不因概率块而生成新账本（概率块仅供用户阅读）
+验证点：
+- 正例 1：`-` 输出只有一行 -> 应通过
+- 正例 2：消耗行拆分为逐条 Delta，6 字段完整 -> 应通过
+- 反例 1：`-` 输出但有多行 -> R6 应检出
+- 反例 2：缺少 Map Knowledge / Base Structure State / 近五日主要事件 -> R4 应检出

@@ -145,13 +145,23 @@ def check_enum_consistency(registry, files):
             missing = registry_values - max_list
             extra = max_list - registry_values
 
-            if missing or extra:
-                short = short_name(filename)
+            # 权威源必须包含完整枚举（检查 missing + extra）
+            # 非权威源只检查非法值（extra），不检查缺失（missing）——部分引用是正常的（SSOT 原则）
+            is_authority = (filename == authority_file)
+            short = short_name(filename)
+
+            if is_authority:
                 if missing:
                     issues.append(
-                        f"  [MISMATCH] {enum_key} in {short}: "
+                        f"  [MISMATCH] {enum_key} in {short} (authority): "
                         f"missing {sorted(missing)} (registry has {len(registry_values)}, file list has {len(max_list)})"
                     )
+                if extra:
+                    issues.append(
+                        f"  [MISMATCH] {enum_key} in {short} (authority): "
+                        f"extra {sorted(extra)} (file list has values not in registry)"
+                    )
+            else:
                 if extra:
                     issues.append(
                         f"  [MISMATCH] {enum_key} in {short}: "

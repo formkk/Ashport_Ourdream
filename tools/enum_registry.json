@@ -28,30 +28,30 @@
       "values": ["Clear", "Overcast", "Light Rain", "Heavy Rain", "Fog", "Windy", "Sleet", "Snow", "Storm"],
       "authority": "0-2_Scenario.md",
       "authority_section": "§轻量天气系统",
-      "referenced_in": ["1-2", "1-3", "2-3"],
+      "referenced_in": ["1-2", "1-3"],
       "inline_copies": {
         "wm": "1-3 (叙事渲染)",
-        "wsk": "2-3 §[固定取值]"
+        "wsk": null
       }
     },
     "temperature_band": {
       "values": ["Mild", "Cool", "Cold", "Bitter Cold", "Heat"],
       "authority": "0-2_Scenario.md",
       "authority_section": "§温度分层与 5 轨道联动",
-      "referenced_in": ["1-2", "1-3", "2-3"],
+      "referenced_in": ["1-2", "1-3"],
       "inline_copies": {
         "wm": "1-3 ([主要状态] 输出)",
-        "wsk": "2-3 §[固定取值]"
+        "wsk": null
       }
     },
     "current_season": {
       "values": ["Winter", "Spring", "Summer", "Autumn"],
       "authority": "0-2_Scenario.md",
       "authority_section": "§季节锚点",
-      "referenced_in": ["1-2", "1-3", "2-2", "2-3"],
+      "referenced_in": ["1-2", "1-3"],
       "inline_copies": {
         "wm": "1-3 ([主要状态] 输出)",
-        "wsk": "2-3 §[固定取值]"
+        "wsk": null
       }
     },
     "memory_inventory_availability": {
