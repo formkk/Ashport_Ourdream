@@ -5,9 +5,9 @@
     "knowledge_scope": {
       "values": ["hidden", "party-known", "local-only", "publicly-known"],
       "authority": "0-1_Private_Details.md",
-      "authority_section": "§跨层转移与知情范围协议",
+      "authority_section": "§跨位转移与 知情范围 协议",
       "default": "hidden",
-      "referenced_in": ["0-2", "1-2", "1-3", "2-1", "2-2", "2-3"],
+      "referenced_in": ["0-1", "1-2", "1-3", "2-1", "2-2", "2-3"],
       "inline_copies": {
         "wm": "1-2 (裁定)",
         "wsk": "2-2 (记录) / 2-3 §[固定取值]"
@@ -15,7 +15,7 @@
     },
     "survival_state_level": {
       "values": ["stable", "strained", "weakened", "critical", "dying", "dead"],
-      "authority": "0-2_Scenario.md",
+      "authority": "0-1_Private_Details.md",
       "authority_section": "§环境生存压力系统",
       "note": "dead 仅用于正式死亡",
       "referenced_in": ["0-1", "1-2", "1-3", "2-2", "2-3"],
@@ -26,7 +26,7 @@
     },
     "weather": {
       "values": ["Clear", "Overcast", "Light Rain", "Heavy Rain", "Fog", "Windy", "Sleet", "Snow", "Storm"],
-      "authority": "0-2_Scenario.md",
+      "authority": "1-3_WorldMaster_Extra_Details.md",
       "authority_section": "§轻量天气系统",
       "referenced_in": ["1-2", "1-3"],
       "inline_copies": {
@@ -36,8 +36,8 @@
     },
     "temperature_band": {
       "values": ["Mild", "Cool", "Cold", "Bitter Cold", "Heat"],
-      "authority": "0-2_Scenario.md",
-      "authority_section": "§温度分层与 5 轨道联动",
+      "authority": "1-3_WorldMaster_Extra_Details.md",
+      "authority_section": "§温度分层与 5 轨压力联动",
       "referenced_in": ["1-2", "1-3"],
       "inline_copies": {
         "wm": "1-3 ([主要状态] 输出)",
@@ -46,7 +46,7 @@
     },
     "current_season": {
       "values": ["Winter", "Spring", "Summer", "Autumn"],
-      "authority": "0-2_Scenario.md",
+      "authority": "1-3_WorldMaster_Extra_Details.md",
       "authority_section": "§季节锚点",
       "referenced_in": ["1-2", "1-3"],
       "inline_copies": {
@@ -79,11 +79,11 @@
       "values": ["9mm", ".45 ACP", ".380 ACP", ".22 LR", "霰弹", "7.62", "5.45", "其他口径"],
       "authority": "2-3_WorldStateKeeper_Extra_Details.md",
       "authority_section": "§[弹药口径格式硬约束（按口径合并）]",
-      "conversion_authority": "0-2_Scenario.md §[弹药口径换算表]",
-      "referenced_in": ["0-2", "1-2", "2-1", "2-3"],
+      "conversion_authority": "1-3_WorldMaster_Extra_Details.md §[弹药口径换算表]",
+      "referenced_in": ["1-2", "2-1", "2-3"],
       "inline_copies": {
         "wm": "1-3 (交易场景)",
-        "wsk": "2-3 §[弹药口径格式硬约束]"
+        "wsk": "2-3 §[弹药口径格式硬约束（按口径合并）]"
       }
     },
     "base_category": {
@@ -101,7 +101,7 @@
       "authority": "2-3_WorldStateKeeper_Extra_Details.md",
       "authority_section": "§[固定取值]",
       "co_authority": "1-3_WorldMaster_Extra_Details.md §[NPC Relationship 行为阈值表]",
-      "referenced_in": ["1-1", "1-2", "1-3", "2-2", "2-3", "0-2"],
+      "referenced_in": ["1-1", "1-2", "1-3", "2-2", "2-3"],
       "inline_copies": {
         "wm": "1-3 (行为阈值表)",
         "wsk": "2-3 (固定取值)"
@@ -124,7 +124,7 @@
     "pairs": [
       {"unified": "沉默协议", "deprecated": ["静默协议"]},
       {"unified": "Human Threat Stage", "deprecated": ["Human Contact Status"]},
-      {"unified": "据点核心库存", "deprecated": ["据点库存", "据点储备"]},
+      {"unified": "据点核心", "deprecated": ["据点库存", "据点储备", "据点核心库存"]},
       {"unified": ".45 ACP", "deprecated": [".45（短名）"]},
       {"unified": "Inventory State 之后", "deprecated": ["Inventory State 末尾"], "context": "记忆库存位置"},
       {"unified": "由 WSK 产出素材、由用户手动复制到 Pinned Memory", "deprecated": ["由 WSK 归档到 Pinned Memory"]}

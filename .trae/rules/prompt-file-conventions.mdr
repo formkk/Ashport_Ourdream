@@ -27,14 +27,14 @@ globs: Prompt_File/*.md
 
 | 枚举 | 权威源 | 取值 |
 |------|--------|------|
-| 知情范围 | 0-1 §跨层转移与 知情范围 协议 | hidden / party-known / local-only / publicly-known |
+| 知情范围 | 0-1 §跨位转移与 知情范围 协议 | hidden / party-known / local-only / publicly-known |
 | 生存状态级 | 0-1 §环境生存压力系统 | stable / strained / weakened / critical / dying / dead |
 | 天气 | 1-3 §轻量天气系统 | Clear / Overcast / Light Rain / Heavy Rain / Fog / Windy / Sleet / Snow / Storm |
 | Temperature Band | 1-3 §温度分层与 5 轨压力联动 | Mild / Cool / Cold / Bitter Cold / Heat |
 | Current Season | 1-3 §季节锚点 | Winter / Spring / Summer / Autumn |
 | 记忆库存 Availability | 2-3 §[固定取值] | confirmed-intact / uncertain / likely-moved / likely-looted / likely-damaged / unreachable |
 | Human Threat Stage | 2-3 §[固定取值] | none / signs / observed / followed / probed / blocked / robbed / violent / lethal |
-| 弹药口径 | 2-3 §[弹药口径格式硬约束] | 9mm / .45 ACP / .380 ACP / .22 LR / 霰弹 / 7.62 / 5.45 / 其他口径 |
+| 弹药口径 | 2-3 §[弹药口径格式硬约束（按口径合并）] | 9mm / .45 ACP / .380 ACP / .22 LR / 霰弹 / 7.62 / 5.45 / 其他口径 |
 | 据点分类 | 2-2 §[据点与庇护记录规则] | 主据点 / 物资点 / 安全屋 / 地图外据点 |
 | 暴露响应等级 | 1-3 §[身份暴露风险] + 2-2 §[据点与庇护记录规则] | L0 未暴露 / L1 怀疑 / L2 暴露 / L3 追查 / L4 清算 |
 
@@ -52,8 +52,8 @@ globs: Prompt_File/*.md
 | 温度分层与季节 | 1-3 §[温度分层与 5 轨压力联动] / §[季节锚点] | 1-3（[主要状态] 输出） | 2-3 §[固定取值]（枚举） |
 | 日期-温度对应表 | 1-3 §[温度分层与日期精细对应（D1 锚定）] | 1-3（[主要状态] 查表） | -- |
 | 天气枚举与影响 | 1-3 §[轻量天气系统] | 1-3（叙事渲染） | 2-3 §[固定取值]（枚举） |
-| 知情范围 | 0-1 §[跨层转移与 知情范围 协议] | 1-2（裁定） | 2-2（记录） |
-| 跨层转移规则 | 0-1 §[跨层转移与 知情范围 协议] | 1-2（叙事转移） | 2-2（记账转移） |
+| 知情范围 | 0-1 §[跨位转移与 知情范围 协议] | 1-2（裁定） | 2-2（记录） |
+| 跨位转移规则 | 0-1 §[跨位转移与 知情范围 协议] | 1-2（叙事转移） | 2-2（记账转移） |
 | NPC 知识边界 | 0-1 §[NPC 反全知 / 反顾问化机制] | 1-2（NPC 发言控制） | -- |
 | 移动与路由规则 | 1-3 §[跨区移动路由规则] | 1-3（叙事移动） | 2-2（移动验证） |
 | 死亡/抢救规则 | 1-2 §[死亡/抢救/遗物规则] | 1-2（裁定） | -- |

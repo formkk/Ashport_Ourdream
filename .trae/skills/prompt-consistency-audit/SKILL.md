@@ -60,13 +60,13 @@ Verify each data table / enum / rule has exactly ONE authoritative source in 0-1
 | 5 轨压力系统 | 0-1 §[环境生存压力系统] | 1-2/1-3 | 2-2/2-3 |
 | 温度分层与季节 | 1-3 §[温度分层与 5 轨压力联动] / §[季节锚点] | 1-3 | 2-3 §[固定取值] |
 | 天气枚举与影响 | 1-3 §[轻量天气系统] | 1-3 | 2-3 §[固定取值] |
-| 知情范围 | 0-1 §[跨层转移与 知情范围 协议] | 1-2 | 2-2 |
-| 跨层转移规则 | 0-1 §[跨层转移与 知情范围 协议] | 1-2 | 2-2 |
+| 知情范围 | 0-1 §[跨位转移与 知情范围 协议] | 1-2 | 2-2 |
+| 跨位转移规则 | 0-1 §[跨位转移与 知情范围 协议] | 1-2 | 2-2 |
 | NPC 知识边界 | 0-1 §[NPC 反全知 / 反顾问化机制] | 1-2 | -- |
 | 移动与路由规则 | 1-3 §[跨区移动路由规则] | 1-3 | 2-2 |
 | 死亡/抢救规则 | 1-2 §[死亡/抢救/遗物规则] | 1-2 | -- |
-| [主要状态] 格式 | 0-1 §[主要状态栏硬约束] | 1-1 | -- |
-| 压力/风险栏规则 | 0-1 §[压力/风险栏规则与正反示例] | 1-1 | -- |
+| [主要状态] 格式 | 1-1 §[输出结构] | 1-1 | -- |
+| 压力/风险栏规则 | 1-1 §[输出结构] | 1-1 | -- |
 
 ### Step 4: Output Structure Completeness
 For each role (WM / WSK), compare all output structure descriptions:
@@ -77,7 +77,7 @@ For each role (WM / WSK), compare all output structure descriptions:
 **Key checks**:
 - WSK: Active Concerns appears in 输出结构(使用原则), 正式提交顺序, AND 完整视图 definition
 - WSK: 完整视图 9 字段 count matches actual field list
-- WM: [主要状态] 5 段 structure matches 0-1 §[主要状态栏硬约束] definition
+- WM: [主要状态] 5 段 structure matches 1-1 §[输出结构] definition
 - Memory inventory position: consistent across §压缩规则, §完整视图, §正式提交顺序
 
 ### Step 5: Terminology Consistency (with Regression Checks)
@@ -96,7 +96,7 @@ Check that the same concept uses the same name across all files:
 ### Step 6: Process Description Consistency
 Verify the same process is described consistently:
 1. Pinned Memory flow: Who produces? Who copies? (WSK produces -> user manually copies)
-2. Cross-layer transfer: Source decreases, target increases (both sides recorded)
+2. Cross-position transfer: Source decreases, target increases (both sides recorded)
 3. Death event: Default 知情范围 = hidden
 4. Off-screen evolution: Time threshold definition exists
 5. Pressure listing: WM lists only non-stable; WSK lists all 5
@@ -107,8 +107,8 @@ This step checks that role cards are self-contained and don't have execution-dep
 2. For each required inline item, verify the role card field contains the actual rule text (not just a `§聊天室` reference)
 3. Scan 1-x / 2-x for all `§聊天室` / `聊天室 XX 字段` references:
    - Execution dependency (tables/mechanical rules/system protocols) without inline text -> **P1**
-   - World consensus background references (faction positioning, geography) -> acceptable
-4. Check inline copies have `（与 0-X §XX 一致）` annotation for traceability
+   - Public law background references (faction positioning, geography) -> acceptable
+4. Check inline rules match 0-1 public law (copy relationships recorded in PB §21.5, not in files)
 
 ## Report Format
 
