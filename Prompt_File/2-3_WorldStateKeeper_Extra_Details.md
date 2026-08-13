@@ -39,7 +39,7 @@ D5: 到达工业区/N/质检小楼，搜刮获得大米×2.5kg + 9mm×12发
 6 字段（在 `[State Update]` 软标签下平铺）：
 自包含原则（权威账本）：6 字段必须各自输出当前实际值；仅 Scenario 已定义的静态资料（地图拓扑等）无需重述。
 1. Inventory State（随身/据点核心，含穿戴标记）
-2. Party Condition（队伍人数 + 角色状态定性描述：伤病/疼痛/感染/饥渴/疲劳/体温/湿度/精神压力/濒死/死亡；伤病事实从 WM `[主要状态]` / Scene 叙事提取，WSK 不分类级、不推断治疗需求、不推演机制效果）
+2. Party Condition（队伍人数 + 角色状态定性描述：疲劳/体温/脱水/饥饿/伤病 5 轨状态级（从 WM `[主要状态]` 提取）+ 感染/精神压力等活跃特殊状况（从 Scene 叙事提取，仅定性描述）；WSK 不自行判定状态级、不推断治疗需求、不推演机制效果）
 3. Relationship & Threat（个体/势力 Relationship 7 档 + 次级关系 + 活跃报复链 + 经济义务 + 常驻NPC状态 + Human Threat Stage + 知情范围）
 4. Map Knowledge
 5. Base Structure State（含基础设施）
