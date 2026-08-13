@@ -5,7 +5,7 @@ D5，玩家首次到达工业区质检小楼，搜刮获得物资。WSK 首次�
 
 ## WM 输出
 WM 叙事正文：玩家进入质检小楼，在架上找到半袋大米（约 2.5kg），抽屉里有 12 发 9mm 弹药。消耗随身干粮 0.5kg。
-[Resolution] 消耗（D5->D5）: 随身 干粮×0.5kg
+[判定] 消耗（D5->D5）: 随身 干粮×0.5kg
 [主要状态] D5-T55 14:00 | 工业区/N/质检小楼 | Autumn-Overcast-Cool | 疲劳 stable；体温 stable；脱水 stable；饥饿 stable；伤病 stable | 无
 
 ## WSK 正确输出

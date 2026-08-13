@@ -5,7 +5,7 @@ D10，玩家已在质检小楼建立据点，经过多轮交互。WSK 输出应�
 
 ## WM 输出
 WM 叙事正文：你在质检小楼整理物资，清点库存。与水源商会谢尔盖有过一次接触，他用 20 发 9mm 换了你 5 个罐头。今天消耗了 1kg 大米和 2kg 木柴。
-[Resolution] 消耗（D9->D10）: 据点 大米×1kg + 木柴×2kg；Trade: 9mm×20发 <-> 罐头×5
+[判定] 消耗（D9->D10）: 据点 大米×1kg + 木柴×2kg；Trade: 9mm×20发 <-> 罐头×5
 [主要状态] D10-T120 08:00 | 工业区/N/质检小楼 | Autumn-Overcast-Cool | 疲劳 stable；体温 stable；脱水 stable；饥饿 stable；伤病 stable | 无
 
 ## WSK 正确输出

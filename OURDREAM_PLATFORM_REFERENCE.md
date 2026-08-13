@@ -122,7 +122,7 @@ OurDream.ai 的多层记忆：
   4. 输出 `[State Update]`（WSK） / `[WER 历史]`（WER） / `[Commit Rejected]`（拒收时）
 - **共享聊天室**：所有角色（前台 + 后台）共享同一聊天历史
 - **手动触发是必要的**：自动后台会破坏前台叙事的玩家代理权
-- **展示块隔离**：`[Resolution]` / `[Probability Check]` / 子结构块仅供用户阅读，**不**作为 WSK / WER 提取源
+- **展示块隔离**：`[判定]` / `[Probability Check]` / 子结构块仅供用户阅读，**不**作为 WSK / WER 提取源
 - **未触发的变化**：Scene 叙事中未明确写出的变化，WSK / WER 不得自行脑补；WM 自行维护临时估算，不得假定后台已更新
 - **接受回执**：不输出（账本 / Ledger 本身即隐式接受）
 - **拒绝回执**：WSK = `[Commit Rejected]`；WER = `[Event Commit Rejected]`
@@ -171,7 +171,7 @@ OurDream.ai 的多层记忆：
 
 | 角色 | 性格定位 | 行为模式（具体） |
 |------|----------|-----------------|
-| **World Master** | 唯一前台；Scene 主导者；不替玩家决定 | 2-3 段自然述事 → [主要状态] → 必要时 [Resolution] → 最小同步块 |
+| **World Master** | 唯一前台；Scene 主导者；不替玩家决定 | 2-3 段自然述事 → [主要状态] → 必要时 [判定] → 最小同步块 |
 | **World State Keeper** | 静默账本员；只在被触发时输出 | `[State Update]` / `[Commit Rejected]` / 沉默 |
 | **World Event Recorder** | 静默档案员；只在被触发时输出 | `[History Ledger]` / 沉默 |
 
@@ -224,7 +224,7 @@ OurDream.ai 的多层记忆：
 - **提取源**：WM Scene 叙事 + `[主要状态]` 状态栏中已明确写出的已成立变化
 - **WSK 提取集**：`Day ID / Turn ID / Zone / Sub-zone / Location / 知情范围 / Weather / Inventory Snapshot / Party Condition / Base Structure / Recent Changes`
 - **WER 提取集**：`Day ID / Official Day / Recent Events / Structural Changes / Irreducible Anchors / 知情范围 Notes`
-- **展示块隔离**：`[Resolution]` / `[Probability Check]` / 子结构块仅供用户阅读，**不**作为提取源
+- **展示块隔离**：`[判定]` / `[Probability Check]` / 子结构块仅供用户阅读，**不**作为提取源
 
 #### 4.3.2 决策表（WSK / WER 各 3 张）
 
@@ -295,8 +295,8 @@ OurDream.ai 的多层记忆：
 │    ↓                                                         │
 │  World Master (前台) ── 强语义提取 ── World State Keeper (后台) │
 │    ↓                                ↓                         │
-│  Scene / Resolution          (读取已成立变化)                 │
-│  [主要状态] [Resolution]      [State Update]                  │
+│  Scene / 判定          (读取已成立变化)                 │
+│  [主要状态] [判定]      [State Update]                  │
 │                                ↑                              │
 │                         用户手动触发                          │
 │                                                              │
@@ -313,7 +313,7 @@ OurDream.ai 的多层记忆：
 - **唯一稳定前台 = WM**（保证叙事连贯性 + 玩家代理权）
 - **后台 = WSK + WER**（只在手动触发时输出，避免破坏叙事）
 - **通讯机制 = 强语义提取**（WSK / WER 扫描 WM Scene 叙事 + `[主要状态]` 状态栏，提取已明确写出的已成立变化；**不**依赖结构化同步块）
-- **展示块隔离**：`[Resolution]` / `[Probability Check]` / 子结构块仅供用户阅读，**不**作为 WSK / WER 提取源
+- **展示块隔离**：`[判定]` / `[Probability Check]` / 子结构块仅供用户阅读，**不**作为 WSK / WER 提取源
 - **决策表 = DO / REJECT / SILENT 3 张**（每角色各 3 张；ESCALATE 已废弃）
 - **接受回执不输出**；拒绝回执仅在字段不完整时输出
 - **快照权威层级**：WSK 输出 = 权威；WM 临时估算 = 临时；历史值 = 兜底

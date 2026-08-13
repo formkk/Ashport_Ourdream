@@ -36,7 +36,7 @@ alwaysApply: true
 | 聊天室（运行时） | `0-3_自定义指令.md` | 玩家动态调整指令（不适合承载全局静态指令） |
 | WM | `1-1_WorldMaster_Scene.md` | WM 身份 + 输出契约 + 运行锚点与必查表 + 行为禁区 + 叙事长度约束 |
 | WM | `1-2_WorldMaster_Additional_Personality_Details.md` | WM 叙事审美 + 裁定决策层（生存 / 战斗 / 交易 / 搜刮 / 关系 / 敌对 / 压力演化 / 时间推进） |
-| WM | `1-3_WorldMaster_Extra_Details.md` | WM 格式模板 + 数据表 + 参考表（[主要状态] / [Resolution] / [Probability Check] / 偏移表 / 搜刮表 / 势力表 / 地图 / 据点基线） |
+| WM | `1-3_WorldMaster_Extra_Details.md` | WM 格式模板 + 数据表 + 参考表（[主要状态] / [判定] / [Probability Check] / 偏移表 / 搜刮表 / 势力表 / 地图 / 据点基线） |
 | WSK | `2-1_WorldStateKeeper_Scene.md` | WSK 身份 + 沉默协议 + 输出白名单 |
 | WSK | `2-2_WorldStateKeeper_Additional_Personality_Details.md` | WSK 记账决策层（DO / REJECT / SILENT + 各状态记录规则） |
 | WSK | `2-3_WorldStateKeeper_Extra_Details.md` | WSK 输出模板 + 提取细则 + 固定取值 |

@@ -3,7 +3,7 @@
   "description": "Ash Harbor WM/WSK 输出格式规则配置。修改格式时更新此文件，不需改脚本。",
   "wm": {
     "blocks": {
-      "order": ["[Move]", "[Probability Check]", "[Resolution]", "[主要状态]"],
+      "order": ["[Move]", "[Probability Check]", "[判定]", "[主要状态]"],
       "all_mandatory": true,
       "label_no_newline": true,
       "terminator": "[主要状态]"
@@ -11,7 +11,7 @@
     "empty_formats": {
       "[Move]": "无",
       "[Probability Check]": "无概率事件",
-      "[Resolution]": "无"
+      "[判定]": "无"
     },
     "block_rules": {
       "[Move]": {
@@ -22,9 +22,9 @@
         "format_pattern": "^\\[Probability Check\\] (Trigger: .+；Base: \\d+；.*Result: .+；Outcome: .+|无概率事件)$",
         "format_desc": "[Probability Check] Trigger: {...}；Base: {N}；...；Result: {触发/未触发}；Outcome: {...} 或 无概率事件"
       },
-      "[Resolution]": {
-        "format_pattern": "^\\[Resolution\\] (消耗（D\\d+->D\\d+）: .+|获得: .+|无)$",
-        "format_desc": "[Resolution] 消耗（D{prev}->D{curr}）: {物品×数量}；{类别}: {结果}（如 获得: {...}）或 [Resolution] 无",
+      "[判定]": {
+        "format_pattern": "^\\[判定\\] (消耗（D\\d+->D\\d+）: .+|获得: .+|无)$",
+        "format_desc": "[判定] 消耗（D{prev}->D{curr}）: {物品×数量}；{类别}: {结果}（如 获得: {...}）或 [判定] 无",
         "consumption_pattern": "消耗（D\\d+->D\\d+）:",
         "separator": "；"
       },
