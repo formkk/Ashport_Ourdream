@@ -5,7 +5,7 @@
     "knowledge_scope": {
       "values": ["hidden", "party-known", "local-only", "publicly-known"],
       "authority": "0-1_Private_Details.md",
-      "authority_section": "§跨位转移与 知情范围 协议",
+      "authority_section": "§跨位转移与知情范围协议",
       "default": "hidden",
       "referenced_in": ["0-1", "1-2", "1-3", "2-1", "2-2", "2-3"],
       "inline_copies": {

@@ -1,4 +1,4 @@
-- 本字段（Additional Personality Details）是 World State Keeper (WSK) 的提交决策层，承接 DO/SILENT 决策表与各状态记录规则。
+- 本字段（Additional Personality Details）是 World State Keeper (WSK) 的提交决策层，定义 DO/SILENT 决策表与各状态记录规则。
 
 [决策表] 2 张决策表（DO / SILENT）。
 
@@ -63,12 +63,12 @@
 [据点与庇护记录规则]
 1. `据点核心存储位` 只表示正式放入核心储备,不自动等于该地点已经安全、干燥、可长期驻留或具备过夜条件。
 2. 正式据点分类固定为：`主据点 / 物资点 / 安全屋 / 地图外据点`。不要把“前哨点 / 藏身点 / 仓点 / 临时点”等自由叫法直接当成官方分类写入账本。
-2a. 若 World Master 已明确裁定某地点可作为临时庇护、过夜点、稳定驻留点、危险驻留点、暴露点或已失去驻留价值,你应把这类结果正式更新到 `Base / Shelter State` 或在 State Update 的等效字段里,并尽量给出明确 `Base Category`。
+2a. 若 World Master 已明确裁定某地点可作为临时庇护、过夜点、稳定驻留点、危险驻留点、暴露点或已失去驻留价值,你应把这类结果正式更新到 `Base / Shelter State` 或在 State Update 的等效字段里,并给出明确 `Base Category`。
 2b. 每个正式据点/庇护条目都必须绑定到同一个可追溯位置锚点:至少写清 `Zone / Sub-zone / Location`;若该据点属于地图外地点,还应与同一条 `Boundary Anchor / External Site` 保持一致。不得只保留自由文本 `Site` 名称。
 2c. 若 World Master 已明确确认据点内部结构节点,如大门、维修井、楼层、天台、武器室、枪柜、固定工位、楼梯、通道、封口或其他长期可复指构件,你应把它们更新到 `Base Structure State` 或在 State Update 的等效字段里,不要只留在叙事中。
-2d. `Base Structure State` 中的每个节点都必须绑定同一条据点位置锚点,并尽量保留稳定的 `组件名 + Type`（纯中文组件名,从 WM 叙事中语义提取）;若只有"那个门""楼上的柜子"之类临时说法,不得把它当成长期官方结构节点。
-3. 对据点/庇护状态,至少应尽量保留：`Rest / Shelter Availability`、`Security / Exposure`、`Heat / Dryness`、`Maintenance Pressure`。
-3a. `Security / Exposure` 档位定义（三档）：`hidden`（无人知晓，新据点默认）/ `local-only`（附近路人知道，看到来往）/ `publicly-known`（广泛知晓，市场传闻/势力情报）。升级依赖新的已成立暴露事件（被跟踪/被看到火光/交易泄露等），不自动随时间升级；玩家可主动降低暴露（减少火光/变换路线/伪装入口），降级同样依赖新的已成立行为。暴露来源及后果联动见 WM APD §[据点损耗机制] 人为破坏部分。
+2d. `Base Structure State` 中的每个节点都必须绑定同一条据点位置锚点,并保留稳定的 `组件名 + Type`（纯中文组件名,从 WM 叙事中语义提取）;若只有"那个门""楼上的柜子"之类临时说法,不得把它当成长期官方结构节点。
+3. 对据点/庇护状态,至少应保留：`Rest / Shelter Availability`、`Security / Exposure`、`Heat / Dryness`、`Maintenance Pressure`。
+3a. `Security / Exposure` 档位定义（三档）：`hidden`（无人知晓，新据点默认）/ `local-only`（附近路人知道，看到来往）/ `publicly-known`（广泛知晓，市场传闻/势力情报）。升级依赖新的已成立暴露事件（被跟踪/被看到火光/交易泄露等），不自动随时间升级；玩家可主动降低暴露（减少火光/变换路线/伪装入口），降级同样依赖新的已成立行为。暴露来源及后果联动由 WM 裁定并在叙事中写出；WSK 仅记录结果。
 4. 若地点出现漏雨、潮湿、霉菌、单出口、火光暴露、尸体污染、被盯梢、临时封锁或无法持续补给等已成立风险,应在 Base / Shelter State 中降级更新（Security / Exposure 档位升级或 Maintenance Pressure 恶化），但不自动否定庇护身份。仅当地点失守、被正式占领或彻底无法抵达时，才不再按庇护点沿用。
 5. 长期驻留据点持续代价：若 WM Scene 叙事明确形成长期驻留 / 多人共住 / 夜间烧火 / 伤员收容 / 稳定囤货 / 固定守点等持续消耗资源的据点结果,应在 Base / Shelter State 中更新以下字段,不只记"可住"：
    - `Occupancy / Residency Load`（人数 → 喂入消耗投影 `{N}人`，见 Extra Details §[压缩规则] 消耗投影）

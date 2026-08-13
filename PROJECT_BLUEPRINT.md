@@ -7,7 +7,7 @@
 
 > 本蓝图基于对 `./Prompt_File/` 目录下所有源文件的逐行审读，并整合开发设计方法论（原 `开发设计方法论.md`，已并入 §十八-§二十）。
 
-> **最后更新**：2026-08-12（v1.60 版 + 字段结构重排）| **架构**：9 文件 + 2 角色（WM/WSK）| **主要变更**：v1.55 基础上增加--WSK 反应模型精简为 2 反应（输出完整视图 / 输出空白标记 `-`，去除 [Commit Rejected] 机制与全部 REJECT 理由；决策表 3->2 张 DO/SILENT，SILENT 改为输出 `-`）；完整视图字段 8->6（旧 3 关系 + 4 阵营 + 5 人为威胁阶段 合并为"Relationship & Threat"，Map Knowledge / Base Structure / 近五日主要事件 顺移为 4/5/6）；Trust/Hostility 双轴替换为 Relationship 7 档定性值（依恋/完全信任 / 亲密/信任 / 好感 / 中立 / 冷漠 / 敌意 / 仇恨，WSK 做语义升降档、不记数值）；变化子段精简为仅 Inventory Delta:（去除 Recent Changes:）；2-2 删除 [势力暴露追踪规则]（Suspicion Level L0-L4 / Last Exposed Day / Last Trigger Type 全部移除）。D1 保暖机制落地（1-3 [保暖修正] + 1-2 [保暖裁定]，保暖值 5 档定性优/良/中/弱/差修正有效温度层，WM 每轮实时裁定不持久化）；Condition 全库移除 + Component 生命周期简化（组件名 + Type + Role + 状态描述，替代旧 Condition + Last Confirmed）。T1 据点消耗机制落地（1-1 [Resolution] 每轮必出 + Day 推进必含消耗行 + 1-2 [据点消耗规则] 主机制+增强+优先级 + 1-3 [Resolution 块] 格式更新）。D2 据点损耗机制最终版（三级状态完好/损坏/毁坏 + 统一Day推进触发 + 天气Probability Check + 人为OR关系 + 二级后果映射 + MP降为指示器）。D3 Relationship升降档指引（升降档触发表+跨档跳跃+势力vs个体+初始档冷漠+单向记录）。D4 据点暴露机制（Security/Exposure三档hidden/local-only/publicly-known+暴露来源+后果联动D2人为破坏Base）。v1.55 既有：全面去除 Month（Day 直接查表定 Season）；WSK 记账层精简（删 Elapsed、装备属性 5->2、据点降级改非二元否定、持续代价字段合并）；enum_registry 同步清理；PAM v1.2（Phase 1 执行证据约束 + 跨文件枚举一致性检查 + 形态黑名单 2.10）
+> **最后更新**：2026-08-13（v1.61 版 + 深度提示词审计修复）| **架构**：9 文件 + 2 角色（WM/WSK）| **主要变更**：v1.55 基础上增加--WSK 反应模型精简为 2 反应（输出完整视图 / 输出空白标记 `-`，去除 [Commit Rejected] 机制与全部 REJECT 理由；决策表 3->2 张 DO/SILENT，SILENT 改为输出 `-`）；完整视图字段 8->6（旧 3 关系 + 4 阵营 + 5 人为威胁阶段 合并为"Relationship & Threat"，Map Knowledge / Base Structure / 近五日主要事件 顺移为 4/5/6）；Trust/Hostility 双轴替换为 Relationship 7 档定性值（依恋/完全信任 / 亲密/信任 / 好感 / 中立 / 冷漠 / 敌意 / 仇恨，WSK 做语义升降档、不记数值）；变化子段精简为仅 Inventory Delta:（去除 Recent Changes:）；2-2 删除 [势力暴露追踪规则]（Suspicion Level L0-L4 / Last Exposed Day / Last Trigger Type 全部移除）。D1 保暖机制落地（1-3 [保暖修正] + 1-2 [保暖裁定]，保暖值 5 档定性优/良/中/弱/差修正有效温度层，WM 每轮实时裁定不持久化）；Condition 全库移除 + Component 生命周期简化（组件名 + Type + Role + 状态描述，替代旧 Condition + Last Confirmed）。T1 据点消耗机制落地（1-1 [Resolution] 每轮必出 + Day 推进必含消耗行 + 1-2 [据点消耗规则] 主机制+增强+优先级 + 1-3 [Resolution 块] 格式更新）。D2 据点损耗机制最终版（三级状态完好/损坏/毁坏 + 统一Day推进触发 + 天气Probability Check + 人为OR关系 + 二级后果映射 + MP降为指示器）。D3 Relationship升降档指引（升降档触发表+跨档跳跃+势力vs个体+初始档冷漠+单向记录）。D4 据点暴露机制（Security/Exposure三档hidden/local-only/publicly-known+暴露来源+后果联动D2人为破坏Base）。v1.55 既有：全面去除 Month（Day 直接查表定 Season）；WSK 记账层精简（删 Elapsed、装备属性 5->2、据点降级改非二元否定、持续代价字段合并）；enum_registry 同步清理；PAM v1.2（Phase 1 执行证据约束 + 跨文件枚举一致性检查 + 形态黑名单 2.10）
 
 ---
 
@@ -842,7 +842,7 @@ WM 与 WSK 的通讯**不**通过结构化同步块进行；WSK 通过**强语�
 - 季节与天气系统
 - 5 轨生存压力轨道（疲劳 / 体温 / 脱水 / 饥饿 / 伤病）定义
 - 敌对阶梯世界律（无信号→远距目击→被接触→升级；4 维裁定细则已迁入 World Master 的 Additional Personality Details 字段）
-- NPC 知识边界与发言规则（Relationship 行为阈值表已迁入 World Master 的 Additional Personality Details 字段）
+- NPC 反全知 / 反顾问化机制（Relationship 行为阈值表已迁入 World Master 的 Additional Personality Details 字段）
 - 九宫格地图固定拓扑 + 子区域微坐标
 - 子地点表（T1-T4 分层，Coast / Town / Village / Farm / Hunting / Industrial / Police / Medic / Firefighter / Military / Prison / Historical / Contaminated / Underground 共 14 个标签）
 - 搜刮世界数据（Tier / 标签 / 子地点产出；搜刮过程机制与裁定细则已迁入 World Master 的 Additional Personality Details 字段）
@@ -1832,6 +1832,21 @@ WSK 被触发时 → 从对话历史读取 WM 的实际输出 → 提取已成�
   - 1-3：修 10 处 Scenario→Private Details + 删 10 处复制标注 + 更新内联副本区介绍
 - **架构文档**：新建 `全局字段承载内容优化方案.md`（四层分工 / LLM 注意力机制 / 迁移路径）
 - **验证结果**：`聊天室 Scenario 字段` 零残留；`与 0-2 §` 零残留；跨文件引用全部清理
+
+#### v1.61（2026-08-13）
+
+**深度提示词工程审计修复 + 全库一致性验证**
+
+- **P0：0-3 越狱模式删除**：删除"Dev 永久接管"越狱模板，改用主题范围声明（后末日生存题材许可）。越狱模板与全部 145+ 条规则根本矛盾，是系统完整性最大风险
+- **P1：重复内容清除**：0-1↔1-2 跨位转移规则逐字重复（章节名+标点统一）；0-1↔1-3 NPC 反全知规则 ~90% 重复（章节名统一）；1-3↔2-3 重量校准锚点重复
+- **P1：据点损耗机制量化**：1-2 的 10 处"WM 语义判断"恢复为 Probability Check 量化方案（Base 值 + 偏移表），从 v1.57 的语义化方向回退。原因：定性词（"低可能"/"高可能"）无判定标准，LLM 无法校准
+- **P1：注意力优化**：1-3 必查表提醒移至 1-1 [运行锚点]（WM 卡最高注意力位置），升级为任务触发式检索（"做X时查§Y确定Z"）。解决 1-3 共 899 行关键表在注意力衰减区的问题
+- **P1：否定指令优化**：1-3 [禁止事项]→[输出纪律]（正面框架）；0-1/1-3 独立否定转正面等价
+- **P2：0-3 行为规则删除**（归 1-1，消除三重重复）；**0-2 游戏术语自然化**（strained/Cool 从叙事中移除）；**0-2 内部机制名删除**（"反全知/反顾问化机制"不出现在叙事中）；**1-3 元注释删除**；**0-3 禁用词计数修正**（20→19）
+- **P2：引用纯化**：1-2 歧义引用补字段限定符；1-3 来源标注修正（劫掠者兄弟会来源误指码头帮）；1-3 同文件冗余§引用删除；2-2 跨角色卡引用自包含化
+- **P2：自包含表修正**：prompt-engineering.mdr 中 NPC 反全知内联目标 1-2→1-3，跨位转移内联目标 2-2→2-3（与实际位置对齐）
+- **P3：WSK 存档/归档措辞修正**（"WSK 存档"→"用户手动复制的 WSK 产出素材"；"WSK 归档"→"WSK 产出素材供用户手动复制"）
+- **验证**：7 步审计方法论全库扫描（交叉引用 77 处 + 枚举 9 类 + 术语 11 项 + 流程 5 项 + 内联完整性 + 自包含表），9 类枚举全部通过，0 残留
 
 ### 20.3 回滚策略
 
