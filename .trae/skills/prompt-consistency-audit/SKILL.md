@@ -108,7 +108,7 @@ This step checks that role cards are self-contained and don't have execution-dep
 3. Scan 1-x / 2-x for all `§聊天室` / `聊天室 XX 字段` references:
    - Execution dependency (tables/mechanical rules/system protocols) without inline text -> **P1**
    - Public law background references (faction positioning, geography) -> acceptable
-4. Check inline rules match 0-1 public law (copy relationships recorded in PB §21.5, not in files)
+4. Check inline rules match 0-1 public law (copy relationships recorded in PB §21.6, not in files)
 
 ## Report Format
 
