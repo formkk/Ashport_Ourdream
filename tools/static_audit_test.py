@@ -58,6 +58,7 @@ def test_p0():
     print("\n--- P0 Critical Fixes ---")
     f_12 = read_file("1-2")
     f_03 = read_file("0-3")
+    f_11 = read_file("1-1")
 
     # P0-1: [Move] 输出位置不再矛盾
     # 1-2 L150 应为 "按 [输出结构] 规定的位置输出 [Move]"
@@ -70,15 +71,15 @@ def test_p0():
          "在 [主要状态] 之后输出 [Move]" not in f_12,
          "Old wording '在 [主要状态] 之后输出 [Move]' should not exist")
 
-    # P0-2: 0-3 不再要求跨轮词频统计
+    # P0-2: 不再要求跨轮词频统计（[重复抑制]已迁至 1-1）
     test("P0-2a", "Cross-turn word counting removed",
          "跟踪本场最近 3 轮" not in f_03 and "3 轮内每词最多" not in f_03,
          "Should not contain '跟踪本场最近 3 轮' or '3 轮内每词最多'")
 
-    # P0-2 补充：已改为单轮约束
+    # P0-2 补充：已改为单轮约束（[重复抑制]已迁至 1-1）
     test("P0-2b", "Single-turn constraint present",
-         "单轮内" in f_03 and "[重复抑制]" in f_03,
-         "Should contain '[重复抑制]' and '单轮内'")
+         "单轮内" in f_11 and "[重复抑制]" in f_11,
+         "Should contain '[重复抑制]' and '单轮内' in 1-1")
 
 # ============================================================
 # P1 修复验证
@@ -215,10 +216,10 @@ def test_p2():
          end_h == 0 and end_m == 30 and crosses_midnight,
          f"Expected 00:30 crossing midnight, got {end_h:02d}:{end_m:02d} cross={crosses_midnight}")
 
-    # P2-5: 感官 token 改为可选
+    # P2-5: 感官词改为可选（[感官词抽屉]已迁至 1-3）
     test("P2-5", "Sensory tokens are optional",
-         "可选参考工具" in f_03 and "不强制每轮" in f_03,
-         "Should say '可选参考工具' and '不强制每轮'")
+         "可选参考工具" in f_13 and "不强制每轮" in f_13,
+         "Should say '可选参考工具' and '不强制每轮' in 1-3")
 
     # P2-6: WSK 消耗投影简化
     proj_section = f_23.split("消耗投影")[1].split("[可消耗物资")[0] if "消耗投影" in f_23 else ""
