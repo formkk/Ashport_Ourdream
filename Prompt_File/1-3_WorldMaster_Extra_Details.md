@@ -681,8 +681,8 @@ Modifiers（叠加于 Base）：
 Component 命名规范（纯中文自然名称，贴近现实叫法，避免破坏叙事）：
 - 格式：直接使用中文组件名，例：`大门`、`工具间`、`天台集水器`
 - 唯一性：所属据点位置 + 组件名；同一据点内组件名不重复（跨据点重名由据点位置前缀消歧，如 `质检小楼·大门`）
-- Type 枚举：room / door / window / passage / storage / fixed-equipment / workstation / container
-- Role 枚举：main-entry / hidden-access / watchpoint / food-storage / medical / armory / workshop / water-access / fuel-storage / living-area / bedroom / kitchen / bathroom / basement / rooftop-collector / greenhouse / woodshed / fixed-storage / office / passage
+- Type 枚举：房间 / 门 / 窗 / 通道 / 仓库 / 固定设备 / 工作台 / 容器
+- Role 枚举：大门入口 / 暗道 / 瞭望点 / 食物存储 / 医疗 / 军械 / 工坊 / 水源 / 燃料存储 / 居住 / 卧室 / 厨房 / 卫生间 / 地下室 / 屋顶集水 / 温室 / 柴棚 / 固定存储 / 办公 / 通道
 
 ---
 
