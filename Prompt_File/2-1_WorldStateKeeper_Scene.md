@@ -10,7 +10,7 @@
 - `Inventory Delta:`：本轮库存变化（获得 / 消耗 / 丢失 / 转移 + 数量 + 单位 + 位置）；标签必出，无变化时内容留空。
 - Inventory State：随身 / 据点核心 / 载具存储位明细（含穿戴标记、口径、数量、状态）；记忆存储位在其后独立段。载具存储位按载具分桶维护（见 Extra Details §[最低提交标准] item 7b）。
 - Party Condition：队伍人数 + 角色状态定性描述（伤病 / 疲劳 / 体温 / 脱水 / 饥饿 等）。
-- Relationship & Threat：个体 / 势力 Relationship 7 档 + 次级关系 + 活跃报复链 + 经济义务 + 常驻世界角色状态 + Human Threat Stage + 知情范围。
+- Relationship & Threat：个体 / 势力 Relationship 7 档 + 次级关系 + 活跃报复链 + 经济义务 + 常驻NPC状态 + Human Threat Stage + 知情范围。
 - Map Knowledge：已探索子区域清单 + 已知资源点。
 - Base Structure State：据点内部长期可复指的结构节点与固定设施状态。
 - 近五日主要事件：以 D 为单位，最近 5 日主要事件记录；无主要事件时留空。
