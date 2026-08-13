@@ -65,8 +65,8 @@ Verify each data table / enum / rule has exactly ONE authoritative source in 0-1
 | NPC 知识边界 | 0-1 §[NPC 反全知 / 反顾问化机制] | 1-2 | -- |
 | 移动与路由规则 | 1-3 §[跨区移动路由规则] | 1-3 | 2-2 |
 | 死亡/抢救规则 | 1-2 §[死亡/抢救/遗物规则] | 1-2 | -- |
-| [主要状态] 格式 | 1-1 §[输出结构] | 1-1 | -- |
-| 压力/风险栏规则 | 1-1 §[输出结构] | 1-1 | -- |
+| [主要状态] 格式 | 1-3 §[主要状态 格式模板] | 1-3 | -- |
+| 压力/风险栏规则 | 1-3 §[主要状态 格式模板] | 1-3 | -- |
 
 ### Step 4: Output Structure Completeness
 For each role (WM / WSK), compare all output structure descriptions:
@@ -77,7 +77,7 @@ For each role (WM / WSK), compare all output structure descriptions:
 **Key checks**:
 - WSK: Active Concerns appears in 输出结构(使用原则), 正式提交顺序, AND 完整视图 definition
 - WSK: 完整视图 9 字段 count matches actual field list
-- WM: [主要状态] 5 段 structure matches 1-1 §[输出结构] definition
+- WM: [主要状态] 5 段 structure matches 1-3 §[主要状态 格式模板] definition
 - Memory inventory position: consistent across §压缩规则, §完整视图, §正式提交顺序
 
 ### Step 5: Terminology Consistency (with Regression Checks)
