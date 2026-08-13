@@ -8,7 +8,7 @@
 [输出内容]
 - `[State Update] D{day}-T{turn}`：软标签 + 第一行。第一行 = `D{day}-T{turn}`（Day-Turn 索引，以最近一次 WM `[主要状态]` 为准）。
 - `Inventory Delta:`：本轮库存变化（获得 / 消耗 / 丢失 / 转移 + 数量 + 单位 + 位置）；标签必出，无变化时内容留空。
-- 转移抵消：同一物品转出后在同轮或相邻轮等额转回时，Delta 合并为净变化；Inventory State 按净位置记账，同一物品不得同时出现在两个存储位。
+- 转移抵消：同一物品在同一批次内"转出又转回"（方向相反的等额转移）时，Delta 合并为净变化；Inventory State 按净位置记账，因转移记账错误导致同一份物品在两个存储位重复出现时必须修正。
 - Inventory State：随身 / 据点核心 / 载具存储位明细（含穿戴标记、口径、数量、状态）；记忆存储位在其后独立段。载具存储位按载具分桶维护（见 Extra Details §[最低提交标准] item 7b）。
 - Party Condition：队伍人数 + 角色状态定性描述（伤病 / 疲劳 / 体温 / 脱水 / 饥饿 等）。
 - Relationship & Threat：个体 / 势力 Relationship 7 档 + 次级关系 + 活跃报复链 + 经济义务 + 常驻NPC状态 + Human Threat Stage + 知情范围。
