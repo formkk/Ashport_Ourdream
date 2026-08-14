@@ -407,6 +407,118 @@ def test_cross_consistency():
          "Exposure should use 3 tiers, knowledge scope should have party-known")
 
 # ============================================================
+# 近五日主要事件机制验证
+# ============================================================
+
+def test_recent_events():
+    print("\n--- Recent Events Mechanism ---")
+    f_23 = read_file("2-3")
+    f_13 = read_file("1-3")
+
+    # 提取近五日规则段落
+    events_rule = ""
+    for line in f_23.split('\n'):
+        if "近五日主要事件" in line and "完整视图最末" in line:
+            events_rule = line
+            break
+
+    # 验证：滚动窗口机制存在
+    test("RE-1", "Rolling window: keep last 5 days, remove older",
+         "往前数 5 天" in events_rule and "更早的事件" in events_rule and "移除" in events_rule,
+         "Should define 5-day rolling window with removal")
+
+    # 验证：总容量上限已删除
+    test("RE-2", "Total capacity limit removed (no 1500 chars)",
+         "1500" not in events_rule,
+         "Should not contain 1500-char total limit")
+
+    # 验证：单条上限改为 300 字符
+    test("RE-3", "Per-entry limit is 300 chars (not 150-500 range)",
+         "300" in events_rule and "500" not in events_rule,
+         "Should use 300-char per-entry cap, not 150-500 range")
+
+    # 验证：同日多事件合并
+    test("RE-4", "Same-day multi-event merge rule exists",
+         "同日多事件合并为一条摘要" in events_rule,
+         "Should define same-day merge rule")
+
+    # 验证：继承机制（从上一份继承，首次从当前Day累积）
+    test("RE-5", "Inheritance mechanism defined",
+         "继承" in events_rule and "首次" in events_rule and "累积" in events_rule,
+         "Should define inheritance from previous [State Update]")
+
+    # 验证：季节性事件规则已从 1-3 删除
+    seasonal_removed = "纳入" not in f_13.split("世界事件同步")[1].split("\n")[0] if "世界事件同步" in f_13 else True
+    test("RE-6", "Seasonal event rule removed from 1-3",
+         seasonal_removed,
+         "1-3 should not have seasonal event -> recent events rule")
+
+    # ---- 模拟数据：滚动窗口 + 合并逻辑 ----
+    # Mock: 上一份 State Update 的近五日段（D6-D10），当前 Day=11
+    prev_events = {
+        6: "与劫掠者交火，击退但受伤；修补据点大门",
+        7: "探索工业区/NE，发现废弃药房",
+        8: "与水源商会交易，以零件换水×3kg",
+        9: "煤矿队来访谈合作；据点安装雨水收集器",
+        10: "夜袭警报，击退侦察兵；Amber 到达加入队伍",
+    }
+    # Mock: 本轮 D11 新事件（同日多事件）
+    d11_events = [
+        "拾荒者阶层在商业区/E 发生骚乱",
+        "据点壁炉烟道清理完毕",
+        "与码头帮建立初步交易关系",
+    ]
+
+    # 模拟滚动窗口：保留 D7-D11（丢弃 D6）
+    current_day = 11
+    window_size = 5
+    all_days = sorted(prev_events.keys() | {current_day})
+    keep_days = [d for d in all_days if d > current_day - window_size]
+    # D6 should be removed
+    test("RE-Sim1", "Rolling window removes D6 (older than 5 days)",
+         6 not in keep_days and 7 in keep_days and 11 in keep_days,
+         f"D6 should be removed, kept days = {keep_days}")
+
+    # 模拟同日合并：D11 多事件合并为一条
+    d11_merged = "；".join(d11_events)
+    test("RE-Sim2", "Same-day merge: D11 combines 3 events into 1 entry",
+         d11_merged.count("；") == 2 and d11_merged.count("D11") == 0,
+         f"Merged entry: {d11_merged[:60]}...")
+
+    # 模拟最终输出格式
+    merged_events = {}
+    for d in keep_days:
+        if d == current_day:
+            merged_events[d] = f"D{d}: {d11_merged}"
+        else:
+            merged_events[d] = f"D{d}: {prev_events[d]}"
+
+    output_lines = list(merged_events.values())
+
+    # 验证：最终输出恰好 5 条
+    test("RE-Sim3", "Final output has exactly 5 entries (D7-D11)",
+         len(output_lines) == 5,
+         f"Expected 5, got {len(output_lines)}: {[l[:10] for l in output_lines]}")
+
+    # 验证：D 升序排列
+    day_order = [int(l.split("D")[1].split(":")[0]) for l in output_lines]
+    test("RE-Sim4", "Output sorted by D ascending",
+         day_order == sorted(day_order),
+         f"Order: {day_order}")
+
+    # 验证：D11 合并条目包含全部 3 个事件关键词
+    d11_line = [l for l in output_lines if l.startswith("D11")][0]
+    test("RE-Sim5", "D11 merged entry contains all 3 event keywords",
+         "骚乱" in d11_line and "烟道" in d11_line and "交易关系" in d11_line,
+         f"D11 line: {d11_line[:80]}...")
+
+    # 验证：每条不超过 300 字符
+    max_len = max(len(l.split(": ", 1)[1]) if ": " in l else len(l) for l in output_lines)
+    test("RE-Sim6", f"All entries under 300 chars (max={max_len})",
+         max_len <= 300,
+         f"Max entry length = {max_len}")
+
+# ============================================================
 # 主流程
 # ============================================================
 
@@ -422,6 +534,7 @@ def main():
     test_p3()
     test_mechanics()
     test_cross_consistency()
+    test_recent_events()
 
     print("\n" + "=" * 60)
     print("SUMMARY")
