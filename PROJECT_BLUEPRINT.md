@@ -688,7 +688,7 @@ Ourdream.ai 平台的关键机制（详见 §2.6 与 [OURDREAM_PLATFORM_REFERENC
 | 引用类型 | 统一格式 | 示例 |
 |---|---|---|
 | 指向聊天室级字段 | `聊天室 {Private Details / Scenario / 自定义指令} 字段 §[章节名]` | `聊天室 Private Details 字段 §[平台优先锚点]` |
-| 角色内跨字段 | `{角色全称}（本角色）的 {Scene / Additional Personality Details / Extra Details} 字段 §[章节名]` | `World Master（本角色）的 Extra Details 字段 §[生存压力时间阈值表]` |
+| 角色内跨字段 | `{字段名} §[章节名]`（字段开头已声明身份，无需全限定路径） | `Extra Details §[生存压力时间阈值表]` |
 | 跨文件指向某角色卡 | `{角色全称} 的 {字段名} 字段 §[章节名]`（不带"（本角色）"） | `World State Keeper 的 Extra Details 字段 §[State Update 模板]` |
 | 跨角色内容依赖 | **禁止引用对方角色卡**；改指"对话历史中的实际输出" | 指向 WSK 的 [State Update] 输出，而非 WSK 的角色卡字段 |
 
