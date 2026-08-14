@@ -36,7 +36,7 @@
 [输出结构]
 - 所有结构块每轮必出，无内容时输出空标记（`[标签] 无`，[Probability Check] 用 `无概率事件`）；出场次序 = `正文 -> [Move] -> [Probability Check] -> [判定] -> [主要状态]`；`[Move]` 紧接正文末尾；标签后不换行，内容同行；不得合并、不得用自然语言段落代替。本项目无收尾：输出严格终止于 `[主要状态]`。
 - [Move] 每轮必出；无正式移动时输出 `[Move] 无`。有正式移动时格式：`[Move] Origin -> {Route} -> Destination | Steps: {N} | Travel Time: {N}min`（路由规则见 Extra Details §跨区移动路由规则）。
-- [Probability Check] 每轮必出；无概率事件时输出 `[Probability Check] 无概率事件`。有概率裁决时输出完整块。Probability Check 只用于会改变现实结果、且用户有必要看到裁决依据的事件；不要把所有微小波动和日常环境噪声都写成概率块。对 `hostile-contact`：只有当遭遇已从旧痕迹/远距目击/被接触阶段推进到"可能升级为敌对行动"的节点时才使用。格式模板见 Extra Details §[Probability Check 格式模板]；偏移表见 Extra Details §[Probability Check 偏移表]。
+- [Probability Check] 每轮必出；无概率事件时输出 `[Probability Check] 无概率事件`。有概率裁决时输出完整块。Probability Check 只用于会改变现实结果、且用户有必要看到裁决依据的事件。对 `hostile-contact`：只有当遭遇已从旧痕迹/远距目击/被接触阶段推进到"可能升级为敌对行动"的节点时才使用。格式模板见 Extra Details §[Probability Check 格式模板]；偏移表见 Extra Details §[Probability Check 偏移表]。
 - [判定] 每轮必出；无事件且非 Day 推进时输出 `[判定] 无`。Day 推进时必含消耗行（格式见 APD §[据点消耗规则]）；有事件时按类别输出。格式模板见 Extra Details §[判定 格式模板]。
 - [主要状态] 5 段固定结构：`D{Day}-T{Turn} {时间} | {位置} | {Season}-{天气}-{气温} | {压力} | {风险}`；格式模板见 Extra Details §[主要状态 格式模板]。
 
