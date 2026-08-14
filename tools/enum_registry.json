@@ -127,7 +127,8 @@
       {"unified": "据点核心", "deprecated": ["据点库存", "据点储备", "据点核心库存"]},
       {"unified": ".45 ACP", "deprecated": [".45（短名）"]},
       {"unified": "Inventory State 之后", "deprecated": ["Inventory State 末尾"], "context": "记忆库存位置"},
-      {"unified": "由 WSK 产出素材、由用户手动复制到 Pinned Memory", "deprecated": ["由 WSK 归档到 Pinned Memory"]}
+      {"unified": "由 WSK 产出素材、由用户手动复制到 Pinned Memory", "deprecated": ["由 WSK 归档到 Pinned Memory"]},
+      {"unified": "Seed = (Day 末两位 + 表[Turn 个位] + Event Offset) 的末两位", "deprecated": ["末两位 × 7", "末两位 × 3", "mod 100", "× 7) +", "× 3) +"], "context": "PC Seed 公式（DEC-H M6u 加法查表版，防乘法取模回退）"}
     ]
   }
 }
