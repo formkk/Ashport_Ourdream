@@ -44,7 +44,7 @@ OurDream.ai 的角色字段结构（基于 Character Card Spec V1/V2）：
 | **聊天室 Scenario 字段** | 聊天室级场景设定（共享） | **0-2_Scenario.md** | **50,000 字符** |
 | **Private Details (Secret Instructions)** | 聊天室级预设固定字段（v4.4 迁入） | **0-1_Private_Details.md** | **≥50,000 字符（实测）** |
 | **Pinned Memory** | 持久化层 | 外部文件 History Ledger | 视平台而定 |
-| **Auto Memory** | 自动记忆 | WSK + WER 模拟 | 自动管理 |
+| **Auto Memory** | 自动记忆 | WSK 模拟（v1.19 WER 已删除） | 自动管理 |
 | **Lorebook / World Info** | 关键词触发世界书 | **不可用**（2026-07-18 用户实测无 UI 入口） | — |
 
 **关键澄清：两个 "scenario" 不是同一字段**
@@ -63,7 +63,7 @@ OurDream.ai 的角色字段结构（基于 Character Card Spec V1/V2）：
 **本项目实际使用（v4.4 2026-07-20 修订）**：
 - **Private Details** → `0-1_Private_Details.md`（15,826 字符 / ≥50,000 限额 ≈ 31.65% 占用；v4.4 2026-07-20 迁入）
 - ~~**聊天室级 CI** → `0-1_CustomInstructions.md`（14,216 字符 / 15,000 限额 = 94.8% 占用）~~（v4.4 迁出）
-- **角色字段（3 个角色 × 3 字段）** → `1-1/1-2/1-3, 2-1/2-2/2-3, 3-1/3-2/3-3`（各 50,000 限额；1-3 限额 100,000）
+- **角色字段（2 个角色 × 3 字段）** → `1-1/1-2/1-3, 2-1/2-2/2-3`（各 50,000 限额；1-3 限额 100,000；v1.19 删除 WER 的 3-1/3-2/3-3，见 PB §2.1.1）
 
 ### 2.1a 字段可见性边界与引用写法规范（2026-07-24 定案）
 
@@ -94,12 +94,12 @@ OurDream.ai 的多层记忆：
 
 | 层级 | 自动/手动 | 持久性 | 本项目对应 |
 |------|----------|--------|-----------|
-| **Auto Memory** | 自动 | 平台管理 | WSK 输出 + WER 输出 |
+| **Auto Memory** | 自动 | 平台管理 | WSK 输出（v1.19 WER 已删除） |
 | **Pinned Memory** | 手动 | 跨对话持久 | History Ledger（复制到 PM） |
 | **Custom Instructions** | 手动 | 聊天室级 | ~~0-1~~（v4.4 迁出，v4.4 后维持空置） |
 | **聊天室 Scenario 字段** | 手动 | 聊天室级 | **0-2_Scenario.md**（v4.4 迁入；50,000 限额） |
 | **Private Details (Secret Instructions)** | 手动（预设固定） | 聊天室级 | **0-1_Private_Details.md**（v4.4 迁入） |
-| **角色字段** | 手动 | 角色级 | 1-x / 2-x / 3-x |
+| **角色字段** | 手动 | 角色级 | 1-x / 2-x（v1.19 删除 3-x） |
 | **当前对话历史** | 自动 | 会话内 | 聊天历史 + 同步块 |
 
 **关键事实**：
@@ -112,20 +112,20 @@ OurDream.ai 的多层记忆：
 ### 2.3 后台角色触发机制（关键！）
 
 > **本项目 1+2 架构的基础**
-> **架构审计已定案（2026-07-22）**：通讯机制已从"WM 推送同步块"变更为 **强语义提取**（WSK / WER 扫描 WM Scene 叙事，提取已明确写出的已成立变化）。同步块（Sync Blocks）机制已废弃。详见 [PROJECT_BLUEPRINT.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/PROJECT_BLUEPRINT.md) §2.3 与 [审计历史记录.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/审计历史记录.md) §十三。
+> **架构审计已定案（2026-07-22）**：通讯机制已从"WM 推送同步块"变更为 **强语义提取**（WSK 扫描 WM Scene 叙事，提取已明确写出的已成立变化）。同步块（Sync Blocks）机制已废弃。详见 [PROJECT_BLUEPRINT.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/PROJECT_BLUEPRINT.md) §2.3 与 [审计历史记录.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/审计历史记录.md) §十三。
 
 - **后台角色不自动运行**：只在用户**手动点击**时被触发
 - **被触发后**：
   1. 扫描 WM 角色卡对话历史中自本角色上次发言以来的 Scene 叙事（首次点击 = 整个对话历史起点）
-  2. **强语义提取**已明确写出的已成立变化（WSK 提取 state 类；WER 提取 event 类）
-  3. 按 **DO / REJECT / SILENT 3 张决策表** 处理（详见 §4.3）
-  4. 输出 `[State Update]`（WSK） / `[WER 历史]`（WER） / `[Commit Rejected]`（拒收时）
+  2. **强语义提取**已明确写出的已成立变化（WSK 提取已成立变化）
+  3. 按 **DO 1 张决策表** 处理（详见 §4.3；每次触发都输出完整视图）
+  4. 输出 `[State Update]` 完整视图（WSK；无变化时 Delta 留空）
 - **共享聊天室**：所有角色（前台 + 后台）共享同一聊天历史
 - **手动触发是必要的**：自动后台会破坏前台叙事的玩家代理权
-- **展示块隔离**：`[判定]` / `[Probability Check]` / 子结构块仅供用户阅读，**不**作为 WSK / WER 提取源
-- **未触发的变化**：Scene 叙事中未明确写出的变化，WSK / WER 不得自行脑补；WM 自行维护临时估算，不得假定后台已更新
+- **展示块隔离**：`[判定]` / `[Probability Check]` / 子结构块仅供用户阅读，**不**作为 WSK 提取源
+- **未触发的变化**：Scene 叙事中未明确写出的变化，WSK 不得自行脑补；WM 自行维护临时估算，不得假定后台已更新
 - **接受回执**：不输出（账本 / Ledger 本身即隐式接受）
-- **拒绝回执**：WSK = `[Commit Rejected]`；WER = `[Event Commit Rejected]`
+- **拒绝回执**：不输出（字段缺失不拒收：标 `未确认` 并沿用上轮账本）
 
 ### 2.4 上下文窗口限制
 
@@ -137,10 +137,41 @@ OurDream.ai 的多层记忆：
 - ~~**Lorebook**：按关键词触发相关背景~~ → **不可用**（2026-07-18 用户实测 OurDream 角色设置无 Lorebook 面板）
 
 **本项目应对**：
-- WSK 维护硬状态 → 输出 `[State Update]`
-- WER 维护长期历史 → 输出 `History Ledger`
-- 用户手动复制到 Pinned Memory
-- WM 每轮先读最近 WSK 输出，再读 PM 中的 Ledger
+ - WSK 维护硬状态 -> 输出 `[State Update]`
+ - 长期历史 -> 用户手动维护 Pinned Memory（v1.19 WER 已删除）
+ - 用户手动复制到 Pinned Memory
+ - WM 每轮先读最近 WSK 输出，再读 Pinned Memory
+
+### 2.5 WM-TRACKING 头机制（2026-08-18 实测确认）
+
+> **来源**：长会话实测中通过平台 edit 视图发现的 HTML 注释块，正常渲染对玩家不可见。
+
+**机制概述**：平台在每轮 WM system prompt 中自动注入一个 `<!-- WM-TRACKING ... -->` HTML 注释块，作为平台侧的叙事辅助摘要层。这是平台的固定装配，不受项目 prompt 文件控制。
+
+**7 字段结构**：
+
+| 字段 | 内容 | 来源 |
+|---|---|---|
+| scene_function | 场景功能分类标签（如 Continuity, Discovery, Pressure, Supporting Cast） | 平台自生成，逐轮动态变化 |
+| format_contract | 格式契约摘要（如"叙事正文+[主要状态]；第三人称；冷峻克制；可消耗物资双轨渲染"） | 对项目 1-x prompt 文件的语义摘要（有损） |
+| authority_scope | 权限边界（如"用户硬边界（江的提问）；蜷缩青年为临时NPC由WM代控"） | 平台自生成，部分反映 1-1 [不可越界] 概念 |
+| active_focus | 本轮叙事焦点 | 平台自生成 |
+| continuity_anchors | 连续性锚点（上轮状态压缩） | 平台从上一轮 WM 完整输出（叙事正文 + [主要状态]）语义提取，不从 WSK [State Update] 读取 |
+| pressure_edge | 压力边界提示（风险评估） | 平台自生成 |
+| next_beat_intent | 叙事节拍意图（本轮收束点指导） | 平台自生成 |
+
+**运行时行为**：
+- TRACKING 头是标准装配，每轮注入；LLM 默认只读 TRACKING 头进行叙事，不自动翻查完整对话历史
+- 完整对话历史（含 WSK 每轮 [State Update]）仍在上下文窗口内，LLM 仅在有需要时才回查
+- format_contract 字段为平台从 prompt 文件摘要提取，非逐字拷贝；实测存在摘要范围不全（如仅摘要"叙事正文+[主要状态]"两块而漏 [Move]/[Probability Check]/[判定]）和措辞漂移（如"冷峻"被摘要为"粗粝"）
+
+**对提示词工程的影响**：
+
+1. **两层指令模型**：LLM 实际收到两层指令--第一层是 TRACKING 头（默认读物），第二层是 1-x prompt 文件（完整参照）。规则被遵守的程度取决于它在哪一层：TRACKING 覆盖的规则优先级高（如终止于 [主要状态]、第三人称），仅 1-x 覆盖的规则优先级低（如 [Move] 空标记）
+2. **必查表是对抗机制**：1-x 中的必查表规则（"核对最近 [State Update] Inventory State"等）实质是强制 LLM 在特定决策点翻查对话历史，对抗其"默认只读 TRACKING"的惰性
+3. **1-x 设计原则**：关键规则放节首（LLM 翻查时第一眼看到）；节名即指令；不埋规则（深层段落几乎等于不存在）
+4. **不与 TRACKING 重复**：TRACKING 已做叙事连续性压缩/风险提示/节拍指导；1-x 的职责是 TRACKING 做不到的结构化格式契约/数据表/硬约束
+5. **format_contract 漂移是运行时监控点**：长会话中定期抽查 TRACKING 头，确认摘要范围未进一步收窄
 
 ---
 
@@ -152,7 +183,7 @@ OurDream.ai 的多层记忆：
 
 | 步骤 | 名称 | 字段对应 | 本项目设置 |
 |------|------|----------|-----------|
-| 1 | 性别与基础 | name + 基础 | World Master / WSK / WER 各自独立 |
+| 1 | 性别与基础 | name + 基础 | World Master / WSK 各自独立 |
 | 2 | 性格 | personality | 1-x 角色特定 |
 | 3 | 职业 | description 职业部分 | 角色功能定位（World Master 等） |
 | 4 | 关系 | scenario | 同 ChatRoom 共享 |
@@ -167,13 +198,12 @@ OurDream.ai 的多层记忆：
 - **测试再发布**（Testing after publish）：先在小流量上验证
 - **最大误区**：**用模糊定义让 AI 无所适从**；具体比全面更重要
 
-### 3.3 本项目 3 个角色的设计对应
+### 3.3 本项目 2 个角色的设计对应（v1.19 WER 已删除）
 
 | 角色 | 性格定位 | 行为模式（具体） |
 |------|----------|-----------------|
 | **World Master** | 唯一前台；Scene 主导者；不替玩家决定 | 2-3 段自然述事 → [主要状态] → 必要时 [判定] → 最小同步块 |
-| **World State Keeper** | 静默账本员；只在被触发时输出 | `[State Update]` / `[Commit Rejected]` / 沉默 |
-| **World Event Recorder** | 静默档案员；只在被触发时输出 | `[History Ledger]` / 沉默 |
+| **World State Keeper** | 账本员；只在被触发时输出 | 每次触发输出 `[State Update]` 完整视图（无变化时 Delta 留空） |
 
 ---
 
@@ -205,7 +235,7 @@ OurDream.ai 的多层记忆：
 
 ### 4.2 OurDream 角色字段结构（本项目）
 
-- **字段命名**：1-x / 2-x / 3-x = WM / WSK / WER 三个角色各 3 段（Scene / Additional / Extra）
+- **字段命名**：1-x / 2-x = WM / WSK 两个角色各 3 段（Scene / Additional / Extra；v1.19 删除 WER 的 3-x，见 PB §2.1.1）
 - **格式**：纯 `.md` 文本（便于协作与 diff），不走外部字符卡 PNG/JSON 导入
 - **字段上限**（v4.4 实测）：
   - 每个角色字段 50,000 字符（1-3 例外 = 100,000 字符）
@@ -216,27 +246,25 @@ OurDream.ai 的多层记忆：
 
 > **本项目核心机制（已废弃原同步块协议）**
 >
-> 原 §4.3 列出的 6 种 Commit Type / Sync Mode / Receipt Mode 机制已随“同步块”通讯机制一起废弃。现行机制 = **强语义提取 + DO / REJECT / SILENT 3 张决策表**。WSK / WER 不等待 WM 推送的结构化同步块；而是扫描 WM Scene 叙事中已明确写出的已成立变化，入账/归档/拒收。详见 [PROJECT_BLUEPRINT.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/PROJECT_BLUEPRINT.md) §2.3 与 [审计历史记录.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/审计历史记录.md) §十三。
+> 原 §4.3 列出的 6 种 Commit Type / Sync Mode / Receipt Mode 机制已随“同步块”通讯机制一起废弃。现行机制 = **强语义提取 + DO 1 张决策表**（2026-08-15 输出协议变更：原 REJECT / SILENT 已废除，每次触发都输出完整视图）。WSK 不等待 WM 推送的结构化同步块；而是扫描 WM Scene 叙事中已明确写出的已成立变化，入账。详见 [PROJECT_BLUEPRINT.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/PROJECT_BLUEPRINT.md) §2.3 与 [审计历史记录.md](file:///d:/Mycode/AshHarbor_OD_Trae/Ashport_Ourdream/审计历史记录.md) §十三。
 
 #### 4.3.1 强语义提取
 
 - **扫描窗口**：自本角色上次发言以来的 WM 角色卡对话历史（首次点击 = 整个对话历史起点）
 - **提取源**：WM Scene 叙事 + `[主要状态]` 状态栏中已明确写出的已成立变化
-- **WSK 提取集**：`Day ID / Turn ID / Zone / Sub-zone / Location / 知情范围 / Weather / Inventory Snapshot / Party Condition / Base Structure / Recent Changes`
-- **WER 提取集**：`Day ID / Official Day / Recent Events / Structural Changes / Irreducible Anchors / 知情范围 Notes`
-- **展示块隔离**：`[判定]` / `[Probability Check]` / 子结构块仅供用户阅读，**不**作为提取源
+- **WSK 提取集**：`Day-Turn / Location / Inventory / Party Condition / Relationship & Threat / Map Knowledge / Base Structure / 近五日主要事件`（从 `[主要状态]`、`[Move]` 行与 Scene 叙事提取）
+- **展示块隔离**：`[判定]` / `[Probability Check]` / 子结构块仅供用户阅读，**不**作为提取源（例外：`[判定]` 内消耗行是每日消耗的权威提取源）
 
-#### 4.3.2 决策表（WSK / WER 各 3 张）
+#### 4.3.2 决策表（WSK 1 张，2026-08-15 输出协议变更）
 
 | 决策 | 含义 | 输出 |
 |------|------|------|
-| **DO** | 提取到完整已成立变化 | WSK = `[State Update]`；WER = `[WER 历史]` |
-| **REJECT** | 字段不完整 / 冲突 / 信息不足 | WSK = `[Commit Rejected]`；WER = `[Event Commit Rejected]` |
-| **SILENT** | 无新成立变化可提取 | 不输出任何文字 |
+| **DO** | 每次触发（无论有无变化） | WSK = `[State Update]` 完整视图；有变化记入变化，无变化 Delta 留空、其余照抄基线 |
 
 **关键事实**：
-- 接受回执不输出（账本 / Ledger 本身即隐式接受）
-- 拒绝回执仅适用于「WM Scene 叙事中已成立变化但字段不完整」场景；普通文本保持静默
+- 接受回执不输出（账本本身即隐式接受）
+- 字段缺失不拒收：标 `未确认` 并沿用上轮账本（属 DO 内降级处理，不构成独立决策）
+- 原 REJECT（`[Commit Rejected]`）与 SILENT（`-` 空白标记）已废除——REJECT 违背"不因字段缺失拒绝整笔变化"总原则，SILENT 被每次完整视图协议取代
 - ESCALATE 决策表已废弃
 
 ### 4.4 知识可见性（知情范围）
@@ -271,7 +299,7 @@ OurDream.ai 的多层记忆：
 - 多人目击/当众冲突/现场围观**默认仍为 `local-only`**
 - 升级需新传播事件（广播/告示/市场传闻/跨地点传播/广范围可见后果）
 - 死亡 Scene 默认必须标 `[公开性: <level>]`
-- WER 入"近期重大事件"主干规则：`publicly-known` 必入；`party-known`/`local-only` 按场景；`hidden` 默认不入
+- 长期历史记入主干规则（v1.19 起由 Pinned Memory 手动维护）：`publicly-known` 必入；`party-known`/`local-only` 按场景；`hidden` 默认不入
 
 ---
 
@@ -300,22 +328,16 @@ OurDream.ai 的多层记忆：
 │                                ↑                              │
 │                         用户手动触发                          │
 │                                                              │
-│  World Master ── 强语义提取 ── World Event Recorder (后台)   │
-│    ↓                          ↓                              │
-│  Scene                  (读取重大事件)                       │
-│                          [WER 历史]                            │
-│                                ↑                              │
-│                         用户手动触发                          │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 **关键设计（v4.4 + 2026-07-22 审计修订）**：
 - **唯一稳定前台 = WM**（保证叙事连贯性 + 玩家代理权）
-- **后台 = WSK + WER**（只在手动触发时输出，避免破坏叙事）
-- **通讯机制 = 强语义提取**（WSK / WER 扫描 WM Scene 叙事 + `[主要状态]` 状态栏，提取已明确写出的已成立变化；**不**依赖结构化同步块）
-- **展示块隔离**：`[判定]` / `[Probability Check]` / 子结构块仅供用户阅读，**不**作为 WSK / WER 提取源
-- **决策表 = DO / REJECT / SILENT 3 张**（每角色各 3 张；ESCALATE 已废弃）
-- **接受回执不输出**；拒绝回执仅在字段不完整时输出
+- **后台 = WSK**（只在手动触发时输出，避免破坏叙事）
+- **通讯机制 = 强语义提取**（WSK 扫描 WM Scene 叙事 + `[主要状态]` 状态栏，提取已明确写出的已成立变化；**不**依赖结构化同步块）
+- **展示块隔离**：`[判定]` / `[Probability Check]` / 子结构块仅供用户阅读，**不**作为 WSK 提取源
+- **决策表 = DO 1 张**（WSK；2026-08-15 起 REJECT / SILENT 废除，ESCALATE 更早已废弃）
+- **接受回执不输出**；字段缺失不拒收（标 `未确认` 沿用上轮账本）
 - **快照权威层级**：WSK 输出 = 权威；WM 临时估算 = 临时；历史值 = 兜底
 
 ### 5.3 与原生 Group Chat 的差异
@@ -325,10 +347,10 @@ OurDream.ai 的多层记忆：
 | 角色触发 | 平台自动或手动 | **手动触发后台** |
 | 信息流 | 全部共享 | **强语义提取 + 知情范围 约束** |
 | 状态管理 | 角色各自维护 | **WSK 唯一权威** |
-| 历史归档 | 上下文窗口 | **WER 永久归档 + Pinned Memory 手动同步** |
+| 历史归档 | 上下文窗口 | **Pinned Memory 手动维护（v1.19 WER 已删除）** |
 | 玩家代理权 | 易被后台抢话 | **WM 唯一前台** |
 | NPC 反全知 | 难防 | **知情范围 强制约束 + 场景隔离** |
-| 决策表 | 无 | **DO / REJECT / SILENT 各 3 张** |
+| 决策表 | 无 | **WSK DO 1 张** |
 | 通讯机制 | 自由文本 | **强语义提取（不用同步块）** |
 
 ---
@@ -354,10 +376,10 @@ OurDream.ai 的多层记忆：
 来自社区共识 + OurDream.ai 指南：
 
 1. **明确优于全面**：具体行为模式 > 模糊形容词
-2. **决策表优于长规则**：4 张紧凑表 > 25 条绝对规则（v4 已实施）
+2. **决策表优于长规则**：紧凑表 > 长规则清单（v4 已实施；现行 WSK DO 单表）
 3. **代表优于详尽**：1 代表物品 + tier > 4-6 详细物品（v4 C3 已实施）
 4. **唯一权威源**：跨文件规则不得重复（v4 D 已实施 0-1 / 1-1 / 2-1 / 3-1 echo 链）
-5. **同步块格式统一**：最小公共字段 + 增量句法（已在 0-1 §同步块快速选择表）
+5. **结构化输出统一**：最小公共字段 + 增量句法（同步块时代经验；现行 = 完整视图 + Inventory Delta 增量句法，同步块已废弃）
 6. **量化漂移监控**：6 项指标 + 4 档使用率（已在 §15.10）
 
 ### 6.3 LLM 后段遗忘的对策
@@ -366,12 +388,11 @@ OurDream.ai 的多层记忆：
 
 | 对策 | 适用场景 | 本项目使用 |
 |------|----------|-----------|
-| **单文件不超过 1,000 行** | 减少后段失效 | 1-3 = 724 行（P1-1 索引缓解） |
+| **单文件不超过 1,000 行** | 减少后段失效 | 1-3 = 869 行（P1-1 索引缓解） |
 | **关键规则前置** | 提高 LLM 注意力 | 1-1 §感官 token 抽屉 / §死亡公开性 L693-697 |
-| **决策表代替长规则** | 降低单条规则长度 | v4 B 批次（25+18 规则 → 4 张表） |
-| **同步块压缩状态** | 减少每轮需要携带的信息 | 0-1 §同步块快速选择表 |
-| **快照权威替换** | 防止 WM 临时估算漂移 | 0-1 §Inventory Snapshot 权威替换 |
-| **多角色审计** | 单角色可能漂移时 | WSK 审计 WM 的 Snapshot 压缩 |
+| **决策表代替长规则** | 降低单条规则长度 | v4 B 批次（25+18 规则 → 表）；现行 WSK DO 单表 |
+| **完整视图权威替换** | 防止 WM 临时估算漂移 | WSK [State Update] 完整视图 = 权威账本（同步块机制已废弃） |
+| **多角色审计** | 单角色可能漂移时 | WSK 审计 WM 库存三级归类（功能门类-分类-组别） |
 
 ---
 
@@ -381,7 +402,7 @@ OurDream.ai 的多层记忆：
 
 | 限制 | 影响 | 本项目应对 |
 |------|------|-----------|
-| **平台上下文窗口有限** | 超长会话早期内容失效 | WSK + WER + Pinned Memory 三层持久化 |
+| **平台上下文窗口有限** | 超长会话早期内容失效 | WSK + Pinned Memory 两层持久化（v1.19 WER 已删除） |
 | **后台不自动运行** | 需手动触发；忘记触发则同步块积累 | 1+2 架构明确分离前台/后台 |
 | ~~**CI 限额 15,000**~~ | ~~极严格~~ | ~~v4.4 迁出 0-1 后此约束不再适用 0-1；0-1 现承载于 Private Details 字段（≥50K）~~ |
 | **多角色共享历史** | 后台可见玩家未公开信息 | 知情范围 强制约束 |
@@ -407,8 +428,8 @@ OurDream.ai 的多层记忆：
 - [x] **Private Details (Secret Instructions)** = **0-1_Private_Details.md**（15,826 字符，v4.4 2026-07-20 迁入；≥50,000 限额 ≈ 31.65% 占用）
 - [x] **World Master 角色字段** = 1-1 / 1-2 / 1-3（5,940 / 10,259 / 38,805 字符）
 - [x] **World State Keeper 角色字段** = 2-1 / 2-2 / 2-3（992 / 14,739 / 17,272 字符）
-- [x] **World Event Recorder 角色字段** = 3-1 / 3-2 / 3-3（1,195 / 4,818 / 4,262 字符）
-- [x] **Pinned Memory** = History Ledger（用户手动复制 WER 输出；**仅手动，无 API 自动化**）
+- ~~[x] **World Event Recorder 角色字段** = 3-1 / 3-2 / 3-3~~（**v1.19 已删除**；长期档案职责由 Pinned Memory 承担，见 PB §2.1.1）
+- [x] **Pinned Memory** = History Ledger（用户手动维护；v1.19 起承担原 WER 长期档案职责；**仅手动，无 API 自动化**）
 - [x] **Deep Context（30 天自动）** = 平台自动管理（不依赖，但作为"中期"记忆层补充）
 - [ ] **Lorebook** = **不可用**（2026-07-18 用户实测角色设置无面板；详见 §4.1 与 §9.2.2 方案 C 废弃说明）
 - [ ] **API / Webhook / 本地部署** = **平台均不支持**（详见 §9.2.1）
@@ -418,11 +439,11 @@ OurDream.ai 的多层记忆：
 | 机制 | 平台原生 | 本项目实现 | 差异原因 |
 |------|----------|-----------|----------|
 | **多角色** | 群聊 | 1+2 架构 | 后台不自动运行；避免抢话 |
-| **长期记忆** | Pinned Memory + Auto Memory | WSK + WER + Pinned Memory | WSK/WER 提供结构化账本而非自由文本 |
+| **长期记忆** | Pinned Memory + Auto Memory | WSK + Pinned Memory | WSK 提供结构化账本而非自由文本 |
 | **状态管理** | 角色各自维护 | WSK 唯一权威 | 防止角色间状态漂移 |
-| **历史归档** | 上下文窗口 + Auto Memory | WER 永久归档 + Pinned Memory | 100+ 日可追溯 |
+| **历史归档** | 上下文窗口 + Auto Memory | Pinned Memory 手动维护（v1.19 WER 已删除） | 长期可追溯 |
 | **NPC 反全知** | 靠 prompt 限制 | 知情范围 字段 + 强语义提取 | 结构化强制约束 |
-| **决策表** | 无 | 3 张表（DO/REJECT/SILENT） | 替代长规则；降低 LLM 漂移（v4.4 后统一为 3 表） |
+| **决策表** | 无 | 1 张表（WSK DO；2026-08-15 起） | 替代长规则；降低 LLM 漂移 |
 
 ---
 
@@ -467,7 +488,7 @@ OurDream.ai 的多层记忆：
 | **C Lorebook 决策表** | 利用 OurDream 平台 Lorebook 按关键词触发决策表条目 | 上下文不变即可调用 | 用户实测角色设置无 Lorebook 面板；平台能力未确认 | ✗ 放弃：平台不支持 |
 | **D 外部 Drift Dashboard** | 用户每 5 轮手动统计关键指标，写入 `Drift_Dashboard.md` | 完全本地化；与 Pinned Memory 隔离 | 需用户手动维护；不可自动化 | ✗ 放弃：用户决定不维护外部 dashboard |
 
-**关键事实（2026-07-18）**：本项目 **不再探索仪表盘与硬约束审计机制**。漂移监控仅依赖现有 WSK + WER + Pinned Memory 三层持久化的自我约束。
+**关键事实（2026-07-18）**：本项目 **不再探索仪表盘与硬约束审计机制**。漂移监控仅依赖现有 WSK + Pinned Memory 两层持久化（v1.19 WER 已删除）的自我约束。
 
 #### 9.2.4 灾备与可移植性：放弃
 

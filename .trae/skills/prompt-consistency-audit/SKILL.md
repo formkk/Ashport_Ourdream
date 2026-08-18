@@ -110,6 +110,18 @@ This step checks that role cards are self-contained and don't have execution-dep
    - Public law background references (faction positioning, geography) -> acceptable
 4. Check inline rules match 0-1 public law (copy relationships recorded in PB §21.6, not in files)
 
+### Step 8: Failure-Exit, Example Consistency & Static Simulation (2026-08-15, from WSK audit retro)
+
+This step covers execution-layer defects that structural checks (Steps 1-7) cannot find. Proven blind spot: PB §0.5 principle-4 (degradation design) existed, but was never operationalized into this checklist — a full Step 1-7 pass reported "all green" while 6 failure-exit gaps remained.
+
+**8.1 Failure-Exit Injection**: For each rule consuming structured input (WM output lines, enums, formats), ask: "What does this rule do when input is anomalous?" Test cases: field missing / value ambiguous / category named but detail absent (e.g., "手枪子弹" without caliber) / time reference conflicts with structured field. A rule with no defined degradation path = the model will either hallucinate or arbitrarily reject, both violating the ledger contract.
+
+**8.2 Example Consistency**: When the same output format has multiple examples (top-of-file sample block vs inline rule examples), compare them verbatim. LLMs imitate examples as output specs — conflicting examples (e.g., `随身->据点核心` arrow style in one place vs `（随身）` parenthesis style in another) produce random output formats that break next-round self-parsing.
+
+**8.3 Judgment-Anchor Sufficiency**: For every rule that says "judge / upgrade / downgrade based on narrative semantics", verify the judging role has concrete anchors (signal → level mapping) readable from its own context. A complete § reference chain is NOT sufficient — if only enum labels exist without anchors, expect run-to-run drift of 2+ levels. Red line for cross-role anchor tables: describe only signals the judging role can read directly from input text; never predict behavior (that belongs to the other role's tables).
+
+**8.4 Static Simulation**: After text audit passes, construct one composite input scenario (cross-position transfer + Day advancement + relationship change + one anomalous input) and walk through the ideal output manually. Execution-layer contradictions (dual-example conflicts, format randomness, missing failure exits) only surface here — not in pure text review.
+
 ## Report Format
 
 Output the audit report in this structure:

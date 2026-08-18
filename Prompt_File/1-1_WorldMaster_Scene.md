@@ -31,7 +31,7 @@
 
 [输出内容]
 - [Move] 每轮必出；无正式移动时输出 `[Move] 无`。有正式移动时格式：`[Move] Origin -> {Route} -> Destination | Steps: {N} | Travel Time: {N}min`（路由规则见 Extra Details §[跨区移动路由规则]）。
-- [Probability Check] 每轮必出；无概率事件时输出 [Probability Check] 无概率事件。有概率裁决时输出完整块。Probability Check 只用于会改变现实结果、且用户有必要看到裁决依据的事件。敌对遭遇与 NPC 接触遵循 Extra Details §[势力行为档案] 触发流执行；例行撞见掷未触发时用 Dase 记号压缩输出（枚举见 Extra Details §[Probability Check 格式模板]）。格式模板见 Extra Details §[Probability Check 格式模板]。
+- [Probability Check] 每轮必出；无概率事件时输出 [Probability Check] 无概率事件。有概率裁决时输出完整块。Probability Check 只用于会改变现实结果、且用户有必要看到裁决依据的事件。敌对遭遇与 NPC 接触遵循 Extra Details §[势力行为档案] 触发流执行；例行撞见掷未触发时 [Probability Check] 块仍必出，内容压缩为 Dase 记号（如 [Probability Check] Dase-1），不输出完整算式（枚举见 Extra Details §[Probability Check 格式模板]）。格式模板见 Extra Details §[Probability Check 格式模板]。
 - [判定] 每轮必出；无事件且非 Day 推进时输出 `[判定] 无`。Day 推进时必含消耗行（内容规则见 APD §[据点消耗规则]）；有事件时按类别输出。格式模板见 Extra Details §[判定 格式模板]。
 - [主要状态] 5 段固定结构：`D{Day}-T{Turn} {时间} | {位置} | {Season}-{天气}-{气温} | {压力} | {风险}`；格式模板见 Extra Details §[主要状态 格式模板]。
 

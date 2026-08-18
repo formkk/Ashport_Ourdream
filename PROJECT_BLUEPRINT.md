@@ -1384,10 +1384,24 @@ WSK Extra Details (2-3)          ─┘
 ```
 
 **关键推论**：
-1. WM 看不到 WSK 的任何角色卡字段（2-1 / 2-2 / 2-3）→ WM 不能引用 WSK 字段内容
-2. WSK 看不到 WM 的任何角色卡字段（1-1 / 1-2 / 1-3）→ WSK 不能引用 WM 字段内容
-3. 双方都能看到聊天室级字段（0-1 / 0-2 / 0-3）→ 聊天室级字段是共享共识基座
-4. 双方都能看到对话历史 → 对话历史是跨角色唯一活通道
+1. WM 看不到 WSK 的任何角色卡字段（2-1 / 2-2 / 2-3）-> WM 不能引用 WSK 字段内容
+2. WSK 看不到 WM 的任何角色卡字段（1-1 / 1-2 / 1-3）-> WSK 不能引用 WM 字段内容
+3. 双方都能看到聊天室级字段（0-1 / 0-2 / 0-3）-> 聊天室级字段是共享共识基座
+4. 双方都能看到对话历史 -> 对话历史是跨角色唯一活通道
+
+**平台 TRACKING 头机制（2026-08-18 实测确认）**：
+平台在每轮 WM system prompt 中注入一个 HTML 注释块 `<!-- WM-TRACKING ... -->`，包含 7 个字段：scene_function（场景功能分类）、format_contract（格式契约摘要）、authority_scope（权限边界）、active_focus（本轮焦点）、continuity_anchors（连续性锚点）、pressure_edge（压力边界提示）、next_beat_intent（叙事节拍意图）。
+
+运行时行为：
+- TRACKING 头是标准装配，每轮注入；LLM 默认只读 TRACKING 头进行叙事，不自动翻查完整对话历史
+- continuity_anchors 由平台从上一轮 WM 完整输出（叙事正文 + [主要状态]）语义提取，不从 WSK [State Update] 读取
+- 完整对话历史（含 WSK 每轮 [State Update]）仍在上下文窗口内，但 LLM 仅在有需要时才回查--必查表规则的作用就是强制 LLM 在特定决策点回查
+- format_contract 字段为平台从 prompt 文件摘要提取，非逐字拷贝；实测存在摘要范围不全的风险（如仅摘要"叙事正文+[主要状态]"而漏 [Move]/[Probability Check]/[判定] 三块）
+
+设计推论：
+- 必查表规则是"LLM 默认不翻上文"的对抗措施，在运行时有效但依赖 LLM 遵守指令
+- WSK [State Update] 在对话历史中可被 WM 检索，但不在 TRACKING 头的默认摘要里
+- TRACKING 头的 continuity_anchors 包含叙事细节（持枪姿态/NPC 肢体语言等）是 WSK 不会记账的--平台做了 WSK 做不了的叙事级连续性压缩
 
 ### 18.3 可见性矩阵
 
