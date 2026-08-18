@@ -3,19 +3,19 @@
 Ash Harbor 据点损耗机制触发链路测试脚本
 
 场景：模拟"建立据点并推进一天"（D5 -> D6, Storm 天气, 暴露事件成立），
-按 prompt 规则推演 WSK 的预期输出日志，重点检查 Security/Exposure 等据点状态字段是否存在。
+按 prompt 规则推演 WSK 的预期输出日志，检查据点状态字段存在性与已删字段不回归。
 
 测试对象：
-  1. 规则源检查：2-2 §[据点与庇护记录规则] L102 的 4 字段要求仍在位
+  1. 规则源检查：2-2 §[据点与庇护记录规则] 三字段要求在位 + Security/Exposure 已删（v1.67）
   2. 正例推演：规则完整形态的 WSK 输出（LLM 完全遵守规则时应输出什么）-> 应全 PASS
   3. 反例：模拟早期实际输出（只有组件清单，无状态字段）-> 应检出缺失
   4. 真实输出校验：若 tools/wsk_real_output.txt 存在（用户从平台实测粘贴），对其做同样检查
 
 字段存在性依据（2-2 §[据点与庇护记录规则]）：
-  - L102: "对据点/庇护状态,至少应保留：Rest / Shelter Availability、Security / Exposure、Heat / Dryness、Maintenance Pressure"
-  - L103a: Security/Exposure 三档 hidden / local-only / publicly-known
-  - L105: 长期驻留时应有 Occupancy / Residency Load
-  - L111: 每轮统一输出组件名 + 状态描述
+  - 据点状态唯一记录载体 = 组件名 + 状态描述（自然语言，每轮统一输出）
+  - v1.67 删除全部据点状态字段（均为无触发依赖的纯记录字段）：
+    Security/Exposure、Maintenance Pressure、Rest/Shelter Availability、
+    Heat/Dryness、Occupancy/Residency Load、Supply/Sanitation Strain
 
 用法: python tools/sim_base_decay_test.py
 真实校验: 把平台实测的 WSK 输出粘贴到 tools/wsk_real_output.txt 后重新运行
@@ -57,14 +57,14 @@ MOCK_SCENARIO = """
   1. 玩家进入质检小楼定居，清理大门（门锁铁片翘起，内以木杠别住），
      确认起居室（旧会议室，有壁炉，烟道通畅）、食品储藏室（北墙铁架）、天台集水器（滤网已清）
   2. 建立据点核心：转移 罐头x6 + 大米x10kg + 净水x8kg 随身->据点核心
-  3. 暴露事件成立：白天搬运物资时被附近拾荒者远距看到（据点暴露 hidden -> local-only）
-  4. Day 推进 D5->D6，天气 Storm（恶劣天气，天气损耗检查 Base 40）
+  3. 暴露事件成立：白天搬运物资时被附近拾荒者远距看到（据点暴露信号，写入风险栏）
+  4. Day 推进 D5->D6，天气 Storm（恶劣天气，天气损耗检查 Base 55）
 
 [WM 侧输出]（供 WSK 提取的输入）
   [Move] ...
-  [Probability Check] Trigger: 天气损耗（Storm 跨日）; Base: 40; Modifiers: 无加固组件+0; Final: 40; Seed: 12; Threshold: 40; Result: 未触发; Outcome: 组件暂时撑住
+  [Probability Check] wear-sabotage: 未触发（按信号驱动简化规则，上轮风险栏有暴露信号）
   [判定] 消耗（D5->D6）: 压缩饼干x0.5kg+净水x1kg; 据点建立: 化工厂质检小楼（主据点）; 代价与后果: 夜间 Storm，屋顶渗水未触发
-  [主要状态] D6-T58 21:00 | 工业区/N/化工厂质检小楼 | Winter-Storm-零下12度 | 疲劳 strained；体温 strained；脱水 stable；饥饿 stable；伤病 stable |
+  [主要状态] D6-T58 21:00 | 工业区/N/化工厂质检小楼 | Winter-Storm-零下12度 | 疲劳 strained；体温 strained；脱水 stable；饥饿 stable；伤病 stable | 据点白天被拾荒者远距观察到
 """
 
 # 正例：规则完整形态的 WSK 预期输出（LLM 完全遵守 2-2 L102/L103a/L105/L111 时）
@@ -86,11 +86,6 @@ Human Threat Stage: none
 4. Map Knowledge: 工业区/N 已探索；质检小楼已确认（主据点）
 
 5. Base Structure State: 工业区/N/化工厂质检小楼（主据点）
-Rest / Shelter Availability: 可住（起居室可过夜）
-Security / Exposure: local-only（白天搬运被附近拾荒者远距看到）
-Heat / Dryness: 有壁炉可取暖；地面偶有湿印
-Maintenance Pressure: 低（新据点，组件完好）
-Occupancy / Residency Load: 1人
 大门: 门锁铁片翘起，内以木杠别住
 起居室（旧会议室）: 可住，有壁炉
 壁炉: 烟道通畅，可用
@@ -99,7 +94,7 @@ Occupancy / Residency Load: 1人
 
 6. 近五日主要事件:
 D5: 进入工业区，搜刮获得罐头与大米
-D6: 建立化工厂质检小楼主据点，物资转入据点核心；被附近拾荒者远距看到（暴露 local-only）"""
+D6: 建立化工厂质检小楼主据点，物资转入据点核心；被附近拾荒者远距看到"""
 
 # 反例：模拟早期实际输出形态（只有组件清单，无状态字段）
 WSK_REGRESS_OUTPUT = """[State Update] D6-T58
@@ -132,8 +127,6 @@ D6: 建立化工厂质检小楼主据点，物资转入据点核心"""
 # ============================================================
 # 检查规则
 # ============================================================
-
-SECURITY_ENUM = ["hidden", "local-only", "publicly-known"]
 
 passed = 0
 failed = 0
@@ -173,38 +166,23 @@ def check_wsk_output(output, prefix):
     # BD-3: 组件条目存在（组件名 + 状态描述）
     test(f"{prefix}-3", "组件条目存在（组件名+状态描述）",
          ("大门:" in base_sec or "大门：" in base_sec) and ("壁炉" in base_sec),
-         "2-2 L111 要求每轮统一输出组件名+状态描述")
+         "2-2 要求每轮统一输出组件名+状态描述")
 
-    # BD-4: Security/Exposure 字段存在（核心检查）
-    test(f"{prefix}-4", "Security/Exposure 字段存在",
-         bool(re.search(r'Security\s*/\s*Exposure', base_sec)),
-         "2-2 L102 要求至少保留 Security / Exposure；缺失则 1-2 L91 人为破坏检查无输入")
-
-    # BD-5: Security/Exposure 取值合法
-    sec_m = re.search(r'Security\s*/\s*Exposure\s*[:：]\s*(\S+)', base_sec)
-    test(f"{prefix}-5", "Security/Exposure 取值合法枚举",
-         bool(sec_m and any(e in sec_m.group(1) for e in SECURITY_ENUM)),
-         f"合法值: {SECURITY_ENUM}" + (f"；实际值: {sec_m.group(1)}" if sec_m else "；未找到取值"))
-
-    # BD-6: Maintenance Pressure 字段存在
-    test(f"{prefix}-6", "Maintenance Pressure 字段存在",
-         bool(re.search(r'Maintenance\s*Pressure', base_sec)),
-         "2-2 L102 要求至少保留 Maintenance Pressure")
-
-    # BD-7: Rest/Shelter Availability 字段存在
-    test(f"{prefix}-7", "Rest/Shelter Availability 字段存在",
-         bool(re.search(r'Rest\s*/\s*Shelter\s*Availability', base_sec)),
-         "2-2 L102 要求至少保留 Rest / Shelter Availability")
-
-    # BD-8: Heat/Dryness 字段存在
-    test(f"{prefix}-8", "Heat/Dryness 字段存在",
-         bool(re.search(r'Heat\s*/\s*Dryness', base_sec)),
-         "2-2 L102 要求至少保留 Heat / Dryness")
-
-    # BD-9: 长期驻留时 Occupancy / Residency Load 存在
-    test(f"{prefix}-9", "长期驻留时 Occupancy / Residency Load 存在",
-         bool(re.search(r'Occupancy\s*/\s*Residency\s*Load', base_sec)),
-         "2-2 L105 要求长期驻留据点更新此字段")
+    # BD-4: 已删字段不应出现（v1.67 起据点状态字段全部删除）
+    # 被删字段：Security/Exposure、Maintenance Pressure、Rest/Shelter Availability、
+    #          Heat/Dryness、Occupancy/Residency Load、Supply/Sanitation Strain
+    removed_fields = [
+        (r'Security\s*/\s*Exposure', "Security/Exposure"),
+        (r'Maintenance\s*Pressure', "Maintenance Pressure"),
+        (r'Rest\s*/\s*Shelter\s*Availability', "Rest/Shelter Availability"),
+        (r'Heat\s*/\s*Dryness', "Heat/Dryness"),
+        (r'Occupancy\s*/\s*Residency\s*Load', "Occupancy/Residency Load"),
+        (r'Supply\s*/\s*Sanitation', "Supply/Sanitation Strain"),
+    ]
+    for pattern, name in removed_fields:
+        test(f"{prefix}-4", f"已删字段不再出现：{name}",
+             not re.search(pattern, output),
+             "v1.67 删除该字段；若出现说明 WSK 按旧规则输出")
 
 
 # ============================================================
@@ -215,29 +193,40 @@ def test_rule_sources():
     print("\n--- Part 1: 规则源检查（prompt 规则仍在位）---")
     f_22 = read_prompt("2-2_WorldStateKeeper_Additional_Personality_Details.md")
 
-    # RS-1: 2-2 L102 四字段要求存在
-    test("RS-1", "2-2 L102 四字段保留要求仍在位",
-         "至少应保留" in f_22 and "Security / Exposure" in f_22 and "Maintenance Pressure" in f_22,
-         "若被删，WSK 无义务输出状态字段，人为破坏检查断链")
+    # RS-1: 2-2 据点状态字段要求已整体删除（v1.67）
+    test("RS-1", "2-2 据点状态字段要求已删除（无'至少应保留'行）",
+         "至少应保留" not in f_22,
+         "v1.67 删除全部据点状态字段；若回归说明旧规则复活")
 
-    # RS-2: 2-2 L103a 三档定义存在
-    test("RS-2", "2-2 L103a Security/Exposure 三档定义仍在位",
-         "hidden" in f_22 and "local-only" in f_22 and "publicly-known" in f_22)
+    # RS-2: 2-2 六个状态字段全部清除
+    for keyword in ["Maintenance Pressure", "Rest / Shelter Availability",
+                    "Heat / Dryness", "Occupancy / Residency Load",
+                    "Supply / Sanitation Strain", "Security / Exposure"]:
+        test("RS-2", f"2-2 已删字段清除：{keyword}",
+             keyword not in f_22,
+             "v1.67 删除该字段；若回归说明旧规则复活")
 
-    # RS-3: 2-2 L105 长期驻留字段存在
-    test("RS-3", "2-2 L105 长期驻留 Occupancy 字段仍在位",
-         "Occupancy / Residency Load" in f_22)
+    # RS-3: 2-2 组件状态描述输出规则仍在位（据点状态的唯一记录载体）
+    test("RS-3", "2-2 组件状态描述输出规则仍在位",
+         "每轮统一输出组件名" in f_22,
+         "组件状态描述是据点状态唯一记录载体，若被删据点状态断链")
 
-    # RS-4: 1-2 人为破坏检查指令存在（消费端）
+    # RS-4: 1-2 人为破坏触发指令存在（信号驱动版）
     f_12 = read_prompt("1-2_WorldMaster_Additional_Personality_Details.md")
-    test("RS-4", "1-2 L91 人为破坏检查输入指令仍在位",
-         "检查上一轮 WSK State Update 中的 Security/Exposure 档位" in f_12,
-         "若被删，WM 不会去读该字段")
+    test("RS-4", "1-2 人为破坏信号驱动触发指令仍在位（风险栏暴露信号）",
+         "风险栏出现据点暴露信号" in f_12 and "wear-sabotage" in f_12,
+         "若被删，人为破坏线断链")
 
-    # RS-5: 2-3 L132 枚举定义存在
+    # RS-5: 2-3 Security/Exposure 枚举已删除
     f_23 = read_prompt("2-3_WorldStateKeeper_Extra_Details.md")
-    test("RS-5", "2-3 L132 Security/Exposure 枚举仍在位",
-         bool(re.search(r'Security/Exposure:\s*hidden\s*/\s*local-only\s*/\s*publicly-known', f_23)))
+    test("RS-5", "2-3 Security/Exposure 枚举已删除",
+         "Security/Exposure" not in f_23,
+         "v1.67 删除该枚举行；若回归说明旧规则复活")
+
+    # RS-6: 1-2 Maintenance Pressure 引用已清除
+    test("RS-6", "1-2 Maintenance Pressure 引用已清除",
+         "Maintenance Pressure" not in f_12,
+         "v1.67 删除 MP；若回归说明旧规则复活")
 
 
 # ============================================================

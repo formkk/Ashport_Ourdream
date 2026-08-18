@@ -240,10 +240,11 @@ def test_p2():
          "微步" in f_12,
          "1-2 should reference '微步'")
 
-    # P2-8: 据点暴露 vs 知情范围差异标注
+    # P2-8: 据点暴露 vs 知情范围差异（v1.67 起 Security/Exposure 字段已删，知情范围 4 档在 2-3）
     test("P2-8", "Exposure vs knowledge scope difference noted",
-         "据点暴露为 3 档" in f_12 or "区别于知情范围" in f_12,
-         "Should note 3-tier vs 4-tier difference")
+         "知情范围: hidden / party-known / local-only / publicly-known" in f_23
+         and "Security/Exposure" not in f_23,
+         "2-3 should keep knowledge 4-tier; Security/Exposure removed in v1.67")
 
     # P2-9: 据点结构基线不再含存档数据
     baseline_section = f_13.split("[据点结构基线]")[1].split("[长时间")[0] if "[据点结构基线]" in f_13 else ""
@@ -401,10 +402,10 @@ def test_cross_consistency():
          f"0-1: {len(npc_01_lines)} lines, 1-3: {len(npc_13_lines)} lines")
 
     # 验证：据点暴露档位与知情范围档位的区分
-    test("Cross-4", "Exposure 3-tier vs Knowledge 4-tier are distinct",
-         "hidden" in f_12 and "local-only" in f_12 and "publicly-known" in f_12
+    test("Cross-4", "Exposure field removed, Knowledge 4-tier intact",
+         "Security/Exposure" not in f_23
          and "party-known" in f_01,
-         "Exposure should use 3 tiers, knowledge scope should have party-known")
+         "Security/Exposure removed in v1.67; knowledge scope with party-known in 0-1")
 
 # ============================================================
 # 近五日主要事件机制验证

@@ -129,7 +129,6 @@ D5: 到达工业区/N/质检小楼，搜刮获得大米×2.5kg + 9mm×12发
 
 [固定取值]
 - 知情范围: hidden / party-known / local-only / publicly-known（按需填写；语义与升级约束见 APD §[威胁与知情范围记录规则]）
-- Security/Exposure: hidden / local-only / publicly-known（据点暴露程度，见 APD §[据点与庇护记录规则] item 3a）
 - 记忆存储位 Availability: confirmed-intact / uncertain / likely-moved / likely-looted / likely-damaged / unreachable（语义见 APD §[记忆存储位规则]）
 - 人类敌对阶段: none / signs / observed / followed / probed / blocked / robbed / violent / lethal（叙事信号锚点见 §[判定锚点]）
 - Relationship: 依恋/完全信任 / 亲密/信任 / 好感 / 中立 / 冷漠 / 敌意 / 仇恨（叙事信号锚点见 §[判定锚点]）

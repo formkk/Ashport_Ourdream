@@ -115,7 +115,7 @@ LLM 整体全看（并行 attention）非层层查阅，注意力分布：Scene�
 **涉及的英文项（示例）**：
 - 软标签：`[State Update]`、`Inventory Delta:`、`Inventory State`、`Party Condition`、`Relationship & Threat`、`Map Knowledge`、`Base Structure State`
 - 枚举值：`confirmed-intact`、`uncertain`、`likely-moved`、`hidden`、`local-only`、`publicly-known` 等
-- 字段名：`Availability`、`Filter Remaining`、`Security/Exposure`、`Maintenance Pressure` 等
+- 字段名：`Availability`、`Filter Remaining` 等
 
 **设计依据**：project_memory 已记录此长期原则。
 
@@ -327,7 +327,7 @@ WSK 在库存系统中的禁止行为：
 
 **触发**：Day 推进（与消耗机制共用触发点）。
 
-**裁定**（WM 侧）：Day 推进时一次性检查三项损耗（天气损耗/人为破坏/使用损耗）。WM 在 Scene 叙事中写出故障（不是 `[判定]` 结构化行，是自然叙事）。三类损耗的触发条件、概率量化机制（Probability Check + Base，v1.61 从 v1.57 语义化方向回退：定性词无判定标准，LLM 无法校准）与组件选择见 1-2 §[据点损耗机制]；人为破坏与暴露程度的联动见 §5.4。
+**裁定**（WM 侧）：Day 推进时一次性检查三项损耗（天气损耗/人为破坏/使用损耗）。WM 在 Scene 叙事中写出故障（不是 `[判定]` 结构化行，是自然叙事）。三类损耗的触发条件、概率量化机制（Probability Check + Base，v1.61 从 v1.57 语义化方向回退：定性词无判定标准，LLM 无法校准）与组件选择见 1-2 §[据点损耗机制]；人为破坏与暴露信号的联动见 §5.4。
 
 **组件状态生命周期**（设计决策：三级自然语言状态模型，T4 教训）：
 - 完好 → 损坏（损耗事件触发）
@@ -338,9 +338,9 @@ WSK 在库存系统中的禁止行为：
 
 全程用自然语言状态描述，不用枚举、不用数值——此为 T4 教训的设计决策（见 §9.2）。
 
-**更新**（WSK 侧）：WSK 从叙事提取，更新 Base Structure State + Maintenance Pressure + Security/Exposure。
+**更新**（WSK 侧）：WSK 从叙事提取，更新 Base Structure State 组件状态描述。
 
-**Maintenance Pressure 定位**（设计决策）：累积指示器（损耗→恶化；修复→改善），**不作为触发器**——避免"MP 驱动损耗→损耗驱动 MP"死循环。天气是独立外部触发。
+**历史注记**：v1.67 起 Maintenance Pressure 及 Rest/Shelter Availability、Heat/Dryness、Occupancy/Residency Load、Supply/Sanitation Strain 等据点状态字段全部删除--均为无触发依赖的纯记录字段，其信息由组件状态描述（自然语言）+ Scene 叙事承载。
 
 **承载位置**：1-2 §[据点损耗机制]、2-1 Base Structure State、2-2 §[据点与庇护记录规则]。
 
@@ -356,19 +356,11 @@ WSK 在库存系统中的禁止行为：
 
 **暴露来源**：夜间火光/照明、反复走同一路线、与他人交易、被跟踪回据点、枪声/施工噪音、前住户/访客。
 
-**暴露程度**（设计决策：复用知情范围枚举，据点暴露使用其中三档）：
+**联动**：D2 人为破坏由 [主要状态] 风险栏的据点暴露信号驱动掷骰（Base 按信号强度 40/55，v1.67 简化：从"暴露档位 + Relationship 查组合表"改为信号驱动，消除 Relationship 归属歧义与中间档未覆盖问题）。暴露是否仍为活跃威胁由 WM 每轮风险栏语义判断（写入风险栏 = 活跃），不依赖独立档位字段。
 
-> 据点暴露关注"外人是否知道"，队伍知道自己的据点是默认的，因此不使用 `party-known` 档（`hidden` 已涵盖"队伍知道但外人不知"的语义）。
+**历史注记**：v1.67 起 Security/Exposure 三档字段（hidden/local-only/publicly-known）已删除--信号驱动后无机制触发依赖，纯记录职能不足以维持字段存在。暴露的长期信息由叙事 + 近五日主要事件承载。
 
-三档语义（hidden/local-only/publicly-known）与后果见 2-2 §[据点与庇护记录规则] 3a。
-
-**联动**：暴露程度 + Relationship 驱动 D2 人为破坏的语义判断（WM 语义裁定破坏概率，不做数值计算）。联动后果表见 1-2 §[据点损耗机制] 人为破坏部分。
-
-**升级/降级**：依赖新的已成立暴露事件（被跟踪/被看到火光/交易泄露等），不自动随时间升级或降级。玩家可主动降低暴露（减少火光/变换路线/伪装入口）。
-
-**更新**（WSK 侧）：WSK 从叙事提取，更新 Security/Exposure 字段。
-
-**承载位置**：1-2 §[据点损耗机制] 人为破坏部分、2-2 §[据点与庇护记录规则] 3a。
+**承载位置**：1-2 §[据点损耗机制] 人为破坏部分。
 
 ### 5.5 记忆存储位降级
 
@@ -463,7 +455,7 @@ WSK 在库存系统中的禁止行为：
 | 物资状态规则 | 污染区物资、Filter Remaining |
 | 据点消耗规则（1-2） | Day 推进触发、消耗行格式、食物/燃料优先级 |
 | 据点损耗机制（1-2） | 三类损耗、组件状态生命周期、节奏控制 |
-| 据点与庇护记录规则 | Base Category、Security/Exposure 档位、Maintenance Pressure |
+| 据点与庇护记录规则 | Base Category、组件状态描述 |
 
 ### 7.3 Extra 层（2-3 / 1-3）
 
@@ -510,8 +502,7 @@ WSK 在库存系统中的禁止行为：
   - `consistency_snapshot.md`：一致性快照
 - **机制链路完整性**：
   - 消耗机制：1-1 [判定] → 1-2 消耗行 → 2-1 Inventory Delta 提取 → 2-3 格式
-  - 损耗机制：1-2 损耗叙事 → 2-1 Base Structure State 提取
-  - 暴露机制：1-2 暴露来源 → 2-2 Security/Exposure 更新
+  - 损耗机制：1-2 损耗叙事 -> 2-1 Base Structure State 提取
 
 ---
 

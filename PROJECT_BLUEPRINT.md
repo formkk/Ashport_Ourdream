@@ -2032,7 +2032,6 @@ WSK 被触发时 → 从对话历史读取 WM 的实际输出 → 提取已成�
 | 术语 | 取值 | 权威来源 |
 |---|---|---|
 | 知情范围 | hidden / party-known / local-only / publicly-known | 0-1 [跨位转移与知情范围协议] |
-| Security/Exposure | hidden / local-only / publicly-known | 1-2 [据点损耗机制] |
 | Availability | abundant / adequate / scarce / depleted / spoiled / unknown | 2-3 [最低提交标准] |
 | Human Threat Stage | no-signal / old-trace / spotted / contacted / hostile-contact | 1-3 [Probability Check 偏移表] |
 | Relationship | 依恋/完全信任 / 亲密/信任 / 好感 / 中立 / 冷漠 / 敌意 / 仇恨 | 2-3 [固定取值] |
@@ -2073,7 +2072,6 @@ WSK 被触发时 → 从对话历史读取 WM 的实际输出 → 提取已成�
 |---|---|---|---|
 | 知情范围 4 档枚举 | 2-3 [固定取值] | 0-1 [跨位转移与知情范围协议] | 枚举值 + 传播规则 |
 | Relationship 7 档 | 2-3 [固定取值] | 1-3 [Relationship 升降档指引] | 枚举值 + 升降档触发表 |
-| Security/Exposure 三档 | 2-2 L71 | 0-1 [跨位转移与知情范围协议] | 三档定义 + 升降级规则 |
 | 四类存储位 | 2-2 L88 | 0-1/0-2/1-2 | 四类名称 + 禁止第五类声明 |
 | Season/气温查表+显式输出+段序禁止 | 0-1 [主要状态栏硬约束] | 1-1 [输出结构] | 3 条硬约束（查表指令/显式输出/不得调换段序） |
 | 地图内补点+地图外地点 | 0-1 [地图逻辑] | 1-3 [跨区移动路由规则] | 补点定义 + 外地点绑定规则 |
