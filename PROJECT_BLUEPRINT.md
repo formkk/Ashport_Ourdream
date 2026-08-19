@@ -1989,6 +1989,25 @@ WSK 被触发时 → 从对话历史读取 WM 的实际输出 → 提取已成�
 
 **影响范围**：0-1, 0-2, 0-3, 1-2, 1-3, 2-3 共 6 个提示词文件 + PB
 
+#### v1.68（2026-08-19）
+
+**PC 格式契约闭合**（决议：Probability_Check格式修正方案.md；4 真实 WM 样本核验驱动）
+
+- **根因**：格式模板与 WM 实际输出长期三输（模板说纯数字、实际永远带括号、校验器永远 FAIL）；Seed 无类名披露不可复算；[Move] 轮合并掷可被情境掷顶替
+- **内容**：Trigger 强制 Event Class 前缀（同轮同类重复 `#序号`，Seed 复算闭环）；Base 括号理由入正式格式；全部可机器判定约束收敛为 output_rules.json 单条权威正则（±0 前瞻、域内`；`与 markdown 符号字符类拦截、Dase/wear 合法分支）；合并掷固定 world-event/npc-contact 名义 + 未触发 Dase 压缩
+- **验证**：e2e 接入 json SSOT 校验；4 真实样本反例全拒 + 8 合规形态全过；static_audit 60/60
+
+**WSK 多据点分桶输出**（决议：多据点分桶输出决议.md；决策 1=A 统一限定符、决策 2=A 全量无上限）
+
+- **根因**：APD 2a 有分桶原则无分桶格式，Inventory State / Base Structure State 多据点输出形态发散；Delta 与 WM 消耗行存储位无据点限定符，提取链断裂；分类枚举跨文件不一致（1-3 三类 vs 2-2 四类）
+- **内容**：分桶段头 `据点核心/{据点名}（{锚点}，{4分类}）`；结构块锚点行+组件行；Delta 统一限定符 + 跨据点直转；WM 消耗行 `据点({据点名})`；枚举统一四分类
+- **边界修补**：①弹药口径合并不跨桶；②定性标记组发生具体数量变化后升级具体计数（`(估)`），不回退
+- **验证**：sim_multibase_test.py 16/16（B1-B7 格式 + B8/B9 边界断言）；static_audit 60/60
+
+**工程附带**：9 工具脚本 UTF-8 输出守卫（Windows GBK 管道修复）；static_audit 60 项断言对齐现行机制（存量 8 FAIL 清零）；Exposure 死引用清理
+
+**影响范围**：1-1, 1-3, 2-2, 2-3（提示词）；output_rules.json, e2e_test.py, static_audit_test.py, sim_multibase_test.py, run_audit.py 等 9 工具；CHANGELOG.md, 审计历史记录.md
+
 ### 20.3 回滚策略
 
 - 每批修改独立 Git commit

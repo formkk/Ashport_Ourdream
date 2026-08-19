@@ -272,4 +272,9 @@ def main():
     return 1 if broken_refs else 0
 
 if __name__ == "__main__":
+    import sys
+    # Windows 管道/GBK 终端下强制 UTF-8 输出，避免 ✅/❌ 触发 UnicodeEncodeError
+    for _s in (sys.stdout, sys.stderr):
+        if hasattr(_s, "reconfigure"):
+            _s.reconfigure(encoding="utf-8", errors="replace")
     exit(main())

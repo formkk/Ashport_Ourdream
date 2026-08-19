@@ -30,6 +30,8 @@ def run_script(script_name):
         [sys.executable, str(script_path)],
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
         cwd=str(PROJECT_ROOT),
     )
     return result.returncode, result.stdout, result.stderr
@@ -77,4 +79,8 @@ def main():
 
 
 if __name__ == "__main__":
+    # Windows 管道/GBK 终端下强制 UTF-8 输出，避免 ✅/❌ 触发 UnicodeEncodeError
+    for _s in (sys.stdout, sys.stderr):
+        if hasattr(_s, "reconfigure"):
+            _s.reconfigure(encoding="utf-8", errors="replace")
     exit(main())

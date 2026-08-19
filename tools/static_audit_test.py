@@ -7,7 +7,6 @@ Ash Harbor 审计修复静态验证脚本
 
 import re
 import sys
-import os
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -61,10 +60,10 @@ def test_p0():
     f_11 = read_file("1-1")
 
     # P0-1: [Move] 输出位置不再矛盾
-    # 1-2 L150 应为 "按 [输出结构] 规定的位置输出 [Move]"
+    # 1-2 L155 应为 "按 Scene §[输出结构] 规定的位置输出 [Move]"
     test("P0-1", "[Move] position conflict resolved",
-         "按 [输出结构] 规定的位置输出 [Move]" in f_12,
-         "1-2 should say '按 [输出结构] 规定的位置输出 [Move]'")
+         "按 Scene §[输出结构] 规定的位置输出 [Move]" in f_12,
+         "1-2 should say '按 Scene §[输出结构] 规定的位置输出 [Move]'")
 
     # P0-1 补充：旧的矛盾措辞 "在 [主要状态] 之后输出 [Move]" 不应存在
     test("P0-1b", "Old contradictory [Move] wording removed",
@@ -91,10 +90,10 @@ def test_p1():
     f_12 = read_file("1-2")
     f_23 = read_file("2-3")
 
-    # P1-1: Seed 公式使用尾数运算
-    test("P1-1a", "Seed formula uses digit-tail",
-         "Day 末两位" in f_13 and "Turn 末两位" in f_13,
-         "Should use 'Day 末两位' and 'Turn 末两位'")
+    # P1-1: Seed 公式使用加法查表（DEC-H M6u，commit 27e2045 起）
+    test("P1-1a", "Seed formula uses addition lookup table",
+         "Day 末两位" in f_13 and "表[Turn 个位]" in f_13,
+         "Should use 'Day 末两位' and '表[Turn 个位]'")
 
     # P1-1: 旧的完整数字乘法公式不应存在
     test("P1-1b", "Old full-number Seed formula removed",
@@ -103,15 +102,16 @@ def test_p1():
 
     # P1-1: 示例行匹配新公式格式
     test("P1-1c", "Example line uses new formula",
-         "((83 × 7) + (00 × 3) + 37)" in f_13,
-         "Example should show '((83 × 7) + (00 × 3) + 37)'")
+         "(83 + 29 + 37)" in f_13 and "149 -> 49" in f_13,
+         "Example should show '(83 + 29 + 37)' and '149 -> 49'")
 
-    # P1-1d: Seed 计算正确性验证
-    # ((83*7) + (00*3) + 37) mod 100 = (581 + 0 + 37) mod 100 = 618 mod 100 = 18
-    expected_seed = ((83 * 7) + (0 * 3) + 37) % 100
-    test("P1-1d", "Seed arithmetic correct (expect 18)",
-         expected_seed == 18,
-         f"Expected 18, got {expected_seed}")
+    # P1-1d: Seed 计算正确性验证（加法查表）
+    # (83 + 表[2]=29 + 37) 末两位 = 149 -> 49
+    seed_table = {0: 7, 1: 13, 2: 29, 3: 41, 4: 53, 5: 67, 6: 71, 7: 83, 8: 97, 9: 5}
+    expected_seed = (83 + seed_table[2] + 37) % 100
+    test("P1-1d", "Seed arithmetic correct (expect 49)",
+         expected_seed == 49,
+         f"Expected 49, got {expected_seed}")
 
     # P1-2: 场外演化条件删除了 (d)
     test("P1-2a", "Offscreen condition (d) removed",
@@ -174,6 +174,7 @@ def test_p2():
     f_01 = read_file("0-1")
     f_02 = read_file("0-2")
     f_03 = read_file("0-3")
+    f_11 = read_file("1-1")
     f_12 = read_file("1-2")
     f_13 = read_file("1-3")
     f_23 = read_file("2-3")
@@ -185,15 +186,15 @@ def test_p2():
          len(npc_lines_01) <= 5,
          f"0-1 NPC section has {len(npc_lines_01)} bullet points, expected <= 5")
 
-    test("P2-1b", "0-1 NPC section references 1-3 for details",
-         "1-3" in npc_section_01 or "Extra Details" in npc_section_01,
-         "Should reference Extra Details for detailed rules")
+    test("P2-1b", "NPC details referenced from WM Scene (1-1)",
+         "NPC 反全知 / 反顾问化机制见 Extra Details" in f_11,
+         "1-1 should point to Extra Details for detailed NPC rules")
 
-    # P2-2: 敌对阶梯枚举在 1-3 中补充
-    test("P2-2", "Hostility ladder enum defined in 1-3",
-         "no-signal" in f_13 and "old-trace" in f_13 and "spotted" in f_13
-         and "contacted" in f_13 and "hostile-contact" in f_13,
-         "Should define 5 stages: no-signal, old-trace, spotted, contacted, hostile-contact")
+    # P2-2: 敌对阶梯枚举在 1-3 中定义（v1.66 起 9 档）
+    test("P2-2", "Hostility ladder enum defined in 1-3 (9 stages)",
+         all(s in f_13 for s in ["none", "signs", "observed", "followed",
+                                  "probed", "blocked", "robbed", "violent", "lethal"]),
+         "Should define 9 stages: none/signs/observed/followed/probed/blocked/robbed/violent/lethal")
 
     # P2-3: 据点物资丰富 +10 有参考阈值
     test("P2-3", "Base wealth modifier has threshold definition",
@@ -256,11 +257,11 @@ def test_p2():
          "格式模板" in baseline_section or "{组件名}" in baseline_section,
          "Format template should remain")
 
-    # P2-10: 1-2 跨位转移协议改为引用
+    # P2-10: 1-2 跨位转移协议不复制 0-1 公共法定义
     cross_section_12 = f_12.split("[跨位转移与知情范围协议]")[1].split("[死亡")[0] if "[跨位转移与知情范围协议]" in f_12 else ""
-    test("P2-10", "1-2 cross-transfer protocol is reference-only",
-         "见 Public Details" in cross_section_12 or "本字段不重复" in cross_section_12,
-         "1-2 should reference 0-1 instead of duplicating")
+    test("P2-10", "1-2 cross-transfer protocol doesn't duplicate public law",
+         "属公共法" in cross_section_12 and "party-known" not in cross_section_12,
+         "1-2 should declare 知情范围 as 公共法 and not duplicate the 4-tier definition")
 
 # ============================================================
 # P3 修复验证
@@ -282,10 +283,10 @@ def test_p3():
          "向暖侧移" in warm_section and "向冷侧移" in warm_section,
          "Should use '向暖侧移' and '向冷侧移' instead of +/-")
 
-    # P3-3: 0-2 起始物资有 kg 估算
-    test("P3-3", "Starting items have kg estimates",
-         "≈0.45kg" in f_02 or "0.45kg" in f_02,
-         "0-2 should have kg estimates for starting items")
+    # P3-3: 起始状态已迁至 0-4 开场白叙事（commit 2a8a03f 起 0-2 保持纯场景描述）
+    test("P3-3", "0-2 stays generic (starting state moved to 0-4)",
+         "0.45kg" not in f_02 and "压缩饼干" not in f_02,
+         "0-2 should not contain concrete starting items (moved to 0-4_Open_Message)")
 
 # ============================================================
 # 机制模拟测试
@@ -294,25 +295,26 @@ def test_p3():
 def test_mechanics():
     print("\n--- Mechanism Simulation ---")
 
-    # 模拟 1: Seed 公式多组数据验证
+    # 模拟 1: Seed 公式多组数据验证（加法查表：Day 末两位 + 表[Turn 个位] + Offset，取末两位）
     print("  [Mech-1] Seed formula multi-case verification:")
+    seed_table = {0: 7, 1: 13, 2: 29, 3: 41, 4: 53, 5: 67, 6: 71, 7: 83, 8: 97, 9: 5}
     test_cases = [
-        # (day_last2, turn_last2, offset, expected_seed)
-        (83, 0, 37, 18),    # 原示例
-        (1, 1, 10, 20),     # 早期游戏
-        (62, 45, 53, 22),   # 冬季: (434+135+53)%100=622%100=22
-        (30, 76, 19, 57),   # 中期: (210+228+19)%100=457%100=57
-        (99, 99, 99, 89),   # 大数边界: (693+297+99)%100=1089%100=89
+        # (day_last2, turn_last_digit, offset, expected_seed)
+        (83, 2, 37, 49),   # 文档示例: 83+29+37=149 -> 49
+        (83, 0, 37, 27),   # 83+07+37=127 -> 27
+        (1, 1, 10, 24),    # 早期游戏: 1+13+10=24 -> 24
+        (62, 5, 53, 82),   # 冬季: 62+67+53=182 -> 82
+        (99, 9, 99, 3),    # 大数边界: 99+05+99=203 -> 3
     ]
     all_pass = True
-    for day_l2, turn_l2, offset, expected in test_cases:
-        seed = ((day_l2 * 7) + (turn_l2 * 3) + offset) % 100
+    for day_l2, turn_d, offset, expected in test_cases:
+        seed = (day_l2 + seed_table[turn_d] + offset) % 100
         ok = seed == expected
         if not ok:
             all_pass = False
-            print(f"    Day={day_l2} Turn={turn_l2} Offset={offset} -> Seed={seed} (expected {expected}) [FAIL]")
+            print(f"    Day={day_l2} Turn个位={turn_d} Offset={offset} -> Seed={seed} (expected {expected}) [FAIL]")
         else:
-            print(f"    Day={day_l2} Turn={turn_l2} Offset={offset} -> Seed={seed} [OK]")
+            print(f"    Day={day_l2} Turn个位={turn_d} Offset={offset} -> Seed={seed} [OK]")
     test("Mech-1", "Seed formula all cases pass", all_pass)
 
     # 模拟 2: 微步累计结算
@@ -334,12 +336,12 @@ def test_mechanics():
          steps_single == 0,
          f"Expected 0 step, got {steps_single}")
 
-    # 模拟 3: 敌对阶梯升级路径
+    # 模拟 3: 敌对阶梯升级路径（v1.66 起 9 档）
     print("  [Mech-3] Hostility ladder escalation:")
-    ladder = ["no-signal", "old-trace", "spotted", "contacted", "hostile-contact"]
-    test("Mech-3", "Ladder has 5 monotonically escalating stages",
-         len(ladder) == 5,
-         f"Expected 5 stages, got {len(ladder)}")
+    ladder = ["none", "signs", "observed", "followed", "probed", "blocked", "robbed", "violent", "lethal"]
+    test("Mech-3", "Ladder has 9 monotonically escalating stages",
+         len(ladder) == 9 and len(set(ladder)) == 9,
+         f"Expected 9 unique stages, got {len(ladder)}")
 
     # 模拟 4: 保暖修正方向
     print("  [Mech-4] Warmth modifier direction:")
@@ -390,9 +392,10 @@ def test_cross_consistency():
     test("Cross-1", "0-1 has full cross-transfer definition",
          "随身 / 据点核心" in cross_01,
          "0-1 should have full definition")
-    test("Cross-2", "1-2 is reference-only (not duplicated)",
-         len([l for l in cross_12.strip().split('\n') if l.strip()]) <= 2,
-         "1-2 should be <= 2 lines")
+    test("Cross-2", "1-2 cross-transfer stays compact (<=3 lines, no duplication)",
+         len([l for l in cross_12.strip().split('\n') if l.strip()]) <= 3
+         and "party-known" not in cross_12,
+         "1-2 should be <= 3 lines without duplicating the 4-tier definition")
 
     # 验证：NPC 反全知规则不重复（0-1 概述 vs 1-3 细则）
     npc_01_lines = [l for l in f_01.split("[NPC 反全知")[1].split("[")[0].split('\n') if l.strip().startswith('-')]
@@ -562,6 +565,8 @@ def main():
 
 
 if __name__ == "__main__":
-    os.environ['PYTHONIOENCODING'] = 'utf-8'
-    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    # Windows 管道/GBK 终端下强制 UTF-8 输出，避免 ✅/❌ 触发 UnicodeEncodeError
+    for _s in (sys.stdout, sys.stderr):
+        if hasattr(_s, "reconfigure"):
+            _s.reconfigure(encoding='utf-8', errors='replace')
     exit(main())

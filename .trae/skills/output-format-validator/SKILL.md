@@ -56,8 +56,8 @@ Present the validation results to the user:
 | Block order | Order: 正文 -> [Move] -> [Probability Check] -> [判定] -> [主要状态] |
 | Label no newline | Label and content on same line (no `\n` after label) |
 | Empty format | [Move] 无 / [Probability Check] 无概率事件 / [判定] 无 |
-| [Move] format | Origin -> Route -> Destination \| Steps: N \| Travel Time: Nmin |
-| [Probability Check] format | Trigger: {...}；Base: {N}；...；Result: {...}；Outcome: {...} |
+| [Move] format | {原地点所在子区域} -> {中间子区域 Route} -> {目标地点所在子区域} \| Steps: N \| Travel Time: Nmin（链只写 Zone/Sub-zone，不写 Location） |
+| [Probability Check] format | Trigger: {类名}: {...}；Base: {N}（理由可省）；Modifiers: {...}；Final/Seed/Threshold: {N}；Result: {触发/未触发}；Outcome: {...} 或 Dase-N / wear-*: 未触发 / 无概率事件 |
 | [判定] format | 消耗（D{prev}->D{curr}）: {物品}；{类别}: {结果}；代价与后果: {一句} |
 | [主要状态] format | D{Day}-T{Turn} {HH:MM} \| {位置} \| {Season}-{天气}-{气温} \| {压力} \| {风险} |
 | Terminator | Output ends with [主要状态] |
