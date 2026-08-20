@@ -65,7 +65,7 @@ def build_system():
 
 def hist_asst(day, turn, clock, pos, season, weather, layer, narr):
     return (
-        f'{narr}\n\n[Move] 无\n[Probability Check] 无概率事件\n'
+        f'{narr}\n\n[移动] 无\n[掷骰] 无概率事件\n'
         f'[判定] 无\n[主要状态] D{day}-T{turn} {clock} | {pos} | '
         f'{season}-{weather}-{layer} | {PRESSURE_STABLE} | 风险: 无武器防御力低'
     )

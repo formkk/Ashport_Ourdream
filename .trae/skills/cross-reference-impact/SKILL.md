@@ -16,7 +16,7 @@ This skill identifies all locations in the project that reference a specific fil
 
 ### Step 1: Identify the Modification Target
 Determine what the user wants to modify:
-- A **section** (e.g., `§[Probability Check 块]`)
+- A **section** (e.g., `§[掷骰 块]`)
 - An **enum value** (e.g., adding a new Weather type)
 - A **rule** (e.g., changing step calculation)
 - A **file** (e.g., restructuring 1-3)
@@ -66,7 +66,7 @@ Output format:
 ### 受影响位置清单
 | # | 文件 | 行号 | 引用类型 | 当前内容 | 需要操作 |
 |---|------|------|----------|----------|----------|
-| 1 | 1-2_WorldMaster_... | L20 | §[章节名] | `§[Probability Check 块]` | 更新章节名 |
+| 1 | 1-2_WorldMaster_... | L20 | §[章节名] | `§[掷骰 块]` | 更新章节名 |
 | 2 | 2-3_WorldState... | L87 | 枚举使用 | `9mm / .45 ACP / ...` | 同步取值 |
 | 3 | 1-3_WorldMaster_... | L178 | 内联副本 | 容器描述+约kg格式 | 同步内容 |
 

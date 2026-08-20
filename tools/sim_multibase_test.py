@@ -2,7 +2,7 @@
 """
 多据点分桶输出 静态格式测试（依据：多据点分桶输出决议.md，决议 1=A 统一限定符，决议 2=A 全量无上限）
 
-验证对象：模拟 WSK 完整视图（3 据点：主据点/安全屋/地图外据点）+ 模拟 WM 输入上下文（[Move]/[判定] 消耗行）。
+验证对象：模拟 WSK 完整视图（3 据点：主据点/安全屋/地图外据点）+ 模拟 WM 输入上下文（[移动]/[判定] 消耗行）。
 
 检查组：
   R1-R7   现行结构规则（同 tools/validate_output.py：头部/Delta 标签/6 字段/顺序/无##标题）
@@ -26,7 +26,7 @@ if __name__ == "__main__":
             _s.reconfigure(encoding="utf-8", errors="replace")
 
 # ---------- 模拟 WM 输入上下文（提取源） ----------
-WM_MOVE = "[Move] 工业区/N -> 工业区/W -> 西区/S | Steps: 2 | Travel Time: 70min"
+WM_MOVE = "[移动] 工业区/N -> 工业区/W -> 西区/S | Steps: 2 | Travel Time: 70min"
 WM_JUDGE = "[判定] 消耗（D8->D9）: 随身 干粮×0.5kg + 净水×1kg / 据点(河边安全屋) 净水×1kg；获得: 罐头×3（泵房储物架）；代价与后果: 转运木柴耗力，午后疲劳上升"
 
 # ---------- 模拟 WSK 完整视图（决议格式） ----------
@@ -176,7 +176,7 @@ n_fail = sum(1 for r in results if not r[2])
 print("-" * 62)
 print(f"总计: {len(results)} 项，通过 {len(results) - n_fail}，失败 {n_fail}")
 print()
-print("【模拟输入 · WM [Move]】")
+print("【模拟输入 · WM [移动]】")
 print(WM_MOVE)
 print()
 print("【模拟输入 · WM [判定]】")

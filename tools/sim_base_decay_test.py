@@ -61,8 +61,8 @@ MOCK_SCENARIO = """
   4. Day 推进 D5->D6，天气 Storm（恶劣天气，天气损耗检查 Base 55）
 
 [WM 侧输出]（供 WSK 提取的输入）
-  [Move] ...
-  [Probability Check] wear-sabotage: 未触发（按信号驱动简化规则，上轮风险栏有暴露信号）
+  [移动] ...
+  [掷骰] wear-sabotage: 未触发（按信号驱动简化规则，上轮风险栏有暴露信号）
   [判定] 消耗（D5->D6）: 压缩饼干x0.5kg+净水x1kg; 据点建立: 化工厂质检小楼（主据点）; 代价与后果: 夜间 Storm，屋顶渗水未触发
   [主要状态] D6-T58 21:00 | 工业区/N/化工厂质检小楼 | Winter-Storm-零下12度 | 疲劳 strained；体温 strained；脱水 stable；饥饿 stable；伤病 stable | 据点白天被拾荒者远距观察到
 """

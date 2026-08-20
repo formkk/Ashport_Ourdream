@@ -11,7 +11,7 @@ globs: Prompt_File/*.md
 - Y = 字段序号（1 = Scene / 2 = Additional Personality Details / 3 = Extra Details）
 
 ## 章节格式
-- 软标签章节头：`[章节名]`（如 `[Probability Check 块]`、`[关系规则]`）
+- 软标签章节头：`[章节名]`（如 `[掷骰 块]`、`[关系规则]`）
 - 引用章节时：`§[章节名]` 或 `§章节名`
 - 章节名应稳定，改名时必须同步全库引用
 

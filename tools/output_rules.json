@@ -3,24 +3,24 @@
   "description": "Ash Harbor WM/WSK 输出格式规则配置。修改格式时更新此文件，不需改脚本。",
   "wm": {
     "blocks": {
-      "order": ["[Move]", "[Probability Check]", "[判定]", "[主要状态]"],
+      "order": ["[移动]", "[掷骰]", "[判定]", "[主要状态]"],
       "all_mandatory": true,
       "label_no_newline": true,
       "terminator": "[主要状态]"
     },
     "empty_formats": {
-      "[Move]": "无",
-      "[Probability Check]": "无概率事件",
+      "[移动]": "无",
+      "[掷骰]": "无概率事件",
       "[判定]": "无"
     },
     "block_rules": {
-      "[Move]": {
-        "format_pattern": "^\\[Move\\] ([^/|]+/[^/|]+(?: -> [^/|]+/[^/|]+)* \\| Steps: \\d+ \\| Travel Time: \\d+min|无)$",
-        "format_desc": "[Move] {原地点所在子区域} -> {中间子区域 Route} -> {目标地点所在子区域} | Steps: {N} | Travel Time: {N}min（链上每个节点固定 Zone/Sub-zone 两层一斜杠，禁止 Location 三层写法；1 step 时链上仅首尾两个节点）或 [Move] 无"
+      "[移动]": {
+        "format_pattern": "^\\[移动\\] ([^/|]+/[^/|]+(?: -> [^/|]+/[^/|]+)* \\| Steps: \\d+ \\| Travel Time: \\d+min|无)$",
+        "format_desc": "[移动] {原地点所在子区域} -> {中间子区域 Route} -> {目标地点所在子区域} | Steps: {N} | Travel Time: {N}min（链上每个节点固定 Zone/Sub-zone 两层一斜杠，禁止 Location 三层写法；1 step 时链上仅首尾两个节点）或 [移动] 无"
       },
-      "[Probability Check]": {
-        "format_pattern": "^\\[Probability Check\\] (Trigger: (hostile-contact|npc-contact|获得|third-party-sighting|trade-complication|world-event|wear-weather|wear-sabotage|wear-usage|custom)(#\\d+)?: [^；*#_]+；Base: \\d+(（[^；）*#_]*）)?；Modifiers: (?![^；]*(?<![0-9])[+-]0(?![0-9]))[^；*#_]+；Final: \\d+；Seed: \\d+；Threshold: \\d+；Result: (触发|未触发)；Outcome: [^；*#_]+|Dase-\\d+(；Dase-\\d+)*|wear-(weather|sabotage|usage): 未触发(；wear-(weather|sabotage|usage): 未触发)*|无概率事件)$",
-        "format_desc": "[Probability Check] Trigger: {类名}: {...}；Base: {N}（理由可省）；Modifiers: {...}；Final/Seed/Threshold: {N}；Result: {触发/未触发}；Outcome: {...} 或 Dase-N / wear-*: 未触发 / 无概率事件"
+      "[掷骰]": {
+        "format_pattern": "^\\[掷骰\\] (Trigger: (hostile-contact|npc-contact|获得|third-party-sighting|trade-complication|world-event|wear-weather|wear-sabotage|wear-usage|custom)(#\\d+)?: [^；*#_]+；Base: \\d+(（[^；）*#_]*）)?；Modifiers: (?![^；]*(?<![0-9])[+-]0(?![0-9]))[^；*#_]+；Final: \\d+；Seed: \\d+；Threshold: \\d+；Result: (触发|未触发)；Outcome: [^；*#_]+|Dase-\\d+(；Dase-\\d+)*|wear-(weather|sabotage|usage): 未触发(；wear-(weather|sabotage|usage): 未触发)*|无概率事件)$",
+        "format_desc": "[掷骰] Trigger: {类名}: {...}；Base: {N}（理由可省）；Modifiers: {...}；Final/Seed/Threshold: {N}；Result: {触发/未触发}；Outcome: {...} 或 Dase-N / wear-*: 未触发 / 无概率事件"
       },
       "[判定]": {
         "format_pattern": "^\\[判定\\] (消耗（D\\d+->D\\d+）: .+|获得: .+|无)$",

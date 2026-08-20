@@ -19,7 +19,7 @@ Validates Ash Harbor WM (World Master) and WSK (World State Keeper) output again
 ### Step 1: Identify Output Type
 
 Determine if the pasted text is WM or WSK output:
-- **WM output**: Contains `[Move]`, `[Probability Check]`, `[判定]`, `[主要状态]` blocks
+- **WM output**: Contains `[移动]`, `[掷骰]`, `[判定]`, `[主要状态]` blocks
 - **WSK output**: Contains `[State Update]` tag
 
 ### Step 2: Run Validation Script
@@ -52,12 +52,12 @@ Present the validation results to the user:
 
 | Check | Description |
 |-------|-------------|
-| Block presence | All 4 blocks present: [Move], [Probability Check], [判定], [主要状态] |
-| Block order | Order: 正文 -> [Move] -> [Probability Check] -> [判定] -> [主要状态] |
+| Block presence | All 4 blocks present: [移动], [掷骰], [判定], [主要状态] |
+| Block order | Order: 正文 -> [移动] -> [掷骰] -> [判定] -> [主要状态] |
 | Label no newline | Label and content on same line (no `\n` after label) |
-| Empty format | [Move] 无 / [Probability Check] 无概率事件 / [判定] 无 |
-| [Move] format | {原地点所在子区域} -> {中间子区域 Route} -> {目标地点所在子区域} \| Steps: N \| Travel Time: Nmin（链只写 Zone/Sub-zone，不写 Location） |
-| [Probability Check] format | Trigger: {类名}: {...}；Base: {N}（理由可省）；Modifiers: {...}；Final/Seed/Threshold: {N}；Result: {触发/未触发}；Outcome: {...} 或 Dase-N / wear-*: 未触发 / 无概率事件 |
+| Empty format | [移动] 无 / [掷骰] 无概率事件 / [判定] 无 |
+| [移动] format | {原地点所在子区域} -> {中间子区域 Route} -> {目标地点所在子区域} \| Steps: N \| Travel Time: Nmin（链只写 Zone/Sub-zone，不写 Location） |
+| [掷骰] format | Trigger: {类名}: {...}；Base: {N}（理由可省）；Modifiers: {...}；Final/Seed/Threshold: {N}；Result: {触发/未触发}；Outcome: {...} 或 Dase-N / wear-*: 未触发 / 无概率事件 |
 | [判定] format | 消耗（D{prev}->D{curr}）: {物品}；{类别}: {结果}；代价与后果: {一句} |
 | [主要状态] format | D{Day}-T{Turn} {HH:MM} \| {位置} \| {Season}-{天气}-{气温} \| {压力} \| {风险} |
 | Terminator | Output ends with [主要状态] |
@@ -84,8 +84,8 @@ User pastes:
 ```
 你站在窗边观察街道。
 
-[Move] 无
-[Probability Check] 无概率事件
+[移动] 无
+[掷骰] 无概率事件
 [判定] 无
 [主要状态] D6-T178 08:15 | 工业区/N/质检小楼 | Winter-Overcast-Cool | 疲劳 stable；体温 stable；脱水 stable；饥饿 stable；伤病 stable | 无
 ```

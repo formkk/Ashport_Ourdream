@@ -59,16 +59,16 @@ def test_p0():
     f_03 = read_file("0-3")
     f_11 = read_file("1-1")
 
-    # P0-1: [Move] 输出位置不再矛盾
-    # 1-2 L155 应为 "按 Scene §[输出结构] 规定的位置输出 [Move]"
-    test("P0-1", "[Move] position conflict resolved",
-         "按 Scene §[输出结构] 规定的位置输出 [Move]" in f_12,
-         "1-2 should say '按 Scene §[输出结构] 规定的位置输出 [Move]'")
+    # P0-1: [移动] 输出位置不再矛盾
+    # 1-2 L155 应为 "按 Scene §[输出结构] 规定的位置输出 [移动]"
+    test("P0-1", "[移动] position conflict resolved",
+         "按 Scene §[输出结构] 规定的位置输出 [移动]" in f_12,
+         "1-2 should say '按 Scene §[输出结构] 规定的位置输出 [移动]'")
 
-    # P0-1 补充：旧的矛盾措辞 "在 [主要状态] 之后输出 [Move]" 不应存在
-    test("P0-1b", "Old contradictory [Move] wording removed",
-         "在 [主要状态] 之后输出 [Move]" not in f_12,
-         "Old wording '在 [主要状态] 之后输出 [Move]' should not exist")
+    # P0-1 补充：旧的矛盾措辞 "在 [主要状态] 之后输出 [移动]" 不应存在
+    test("P0-1b", "Old contradictory [移动] wording removed",
+         "在 [主要状态] 之后输出 [移动]" not in f_12,
+         "Old wording '在 [主要状态] 之后输出 [移动]' should not exist")
 
     # P0-2: 不再要求跨轮词频统计（[重复抑制]已迁至 1-1）
     test("P0-2a", "Cross-turn word counting removed",
