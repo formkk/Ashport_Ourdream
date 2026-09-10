@@ -66,11 +66,14 @@ Present the validation results to the user:
 
 | Check | Description |
 |-------|-------------|
-| [State Update] tag | Present at start |
-| Header format | D{day}-T{turn} / {Season} / HH:MM / {位置} / {天气} {温度} / {知情范围} |
-| Inventory Delta | Present (or empty marker `-` if no changes) |
-| Active Concerns | Present with valid categories ([生存]/[人际]/[环境]/[据点]) |
-| Full view 6 fields | Inventory State, Party Condition, Relationship & Threat, Map Knowledge, Base Structure State, 近五日主要事件 |
+| [State Update] tag (R1) | Present at start（`-` 空白标记已废除，2026-08-15 起） |
+| Header format (R2) | 第一行含 `D{day}-T{turn}`（D-T 从 WM `[主要状态]` 提取） |
+| Inventory Delta（字段 0，R3） | `Inventory Delta:` 标签必出；无变化时内容留空，其余字段照抄基线原文 |
+| Full view 7 fields (R4) | Inventory Delta（字段 0）/ Inventory State / Party Condition / Relationship & Threat / Map Knowledge / Base Structure State / 近五日主要事件 |
+| No ## titles (R5) | 不含 markdown 标题行 |
+| Field order (R7) | Inventory Delta 在其余 6 字段之前 |
+
+> v1.70 起完整视图按 7 字段计法（`Inventory Delta` 为字段 0）；`validate_output.py` 内部仍以"Delta 标签 + 6 正文字段"实现，字段集合一致。
 
 ## Rules Configuration
 

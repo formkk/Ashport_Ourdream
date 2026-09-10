@@ -43,5 +43,5 @@ Inventory Delta: 消耗 大米×1kg
 ```
 
 验证点：
-- 正例：自包含完整视图，6 字段各有当前实际值，Inventory Delta 在 6 字段之前 -> 应通过
-- 反例：Inventory Delta 在 6 字段之后 -> R7 应检出
+- 正例：自包含完整视图，7 字段各有当前实际值，Inventory Delta（字段 0）在其余 6 字段之前 -> 应通过
+- 反例：Inventory Delta 在其余字段之后 -> R7 应检出

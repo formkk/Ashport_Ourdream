@@ -252,7 +252,7 @@ OurDream.ai 的多层记忆：
 
 - **扫描窗口**：自本角色上次发言以来的 WM 角色卡对话历史（首次点击 = 整个对话历史起点）
 - **提取源**：WM Scene 叙事 + `[主要状态]` 状态栏中已明确写出的已成立变化
-- **WSK 提取集**：`Day-Turn / Location / Inventory / Party Condition / Relationship & Threat / Map Knowledge / Base Structure / 近五日主要事件`（从 `[主要状态]`、`[移动]` 行与 Scene 叙事提取）
+- **WSK 提取集**：`Day-Turn / Location / Inventory / Party Condition / Relationship & Threat / Map Knowledge / Base Structure / 近五日主要事件`（从 `[主要状态]` 与 Scene 叙事提取；v1.70 起 `[移动]` 行不再单列为 WSK 输入权威）
 - **展示块隔离**：`[判定]` / `[掷骰]` / 子结构块仅供用户阅读，**不**作为提取源（例外：`[判定]` 内消耗行是每日消耗的权威提取源）
 
 #### 4.3.2 决策表（WSK 1 张，2026-08-15 输出协议变更）

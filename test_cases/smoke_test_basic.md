@@ -39,5 +39,5 @@ D5: 到达工业区
 ```
 
 验证点：
-- 正例：完整 6 字段 + Inventory Delta 标签 + 正确开头 -> 应通过全部规则
+- 正例：完整 7 字段（Inventory Delta 为字段 0）+ 正确开头 -> 应通过全部规则
 - 反例：缺少 Inventory Delta: 标签 -> R3 应检出

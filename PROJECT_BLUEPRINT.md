@@ -2008,6 +2008,21 @@ WSK 被触发时 → 从对话历史读取 WM 的实际输出 → 提取已成�
 
 **影响范围**：1-1, 1-3, 2-2, 2-3（提示词）；output_rules.json, e2e_test.py, static_audit_test.py, sim_multibase_test.py, run_audit.py 等 9 工具；CHANGELOG.md, 审计历史记录.md
 
+#### v1.70（2026-09-10）
+
+**WSK 三文件用户手动修订（输出示例改版 + 完整视图 6→7 字段 + 提取纪律收缩）**
+
+- **内容**（用户手动落盘，文档批次同步）：
+  - 2-3 [输出示例] 全面改版：单行平铺 → 多行分桶缩进式（随身/据点核心/据点物资点逐桶、段头后换行逐门类列）；示例推进至 D10 场景（含记忆存储位独立段、Base Structure 实节点、近五日 D10/D11）
+  - 2-3 [完整视图]：6 字段 → **7 字段**（`Inventory Delta` 正式列为字段 0）；字段说明微调（Base Structure State 括注改为"据点、物资点、安全屋的基础设施、设备"；Party Condition 改"从叙事提取，仅定性简要描述"；Relationship & Threat 描述去冗余"7 档"字样）
+  - 2-3 [提取纪律]：删除"输入源权威（移动）"条目（`[移动]` 行不再单列为 WSK 输入权威，移动变化回归 Scene 叙事通用强语义提取），后续条目重编号 13→12
+  - 2-1 [输出契约边界]：删除聊天室块名契约对照行（WM/平台角色块序列细节），收缩为自指两句——"你只执行你自己身份的输出契约""你仅输出 [State Update]的完整视图"；其余角色卡（0-1/1-1/3-1/4-1/5-1）契约对照保留
+  - 2-2 [四类存储位定义] item 1：随身存储位定义删去"车上或"（载具物资归载具存储位，消除与 item 4 的重叠表述）
+- **文档同步**：PB §2.2 WSK 表（子段/移动字段）、§〇原则⑯示例、§2.4 工作流、§21.4 术语表；prompt-file-conventions.mdr 输出角色区分；INVENTORY_SYSTEM_DESIGN.md（7 字段口径 + 6.1 废 `-` 残留修正）；OURDREAM_PLATFORM_REFERENCE.md WSK 提取集；多据点分桶输出决议.md 样例；test_cases 三用例表述；output-format-validator SKILL.md WSK 检查表
+- **验证**：run_audit.py / static_audit_test.py 回归通过（工具仅校验 Delta 标签 + 6 正文字段出场与顺序，字段集合未变，无需改动）
+
+**影响范围**：2-1, 2-2, 2-3（提示词，用户手动）；PB, CHANGELOG.md, INVENTORY_SYSTEM_DESIGN.md, OURDREAM_PLATFORM_REFERENCE.md, 多据点分桶输出决议.md, prompt-file-conventions.mdr, test_cases/×3, .trae/skills/output-format-validator/SKILL.md
+
 ### 20.3 回滚策略
 
 - 每批修改独立 Git commit
@@ -2072,8 +2087,8 @@ WSK 被触发时 → 从对话历史读取 WM 的实际输出 → 提取已成�
 | 判定 | WM 在每轮末尾输出的消耗/损耗/变化裁定栏 | 1-1/1-2 |
 | [State Update] | WSK 输出的状态更新软标签 | 2-1 |
 | D-T 索引 | Day-Turn 索引，[State Update] 第一行 | 2-1/2-3 |
-| Delta 标签 | [State Update] 下的变化子段标签 | 2-3 |
-| 完整视图 | [State Update] 下的 6 字段全量输出 | 2-3 |
+| Delta 标签 | [State Update] 完整视图字段 0（变化子段）标签 | 2-3 |
+| 完整视图 | [State Update] 下的 7 字段全量输出（Inventory Delta 为字段 0） | 2-3 |
 | 近五日主要事件 | 完整视图最末字段，以 D 为单位输出 | 2-3 |
 
 ### 21.5 角色分类术语

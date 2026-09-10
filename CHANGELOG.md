@@ -5,6 +5,40 @@
 
 ---
 
+## v1.70（2026-09-10）——WSK 三文件修订：输出示例改版 + 完整视图 6→7 字段 + 契约自指收缩
+
+### 概要
+
+WSK 三个落盘提示词文件（2-1/2-2/2-3）由用户手动修订；本批次为文档同步批次。核心变化：`[State Update]` 完整视图由"变化子段 + 6 字段"改为 **7 字段**（`Inventory Delta` 正式列为字段 0）；[输出示例] 改版为多行分桶缩进式；提取纪律删除 `[移动]` 行独立权威条款；2-1 契约边界收缩为自指。
+
+### 变更明细
+
+**2-3 WorldStateKeeper_Extra_Details**
+
+- [输出示例] 全面改版：单行平铺 → 多行分桶缩进式（随身/据点核心/据点物资点逐桶，段头后换行逐门类列；含记忆存储位独立段）；示例场景推进至 D10（Base Structure 实节点、近五日 D10/D11）
+- [完整视图]：6 字段 → 7 字段（`Inventory Delta` 为字段 0）；字段括注微调——Base Structure State 改"据点、物资点、安全屋的基础设施、设备"，Party Condition 改"从叙事提取，仅定性简要描述"，Relationship & Threat 描述去冗余"7 档"字样
+- [提取纪律]：删除"输入源权威（移动）"条目（`[移动]` 行不再单列为 WSK 输入权威，移动变化回归 Scene 叙事通用强语义提取），后续条目重编号 13→12
+- [压缩规则]：记忆存储位条款"WM Scene 叙事"简化为"叙事"
+
+**2-1 WorldStateKeeper_Scene**
+
+- [输出契约边界]：删除聊天室块名契约对照行（WM/WSK/平台角色块序列细节），收缩为自指两句——"你只执行你自己身份的输出契约""你仅输出 [State Update]的完整视图"；其余角色卡（0-1/1-1/3-1/4-1/5-1）契约对照保留不动
+
+**2-2 WorldStateKeeper_Additional_Personality_Details**
+
+- [四类存储位定义] item 1：随身存储位定义删去"车上或"——载具物资归载具存储位（item 4），消除重叠表述
+
+### 文档同步批次
+
+PROJECT_BLUEPRINT.md（§2.2 WSK 表子段/移动字段、§〇原则⑯示例、§2.4 工作流、§20.2 版本记录、§21.4 术语表）；.trae/rules/prompt-file-conventions.mdr（输出角色区分 7 字段口径）；INVENTORY_SYSTEM_DESIGN.md（7 字段口径 + §6.1 废除 `-` 残留修正）；OURDREAM_PLATFORM_REFERENCE.md（WSK 提取集 `[移动]` 表述）；多据点分桶输出决议.md（样例同步多行分桶式）；test_cases/consistency_snapshot.md + smoke_test_basic.md + edge_cases.md（7 字段表述）；.trae/skills/output-format-validator/SKILL.md（WSK 检查表对齐现行契约）
+
+### 验证与遗留
+
+- run_audit.py / static_audit_test.py 回归通过：校验工具仅检查 Delta 标签 + 6 正文字段出场与顺序，字段集合未变，无需改动
+- 历史评估/审计类文档（WSK优化文档.md、seed-*、审计历史记录.md、全库对齐审计报告_*）为时点快照，不作改写
+
+---
+
 ## v1.69（2026-08-25）——真实输出诊断六层修复 + 平台角色契约改版（[观察]→[心思]）
 
 ### 概要
