@@ -59,7 +59,7 @@ LLM 不做精确计数、算术、跨轮记忆。库存系统设计必须顺应�
 ### 2.3 显式锚点原则
 
 - **硬状态只认最新正式 `[State Update]`**：当前硬状态以最近一次正式 `[State Update]` 为准
-- **历史记忆只认 Pinned Memory**：由用户手动复制并不断补充更新的"近五日主要事件"段
+- **历史记忆只认 Pinned Memory**：由用户手动维护并不断补充更新的长期事件记录段
 - **跨角色通讯 = 对话历史被动观察**：WM 与 WSK 不互相调用，WSK 通过读取 WM 在对话历史中的输出提取变化
 
 **设计依据**：Ourdream 平台角色卡字段互不可见，跨角色引用必然失效（审计历史教训）。
@@ -96,7 +96,7 @@ LLM 整体全看（并行 attention）非层层查阅，注意力分布：Scene�
 ### 2.6 防止反例原则
 
 - **标签必出，无变化时内容留空**：不得省略，省略会成为反例
-- **6 字段每次必出**：Inventory State / Party Condition / Relationship & Threat / Map Knowledge / Base Structure State / 近五日主要事件
+- **6 字段每次必出**：Inventory Delta（字段 0）/ Inventory State / Party Condition / Relationship & Threat / Map Knowledge / Base Structure State
 - **变化子段内容按需填写**：无变化时内容留空，但标签必出
 
 **设计依据**：project_memory 已记录"无变化时留空"规则的建立过程。
@@ -129,7 +129,7 @@ LLM 整体全看（并行 attention）非层层查阅，注意力分布：Scene�
 
 **实现方式**：
 - 这不是一次性全部改完，而是在每次相关优化时渐进推进
-- "记录"作为名词使用时可保留（如"近五日主要事件记录"）
+- "记录"作为名词使用时可保留（如"据点结构记录"）
 - "记录"作为动词描述系统角色行为时应改为"更新"或"维护"
 - "保存"改为"更新"或"维护"
 
@@ -358,7 +358,7 @@ WSK 在库存系统中的禁止行为：
 
 **联动**：D2 人为破坏由 [主要状态] 风险栏的据点暴露信号驱动掷骰（Base 按信号强度 40/55，v1.67 简化：从"暴露档位 + Relationship 查组合表"改为信号驱动，消除 Relationship 归属歧义与中间档未覆盖问题）。暴露是否仍为活跃威胁由 WM 每轮风险栏语义判断（写入风险栏 = 活跃），不依赖独立档位字段。
 
-**历史注记**：v1.67 起 Security/Exposure 三档字段（hidden/local-only/publicly-known）已删除--信号驱动后无机制触发依赖，纯记录职能不足以维持字段存在。暴露的长期信息由叙事 + 近五日主要事件承载。
+**历史注记**：v1.67 起 Security/Exposure 三档字段（hidden/local-only/publicly-known）已删除--信号驱动后无机制触发依赖，纯记录职能不足以维持字段存在。暴露的长期信息由叙事 + Pinned Memory 承载。
 
 **承载位置**：1-2 §[据点损耗机制] 人为破坏部分。
 
@@ -388,12 +388,12 @@ WSK 在库存系统中的禁止行为：
 
 完整视图的出场次序（设计决策：分离顺序声明与细节约束，参考 1-1 模式）：
 
-`[State Update] D{day}-T{turn}` -> Inventory Delta -> Inventory State -> Party Condition -> Relationship & Threat -> Map Knowledge -> Base Structure State -> 近五日主要事件
+`[State Update] D{day}-T{turn}` -> Inventory Delta -> Inventory State -> Party Condition -> Relationship & Threat -> Map Knowledge -> Base Structure State
 
 **设计约束**：
 - 软标签 + 第一行同行（`[State Update] D{day}-T{turn}` 在同一行）
 - 标签后不换行，不得换序
-- 7 字段平铺不嵌套标题
+- 6 字段平铺不嵌套标题
 - 无可提取变化时 Inventory Delta 留空、其余字段照抄基线原文（`-` 整体输出已废除，2026-08-15）
 
 **承载位置**：2-1 §[输出结构]、2-3 §[完整视图]。
@@ -478,7 +478,7 @@ WSK 在库存系统中的禁止行为：
 
 | 工具 | 检查内容 | 覆盖库存项 |
 |------|---------|-----------|
-| validate_output.py | 输出格式验证 | [State Update] header、Inventory Delta 标签、6 字段出场 |
+| validate_output.py | 输出格式验证 | [State Update] header、Inventory Delta 标签、6 字段出场（工具内以 Delta + 5 正文字段实现） |
 | validate_enums.py | 枚举一致性 | Availability、Relationship、Human Threat Stage |
 | detect_duplicates.py | 重复检测 | 跨文件规则重复（如跨位转移规则） |
 | gen_ref_graph.py | 引用活性 | §引用断链、孤立节检测 |

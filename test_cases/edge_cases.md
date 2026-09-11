@@ -24,9 +24,6 @@ Inventory Delta: 消耗 干粮×0.5kg（随身）；消耗 大米×1kg（据点�
 3. Relationship & Threat: 无正式关系记录
 4. Map Knowledge: 工业区/N 已探索
 5. Base Structure State: 质检小楼：完好
-6. 近五日主要事件:
-D5: 到达工业区/N/质检小楼
-D6: 据点过夜消耗
 ```
 
 ## WSK 错误输出（- 输出但有多行内容）
@@ -51,6 +48,6 @@ Inventory Delta: 消耗 干粮×0.5kg
 
 验证点：
 - 正例 1：`-` 输出只有一行 -> 应通过
-- 正例 2：消耗行拆分为逐条 Delta，7 字段完整 -> 应通过
+- 正例 2：消耗行拆分为逐条 Delta，6 字段完整 -> 应通过
 - 反例 1：`-` 输出但有多行 -> R6 应检出
-- 反例 2：缺少 Map Knowledge / Base Structure State / 近五日主要事件 -> R4 应检出
+- 反例 2：缺少 Map Knowledge / Base Structure State -> R4 应检出

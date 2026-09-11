@@ -11,7 +11,7 @@ Ash Harbor WSK 输出格式验证脚本
   R1  输出开头：必须以 [State Update] 或 - 开头
   R2  第一行格式：[State Update] 行必须包含 D{数字}-T{数字}
   R3  Inventory Delta 标签必出：必须包含 "Inventory Delta:" 行
-  R4  6 字段必出：Inventory State / Party Condition / Relationship & Threat / Map Knowledge / Base Structure State / 近五日主要事件
+  R4  5 正文字段必出：Inventory State / Party Condition / Relationship & Threat / Map Knowledge / Base Structure State（v1.71 起近五日主要事件已取消输出）
   R5  无 ## 标题：不应包含 ## 或 ### 开头的行
   R6  - 输出检查：以 - 开头时应只有一行
   R7  字段顺序：Inventory Delta 在 6 字段之前
@@ -26,14 +26,13 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).parent.parent
 TEST_CASES_DIR = PROJECT_ROOT / "test_cases"
 
-# 6 字段标签（按出场次序）
+# 5 正文字段标签（按出场次序；v1.71 起近五日主要事件已取消输出）
 REQUIRED_FIELDS = [
     "Inventory State",
     "Party Condition",
     "Relationship & Threat",
     "Map Knowledge",
     "Base Structure State",
-    "近五日主要事件",
 ]
 
 # --- 解析测试用例 ---
@@ -132,7 +131,7 @@ def check_rules(output):
             "desc": "缺少 Inventory Delta: 标签",
         })
 
-    # R4: 6 字段必出
+    # R4: 5 正文字段必出
     full_text = '\n'.join(lines)
     for field in REQUIRED_FIELDS:
         # 字段可能以 "1. Inventory State:" 或 "Inventory State:" 形式出现
@@ -142,7 +141,7 @@ def check_rules(output):
                 "desc": f"缺少必出字段: {field}",
             })
 
-    # R7: 字段顺序（Inventory Delta 在 6 字段之前）
+    # R7: 字段顺序（Inventory Delta 在正文字段之前）
     delta_pos = -1
     first_field_pos = -1
     for i, line in enumerate(lines):
@@ -156,7 +155,7 @@ def check_rules(output):
     if delta_pos != -1 and first_field_pos != -1 and delta_pos > first_field_pos:
         violations.append({
             "rule": "R7",
-            "desc": f"Inventory Delta（行 {delta_pos+1}）应在 6 字段（首次出现行 {first_field_pos+1}）之前",
+            "desc": f"Inventory Delta（行 {delta_pos+1}）应在正文字段（首次出现行 {first_field_pos+1}）之前",
         })
 
     return violations

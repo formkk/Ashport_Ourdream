@@ -10,7 +10,7 @@
 - 以最近一次 [State Update] 的输出为基线，从其后的 WM Scene 叙事中强语义提取已成立变化。如果没变化则按最近一次 [State Update] 完整输出。
 
 [输出结构]
-- 输出结构 = [State Update] D{day}-T{turn} -> Inventory Delta:（标签行，无变化时留空）-> Inventory State -> Party Condition -> Relationship & Threat -> Map Knowledge -> Base Structure State -> 近五日主要事件。
+- 输出结构 = [State Update] D{day}-T{turn} -> Inventory Delta:（标签行，无变化时留空）-> Inventory State -> Party Condition -> Relationship & Threat -> Map Knowledge -> Base Structure State。
 
 [输出内容]
 - [State Update] D{day}-T{turn}：以 [State Update] 开头；Day-Turn 从 WM [主要状态] 提取。
@@ -20,7 +20,6 @@
 - Relationship & Threat：标签必出。
 - Map Knowledge：标签必出。
 - Base Structure State：标签必出。
-- 近五日主要事件：标签必出。
 
 [行为约束]
 1. 不得对用户、WM 或任何角色提出建议、提醒、选项或下一步方向。

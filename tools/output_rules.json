@@ -40,14 +40,13 @@
     "header_desc": "[State Update] D{day}-T{turn}",
     "header_segments": 1,
     "delta_keyword": "Inventory Delta:",
-    "full_view_fields": 6,
+    "full_view_fields": 5,
     "full_view_field_names": [
       "Inventory State",
       "Party Condition",
       "Relationship & Threat",
       "Map Knowledge",
-      "Base Structure State",
-      "近五日主要事件"
+      "Base Structure State"
     ]
   }
 }

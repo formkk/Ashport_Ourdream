@@ -51,13 +51,7 @@ Inventory Delta: 转移 木柴×5kg（据点核心/质检小楼->随身）；转
 - `泵房铁门` = 完好，内侧加闩（D8 新建）
 
 林场木屋（北闸口->林场护林站，地图外据点）
-- 结构节点未确认
-6. 近五日主要事件:
-D5: 到达工业区/N/质检小楼，搜刮获得大米×2.5kg + 9mm×12发
-D6: 建立质检小楼主据点，物资转入据点核心
-D7: 经北闸口抵达林场护林站，建立林场木屋物资点，留下罐头×2 + 压缩饼干×1kg
-D8: 建立河边安全屋（西区/S/泵房）；被拾荒者远距看到
-D9: 质检小楼装载木柴×5kg转移至河边安全屋；搜刮泵房获得罐头×3"""
+- 结构节点未确认"""
 
 # ---------- 检查实现 ----------
 BASE_CAT = r"(主据点|安全屋|物资点|地图外据点)"
@@ -81,12 +75,12 @@ first = lines[0]
 test("R1", "输出以 [State Update] 开头", first.startswith("[State Update]"))
 test("R2", "头部 D{N}-T{N}", bool(re.match(r"^\[State Update\] D\d+-T\d+$", first)))
 test("R3", "Inventory Delta 标签必出", any(l.startswith("Inventory Delta:") for l in lines))
-req = ["Inventory State", "Party Condition", "Relationship & Threat", "Map Knowledge", "Base Structure State", "近五日主要事件"]
+req = ["Inventory State", "Party Condition", "Relationship & Threat", "Map Knowledge", "Base Structure State"]
 pos = [out.find(f) for f in req]
-test("R4", "6 字段必出", all(p >= 0 for p in pos))
+test("R4", "5 正文字段必出", all(p >= 0 for p in pos))
 test("R5", "无 ## 标题行", not any(re.match(r"^#{2,3} ", l) for l in lines))
 test("R6", "非 - 开头输出", not first.startswith("-"))
-test("R7", "Delta 在 6 字段之前", out.find("Inventory Delta:") < min(p for p in pos if p >= 0))
+test("R7", "Delta 在正文字段之前", out.find("Inventory Delta:") < min(p for p in pos if p >= 0))
 
 # B1 分桶段头
 bucket_lines = [l for l in lines if l.startswith("据点核心/")]

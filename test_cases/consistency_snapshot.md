@@ -20,11 +20,6 @@ Inventory Delta: 消耗 大米×1kg（据点）；消耗 木柴×2kg（据点）
 3. Relationship & Threat: 谢尔盖: 存活 / 市政厅 / 追债
 4. Map Knowledge: 工业区/N 已探索；质检小楼已确认；中心区/C 已探索
 5. Base Structure State: 质检小楼: 大门 完好；屋顶 完好
-6. 近五日主要事件:
-D6: 据点过夜消耗
-D8: 与水源商会初次接触
-D9: 交易 9mm×20发换取 罐头×5
-D10: 据点过夜消耗
 ```
 
 ## WSK 错误输出（字段顺序错误）
@@ -37,11 +32,10 @@ D10: 据点过夜消耗
 3. Relationship & Threat: 无正式关系记录
 4. Map Knowledge: 工业区/N 已探索
 5. Base Structure State: 无据点
-6. 近五日主要事件:
 
 Inventory Delta: 消耗 大米×1kg
 ```
 
 验证点：
-- 正例：自包含完整视图，7 字段各有当前实际值，Inventory Delta（字段 0）在其余 6 字段之前 -> 应通过
+- 正例：自包含完整视图，6 字段各有当前实际值，Inventory Delta（字段 0）在其余 5 字段之前 -> 应通过
 - 反例：Inventory Delta 在其余字段之后 -> R7 应检出

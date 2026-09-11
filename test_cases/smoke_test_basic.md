@@ -20,8 +20,6 @@ Inventory Delta: 获得 大米×2.5kg；获得 9mm×12发；消耗 干粮×0.5kg
 3. Relationship & Threat: 无正式关系记录
 4. Map Knowledge: 工业区/N 已探索；质检小楼已确认
 5. Base Structure State: 无据点
-6. 近五日主要事件:
-D5: 到达工业区/N/质检小楼，搜刮获得大米×2.5kg + 9mm×12发
 ```
 
 ## WSK 错误输出
@@ -34,10 +32,8 @@ D5: 到达工业区/N/质检小楼，搜刮获得大米×2.5kg + 9mm×12发
 3. Relationship & Threat: 无正式关系记录
 4. Map Knowledge: 工业区/N 已探索
 5. Base Structure State: 无据点
-6. 近五日主要事件:
-D5: 到达工业区
 ```
 
 验证点：
-- 正例：完整 7 字段（Inventory Delta 为字段 0）+ 正确开头 -> 应通过全部规则
+- 正例：完整 6 字段（Inventory Delta 为字段 0）+ 正确开头 -> 应通过全部规则
 - 反例：缺少 Inventory Delta: 标签 -> R3 应检出

@@ -20,8 +20,6 @@ Inventory Delta: 获得 罐头×3
 3. Relationship & Threat: 无正式关系记录
 4. Map Knowledge: 工业区/N 已探索
 5. Base Structure State: 无据点
-6. 近五日主要事件:
-D5: 搜刮获得罐头×3
 ```
 
 ## WSK 错误输出（以叙事文本开头）

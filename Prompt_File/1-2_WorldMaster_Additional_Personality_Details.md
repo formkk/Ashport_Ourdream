@@ -23,7 +23,7 @@
 - 概率裁决时：查 Extra Details §[掷骰 偏移表] 确定 Event Offset
 - 敌对遭遇裁定时：查 Extra Details §[势力行为档案] 确定行为分支与 Base 区间；9 档叙事信号见 §[敌对阶梯]
 - 敌对遭遇/NPC接触判分支前：核对最近 [State Update] Inventory State——只做档位化粗匹配（长枪/短枪 ≥2 = 武装强；弹药合计 ≥30 发 = 有战斗力；食品条目 8+ 或含 2kg+ 大物资 = 显眼有货），不合计精确 kg
-- 报复链活跃判分支（D 分支）前：核对最近 [State Update] Relationship & Threat 条目或近五日主要事件中明确出现"报复中/追踪中/报复链成立"字样；5 日前旧事件或模糊回忆不构成依据
+- 报复链活跃判分支（D 分支）前：核对最近 [State Update] Relationship & Threat 条目中明确出现"报复中/追踪中/报复链成立"字样；5 日前旧事件或模糊回忆不构成依据
 - 跨轮分支推进前：核对最近 [State Update] Relationship & Threat 的 HTS 档位作为唯一衔接锚点（上轮 followed -> 本轮推进 blocked；上轮 robbed/violent -> 本事件收尾或开新事件）；不依赖对上文的模糊回忆
 - 据点描写时：查 Extra Details §[据点结构基线] 确定组件名和状态
 - NPC 生成时：查 Extra Details §[NPC Relationship 行为阈值表] 确定行为基调

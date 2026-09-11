@@ -749,11 +749,11 @@ Ourdream.ai 平台的关键机制（详见 §2.6 与 [OURDREAM_PLATFORM_REFERENC
 
 | 维度 | 说明 |
 |------|------|
-| **核心职责** | 库存、关系、威胁、据点、事件账本的强语义提取与滚动维护；完整视图是唯一工作产品（EP-WSK-1） |
+| **核心职责** | 库存、关系、威胁、据点的强语义提取与滚动维护；完整视图是唯一工作产品（EP-WSK-1） |
 | **输出反应** | 每次触发都输出 `[State Update]` 完整视图（2026-08-15 起；无变化时 Delta 留空、其余照抄基线原文，`-` 空白标记已废除） |
 | **第一行格式** | `D{day}-T{turn}`（Day-Turn 索引，以最近一次 WM `[主要状态]` 为准；时间由 WM 唯一决定，WSK 不自算时间） |
-| **子段** | 完整视图 6 字段：`Inventory Delta:` / Inventory State / Party Condition / Relationship & Threat / Map Knowledge / Base Structure State / 近五日主要事件 |
-| **移动字段** | `Travel Time: {值} ({备注}) / Steps: {值}` 单行；Origin / Route / Destination / Steps / Travel Time 以 WM `[移动]` 行为唯一权威 |
+| **子段** | 完整视图 6 字段：`Inventory Delta`（字段 0）/ Inventory State / Party Condition / Relationship & Threat / Map Knowledge / Base Structure State（v1.71 起近五日主要事件取消输出） |
+| **移动字段** | `Travel Time: {值} ({备注}) / Steps: {值}` 单行；从 WM Scene 叙事强语义提取（v1.70 起 `[移动]` 行不再单列为 WSK 输入权威，`[移动]` 行格式仍由 WM 1-3 定义） |
 | 库存格式 | 按"功能门类-分类-组别"三级机制归类（2-2 [库存分类与精简原则] + 2-3 [库存功能门类清单]） |
 | **触发方式** | 用户手动点击 → 强语义提取 WM Scene 叙事中已明确写出的已成立变化 |
 | **读取范围** | 同步读取 `0-2_Scenario.md` 与 `0-1_Private_Details.md` 获取世界边界与全局硬规则 |
@@ -2023,6 +2023,23 @@ WSK 被触发时 → 从对话历史读取 WM 的实际输出 → 提取已成�
 
 **影响范围**：2-1, 2-2, 2-3（提示词，用户手动）；PB, CHANGELOG.md, INVENTORY_SYSTEM_DESIGN.md, OURDREAM_PLATFORM_REFERENCE.md, 多据点分桶输出决议.md, prompt-file-conventions.mdr, test_cases/×3, .trae/skills/output-format-validator/SKILL.md
 
+#### v1.71（2026-09-10）
+
+**近五日主要事件字段取消输出（完整视图 7→6 字段）**
+
+- **根因**：用户裁定 WSK 不再输出末段"近五日主要事件"；该字段自 v1.20 从 WER 接管以来承担的事件账本职能取消，长期事件归用户手动 Pinned Memory
+- **内容**：
+  - 2-1：[输出结构] 移除末段；[输出内容] 删除"近五日主要事件：标签必出"行——完整视图为 6 字段（`Inventory Delta` 字段 0 + 5 正文字段）
+  - 2-3：[输出示例] 删除示例段；[完整视图] 删除字段 6 定义与 7 字段计法（改 6 字段）；[最低记入标准] 删除 item 7 并重编号（8→7…10a→9a）
+  - 1-1：[运行锚点] 硬状态锚点行删除 Pinned Memory 半句（只认最新正式 [State Update]）；[新对话首轮启动] 改"Pinned Memory 中已有事件记录（续档）"（最终措辞经用户手工修订）
+  - 1-2：报复链 D 分支核对源移除"或近五日主要事件"
+  - 1-3：[显式同步门槛] 删除"同步给 World State Keeper"与"由 WSK 产出素材复制到 Pinned Memory"两行；[场外演化同步原则] 两处改"额外由用户手动整理复制到 Pinned Memory"
+- **工具与测试**：validate_output.py（R4 改 5 正文字段）、output_rules.json（wsk.full_view_fields=5）、static_audit_test.py（RE 节改为"字段确已移除"断言，12→2 项）、sim_multibase_test.py / sim_base_decay_test.py（fixture 移除近五日段）
+- **文档同步**：prompt-file-conventions.mdr、PB §2.2/§21.4/§20.2、CHANGELOG v1.71、INVENTORY_SYSTEM_DESIGN.md（6 字段口径 + Pinned Memory 表述 + 名词示例）、OURDREAM_PLATFORM_REFERENCE.md 提取集、多据点分桶输出决议.md、output-format-validator SKILL.md、test_cases×4
+- **验证**：validate_output 10/10、static_audit 50/50、sim_multibase 16/16、sim_base_decay 全过、枚举/术语 0 issues
+
+**影响范围**：2-1, 2-3, 1-1, 1-2, 1-3（提示词）；validate_output.py, output_rules.json, static_audit_test.py, sim_multibase_test.py, sim_base_decay_test.py（工具）；PB, CHANGELOG.md, INVENTORY_SYSTEM_DESIGN.md, OURDREAM_PLATFORM_REFERENCE.md, 多据点分桶输出决议.md, prompt-file-conventions.mdr, test_cases/×4, .trae/skills/output-format-validator/SKILL.md
+
 ### 20.3 回滚策略
 
 - 每批修改独立 Git commit
@@ -2088,8 +2105,8 @@ WSK 被触发时 → 从对话历史读取 WM 的实际输出 → 提取已成�
 | [State Update] | WSK 输出的状态更新软标签 | 2-1 |
 | D-T 索引 | Day-Turn 索引，[State Update] 第一行 | 2-1/2-3 |
 | Delta 标签 | [State Update] 完整视图字段 0（变化子段）标签 | 2-3 |
-| 完整视图 | [State Update] 下的 7 字段全量输出（Inventory Delta 为字段 0） | 2-3 |
-| 近五日主要事件 | 完整视图最末字段，以 D 为单位输出 | 2-3 |
+| 完整视图 | [State Update] 下的 6 字段全量输出（Inventory Delta 为字段 0） | 2-3 |
+| ~~近五日主要事件~~ | 完整视图最末字段，以 D 为单位输出；**v1.71 起取消输出**，长期事件归用户手动 Pinned Memory | 2-3（历史） |
 
 ### 21.5 角色分类术语
 

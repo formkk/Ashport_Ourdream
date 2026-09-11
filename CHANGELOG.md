@@ -5,6 +5,44 @@
 
 ---
 
+## v1.71（2026-09-10）——近五日主要事件字段取消输出（完整视图 7→6 字段）
+
+### 概要
+
+用户裁定 WSK 取消输出末段"近五日主要事件"。`[State Update]` 完整视图由 7 字段回落为 **6 字段**（`Inventory Delta` 字段 0 + Inventory State / Party Condition / Relationship & Threat / Map Knowledge / Base Structure State）。该字段自 v1.20 从 WER 接管的事件账本职能终止，长期事件归用户手动 Pinned Memory 维护。
+
+### 变更明细
+
+**WSK 侧（2-1 / 2-3）**
+
+- 2-1：[输出结构] 移除 "-> 近五日主要事件"；[输出内容] 删除"近五日主要事件：标签必出"行
+- 2-3：[输出示例] 删除 "6. 近五日主要事件:" 示例段；[完整视图] 删除字段 6 定义（滚动窗口/合并/继承规则随之废除），计法 7 字段 → 6 字段；[最低记入标准] 删除 item 7，后续条目重编号（8→7、8a→7a、9→8、9a→8a、10→9、10a→9a）
+
+**WM 侧依赖同步（1-1 / 1-2 / 1-3，最终措辞经用户手工修订）**
+
+- 1-1：[运行锚点] 硬状态锚点行删除 Pinned Memory 半句，只保留"当前硬状态只认最新正式 `[State Update]`（每次必出完整视图）"；[新对话首轮启动] 改为"Pinned Memory 中已有事件记录（续档），以其中最新官方状态为准"
+- 1-2：报复链活跃判分支（D 分支）核对源移除"或近五日主要事件"
+- 1-3：[显式同步门槛] 整行删除"若已形成正式世界变化，则同步给 World State Keeper"与"若该变化预计持续影响未来 2 天以上……额外由 WSK 产出素材、由用户手动复制到 Pinned Memory"两行；[场外演化同步原则] 两处"额外由 WSK 产出素材、由用户手动复制"改"额外由用户手动整理复制到 Pinned Memory"
+
+**工具与测试**
+
+- validate_output.py：R4 改为 5 正文字段必出（移除 近五日主要事件），R7 文案同步
+- output_rules.json：wsk.full_view_fields 6→5，field_names 移除近五日
+- static_audit_test.py：RE 节由"滚动窗口/合并机制存在"断言改为"字段确已移除"断言（RE-1/RE-2），删除 RE-Sim 模拟块
+- sim_multibase_test.py / sim_base_decay_test.py：fixture 移除近五日段，R4 断言改 5 正文字段
+
+### 文档同步批次
+
+prompt-file-conventions.mdr（输出角色区分 6 字段）；PROJECT_BLUEPRINT.md（§2.2 核心职责去"事件账本"+子段+移动字段复用 v1.70 表述、§21.4 完整视图 6 字段 + 近五日标记废除、§20.2 v1.71 记录）；INVENTORY_SYSTEM_DESIGN.md（6 字段口径 ×5 处、Pinned Memory 表述、名词示例、v1.67 历史注记、§6.1 出场次序、工具表）；OURDREAM_PLATFORM_REFERENCE.md（WSK 提取集移除近五日主要事件）；多据点分桶输出决议.md（v1.71 注记）；output-format-validator SKILL.md（WSK 检查表 6 字段）；test_cases/consistency_snapshot.md + smoke_test_basic.md + edge_cases.md + wsk_narrative_drift_test.md（fixture 与验证点）
+
+### 验证与遗留
+
+- validate_output 10/10、static_audit 50/50、sim_multibase 16/16、sim_base_decay 全过、run_audit 枚举/术语 0 issues
+- sim_b2_out/*.txt 为历史生成快照，含旧"近五日主要事件"行，不影响现行契约（如需可由 sim_b2_probe.py 重新生成）
+- Pinned Memory 长期档案机制不变（用户手动维护，见 PB §2.1.1 / OURDREAM §Layer 5）；WSK 不再产出任何事件素材，事件记录由用户自行整理
+
+---
+
 ## v1.70（2026-09-10）——WSK 三文件修订：输出示例改版 + 完整视图 6→7 字段 + 契约自指收缩
 
 ### 概要

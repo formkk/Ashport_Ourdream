@@ -73,5 +73,5 @@ globs: Prompt_File/*.md
 
 ## 输出角色区分
 - WM 输出：`[主要状态]`（5 段固定结构，仅列非 stable 压力轨）
-- WSK 输出：`[State Update]`（第一行 + 完整视图 7 字段；`Inventory Delta` 为字段 0）
+- WSK 输出：`[State Update]`（第一行 + 完整视图 6 字段；`Inventory Delta` 为字段 0）
 - 两者格式不同，不可混用
